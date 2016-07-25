@@ -114,12 +114,12 @@
 				<div class="panel panel-success">
 					<div class="panel-heading" id="panelHeading">Sign Up</div>
 					<div class="panel-body">
-						<form class="form-horizontal" role="form" method="post">
+						<form class="form-horizontal" role="form" method="post" action="register">
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="reemail">Email</label>
 								<div class="col-sm-10">
 									<input type="email" class="form-control" id="reemail"
-										placeholder="Enter email" required>
+										placeholder="Enter email" required name="reEmail">
 								</div>
 							</div>
 							<div class="form-group">
@@ -127,7 +127,7 @@
 									No</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" pattern="^\d{10}$"
-										title="Enter 10 digit mobile number" id="rephone"
+										title="Enter 10 digit mobile number" id="rephone" name="rePhone"
 										placeholder="Enter Contact Number" required>
 								</div>
 							</div>
@@ -144,7 +144,7 @@
 								<label class="control-label col-sm-2" for="repwd">Password</label>
 								<div class="col-sm-10">
 									<input type="password" class="form-control" id="repwd"
-										placeholder="Enter password" required>
+										placeholder="Enter password" required name="rePass">
 								</div>
 							</div>
 

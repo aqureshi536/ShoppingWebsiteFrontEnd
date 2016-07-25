@@ -13,15 +13,12 @@
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+			
 	</bean>
 	
-	<bean id="userloginDao" class="com.ahmad.dao.UserLoginDAO"/>
+<!-- 	<bean id="userLoginDAO" class="com.ahmad.dao.UserLoginDAO"/> -->
 	
 	<mvc:resources location="/resources/" mapping="/resources/**" />
 </beans>

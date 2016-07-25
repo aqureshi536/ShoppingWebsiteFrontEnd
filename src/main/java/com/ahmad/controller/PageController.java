@@ -11,30 +11,39 @@ import com.ahmad.dao.UserLoginDAO;
 @Controller
 public class PageController {
 
-	@Autowired
-		private UserLoginDAO userloginDao;
-	
-	@RequestMapping(value = { "/", "/index" })
-	public String home() {
-		return "index";
-	}
+//	@Autowired
+//	private UserLoginDAO userLoginDAO;
+//	
+//	public void setUserLoginDAO(UserLoginDAO userLoginDAO)
+//	{
+//		this.userLoginDAO=userLoginDAO;
+//	}
+
+//	@RequestMapping(value = { "/", "/index" })
+//	public String home() {
+//		return "index";
+//	}
 
 	@RequestMapping("/login")
 	public String loginPage() {
 		return "login";
 	}
 
-	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public String success(@RequestParam("loginEmail") String userId, @RequestParam("loginPwd") String password) {
-		
-		boolean value = userloginDao.loginControl(userId, password);
-		if (value == true) {
-			return "successful";
-		}
+	
+	
+	
+	
+	// @RequestMapping(value = "/validate", method = RequestMethod.POST)
+	// public String success(@RequestParam("loginEmail") String userId,
+	// @RequestParam("loginPwd") String password) {
 
-		else {
-
-			return "error";
-		}
-	}
+	// boolean value = userloginDao.loginControl(userId, password);
+	// if (value == true) {
+	// return "successful";
+	// }
+	//
+	// else {
+	//
+	// return "error";
+	// }
 }
