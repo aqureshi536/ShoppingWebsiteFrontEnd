@@ -1,11 +1,16 @@
 package com.ahmad.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.dao.ProductDAO;
 import com.ahmad.dao.UserLoginDAO;
+import com.ahmad.model.Product;
 
 @Controller
 public class PageController {
@@ -13,6 +18,11 @@ public class PageController {
 	@Autowired
 	private UserLoginDAO userLoginDAO;
 
+	@Autowired
+	private Product product;
+	@Autowired
+	private ProductDAO productDAO;
+	
 	public void setUserLoginDAO(UserLoginDAO userLoginDAO) {
 		this.userLoginDAO = userLoginDAO;
 	}
@@ -43,6 +53,7 @@ public class PageController {
 	@RequestMapping("/productDetail")
 	public ModelAndView productDetail() {
 		ModelAndView mv = new ModelAndView("/index");
+		
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
@@ -51,9 +62,14 @@ public class PageController {
 	
 //	activates when clicked View All Products on NavBar
 	@RequestMapping("/allProducts")
-	public ModelAndView allProducts()
+	public ModelAndView allProducts(Model  model)
 	{
 		ModelAndView mv = new ModelAndView("index");
+		
+//		Add products to we page
+		List<Product> productList = productDAO.listProduct();
+		model.addAttribute("products", productList);
+		
 		mv.addObject("isClickedViewAllProducts", "true");
 		mv.addObject("displayLogin", "true");
 		mv.addObject("displayCart", "true");
