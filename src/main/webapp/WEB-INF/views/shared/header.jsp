@@ -4,7 +4,8 @@
 	<link rel="stylesheet" href="${bootstrapCss}">
 	<link rel="stylesheet" href="${bootstrapTheme}">
 	<link rel="stylesheet" href="${fontAwesome}">
-	<link rel="stylesheet" href="${customCss}">
-	<link rel="stylesheet" href="${images}">
+	<link rel="stylesheet" href="${customCss}/indexCss.css">
+	<link rel="stylesheet" href="${images}">	
+	<link rel="icon" href="${images}/favicon.ico" type="image/x-icon">
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 	

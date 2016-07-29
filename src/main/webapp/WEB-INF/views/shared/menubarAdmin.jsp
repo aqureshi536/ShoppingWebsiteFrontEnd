@@ -7,19 +7,14 @@
 			</div>
 		</div>
 			
-		 	
+	
 
 <div class="navbar navbar-inverse" id="homeNavbar"
 	data-spy="affix" data-offset-top="124">
 	<ul class="nav navbar-nav">
-	<li id="viewAllProducts"><a href="${contextPath}/allProducts" id="A_viewAllProducts" >View all products</a></li>
-		<li><a href="">Curtains</a></li>
-		<li><a href="">Sofa</a></li>
-		<li><a href="">Bed</a></li>
-		<li><a href="">Table</a></li>
-		<li><a href="">Cabinet</a></li>
-		<li><a href="">Dining Table</a></li>
-		<li><a href="">Cupboards</a></li>
-		<li><a href="">Chair</a></li>
+	<li><a href="">View all products</a></li>
+		<li><a href="">Manage Products</a></li>
+		<li><a href="">Manage Category</a></li>
+		<li><a href="">Manage Supplier</a></li>	
 	</ul>
 </div>

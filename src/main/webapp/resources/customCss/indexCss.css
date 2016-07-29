@@ -1,151 +1,174 @@
-body{
-	font-family:calibri;
+body {
+	font-family: calibri;
 }
 
 .affix {
-      top: 0;
-      width: 100%;
+	top: 0;
+	width: 97.8%;
+}
 
-  }
+.affix+#homeNavbar {
+	padding-top: 100px;
+}
 
-  .affix + #homeNavbar {
-      padding-top: 100px;
-
-  }
-
-
-
-
-#homeNavbar{
+#homeNavbar {
 	border-radius: 0px;
 	font-weight: bolder;
-	max-width:100%;
+	max-width: 100%;
 	z-index: 2;
-	min-height:50px;
+	min-height: 50px;
 }
-#navLogin,#homeNavbar>ul>li>a{
+
+#navLogin, #homeNavbar>ul>li>a {
 	font-size: 20px;
-	color:white;
+	color: white;
 }
-#homeNavbar>ul>li>a:hover
-{
+
+#homeNavbar>ul>li>a:hover {
 	color: black;
 }
-#homeNavbar>ul>li{
+
+#homeNavbar>ul>li {
 	transition: background-color .3s;
-
 }
-#homeNavbar>ul>li:hover{
+
+#homeNavbar>ul>li:hover {
 	background-color: #fff;
-	color:black;
+	color: black;
 }
 
-
-#sideMenu
-{
-	background-color:#c8d0d0;
-	padding:5px;
+#sideMenu {
+	background-color: #c8d0d0;
+	padding: 5px;
 	border-radius: 10px;
 }
-#sideMenu>li{
-	
-	display:block;
-	padding:10px;
-	border-radius:5px;
-	transition:background-color 0.1s ease;
-	
+
+#sideMenu>li {
+	display: block;
+	padding: 10px;
+	border-radius: 5px;
+	transition: background-color 0.1s ease;
 }
 
-
-#sideMenu>li:hover{
+#sideMenu>li:hover {
 	background-color: #fff;
-	border:1px solid;
-
+	border: 1px solid;
 }
 
-#sideMenu>li>a
-{
+#sideMenu>li>a {
 	font-weight: bolder;
-	
 }
 
-#sideMenu>li>a:hover{
+#sideMenu>li>a:hover {
 	text-decoration: none;
-	color:black;
+	color: black;
 	background-color: white;
 }
 
-.carousel{
+.carousel {
 	max-width: 1200px;
-	border-radius:5px;
-	box-shadow:5px;
-	border:3px solid;
+	border-radius: 5px;
+	box-shadow: 5px;
+	border: 3px solid;
 	min-width: 456px;
-
 }
 
-
-#productMainTitle{
-	padding:7px;
+#productMainTitle {
+	padding: 7px;
 }
-#productMainDiv{
-	margin-top:15px;
+
+#productMainDiv {
+	margin-top: 15px;
 	position: relative;
-	border:2px solid;
-	border-radius:10px;
-	padding:15px;
+	border: 2px solid;
+	border-radius: 10px;
+	padding: 15px;
 	min-width: 360px;
 	background-color: #eff1f1;
 }
 
-#productDiv
-{
-
-	position:relative;
-	right:-10px;
+#productDiv {
+	position: relative;
+	right: -10px;
 	min-width: 290px;
-	max-width:330px;
-	border-radius:5px;
-	padding:15px;
+	max-width: 330px;
+	border-radius: 5px;
+	padding: 15px;
 	margin-right: 10px;
 	transition: box-shadow 0.3s;
-	transition:background-color 0.3 ;
+	transition: background-color 0.3;
+	cursor: pointer;
+	margin-left: 10px;
+	margin-top: 25px;
 	/*transition: border 0.2s linear;*/
 }
 
 #productDiv:hover {
-	box-shadow:3px 3px 3px 3px;
-	border-radius:5px;
+	box-shadow: 3px 3px 3px 3px;
+	border-radius: 5px;
 	background-color: white;
 }
 
-#productDiv>#pricePara{
-	display:inline;
-	font-size:30px;
+#productDiv>#pricePara {
+	display: inline;
+	font-size: 30px;
 }
 
-.footer{
+#actionButtons {
+	float: right;
+}
+
+/* this is present on admin Page */
+#viewTable {
+	padding: 35px;
+	border:2px solid;
+	border-radius:5px 5px 5px 5px;
+	overflow-x:scroll;
+	overflow-y:scroll;  
+}
+
+#viewTable>thead>tr>th {
+	text-align: center;
+}
+
+#viewTable>tbody>tr>td{
+	text-align: center;
+}
+
+#tableImage {
+	height: 60px;
+	width: 70px;
+}
+
+.table-primary {
+	background-color: #2E6EA6;
+	color: white;
+}
+
+
+.table-hover>tbody>tr {
+	cursor: pointer;
+}
+
+.footer {
 	margin: 10px;
 	background-color: black;
-	opacity:0.6;
+	opacity: 0.6;
 	text-align: center;
 	max-width: 100%;
-	color:white;
+	color: white;
 	line-height: 30px;
 	font-size: 20px;
 	border: 2px solid;
 	border-radius: 5px;
-	}
-
+}
 
 /*Login Wrapper*/
-
-
-#loginWrapper{
-	border:1px solid;
-	padding:15px;
+#loginWrapper {
+	border: 1px solid;
+	padding: 15px;
 	border-radius: 5px;
-	background-color:  #eff1f1;
+	background-color: #eff1f1;
 }
 
 /*#loginForm{
@@ -153,17 +176,8 @@ body{
 	padding-top: 20%;
 	padding-left: 15%;
 }*/
-
-#panelLogin{
-	border:3px #337AB7 solid;
-	border-radius:7px;
-	box-shadow: 1px 1px 1px 1px;
-}
-
-#panel-headingLogin{
-	font-size: 20px;
-	font-weight:100;
-
+.panel-body {
+	padding: 25px;
 }
 
 input[type="submit"]:hover {
@@ -171,16 +185,16 @@ input[type="submit"]:hover {
 	transition: box-shadow 1s ease-in:
 }
 
-#panelSignUp{
-	border:3px #009933 solid ;
-	border-radius:7px;
-	box-shadow: 1px 1px 1px 1px;
+.nav-active {
+	background-color: white;
+	color: black;
 }
 
-#panel-headingSignUp{
-	background-color: #009933;
-	color:white;
-	font-size: 20px;
-	font-weight:100;
+.sidebar-active {
+	background-color: white;
+	border: 1px solid;
 }
 
+.sidebar-active>a {
+	color: black;
+}
