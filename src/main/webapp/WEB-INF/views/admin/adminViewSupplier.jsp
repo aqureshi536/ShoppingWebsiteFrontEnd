@@ -6,7 +6,7 @@
 		%>
 		
 		<tr class="table-primary">
-		<c:forEach items="curtains-001,curtains-002,curtains-003" var="product">
+		<c:forEach items="${suppliers}" var="supplier">
 		<%j++; %>
 		</c:forEach>
 			<th>Sr.No <span>( <%out.println(j);%> )</span> 	</th>
@@ -16,27 +16,25 @@
 			<th>Supplier Name</th>
 			
 			
-			<th>Product Supplier</th>
-			<th>Product Quantity</th>
-			<th>Product Price</th>
+			<th>Supplier Contact</th>
+			<th>Supplier Email</th>
+			<th>Supplier Address</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
 		
-		<c:forEach items="curtains-001,curtains-002,curtains-003" var="product">
+		<c:forEach items="${suppliers}" var="supplier">
 			<tr>
 				<td>
 					<%out.println(i);%>
 				</td>
-				<td><img src="${images}/curtains/${product}.jpg"
+				<td><img src="${images}/supplier/${supplier.supplierImage}"
 					id="tableImage"></td>
-				<td>Supplier Name</td>
-				
-				
-				<td>Supplier Supplier</td>
-				<td>Supplier Quantity</td>
-				<td>Supplier Price</td>
+				<td>${supplier.supplierName}</td>
+				<td>${supplier.supplierContact}</td>
+				<td>${supplier.supplierEmail}</td>
+				<td>${supplier.supplierAddress}</td>
 				<td>
 					<div class="btn-group-vertical">
 						<button class="btn btn-sm btn-warning">Update Supplier</button>

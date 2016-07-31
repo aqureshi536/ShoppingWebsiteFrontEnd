@@ -1,17 +1,44 @@
+
+<%
+	int i = 1;
+	int j = 0;
+	int k = 0;
+%>
+
+
+<c:if test="${deleteProductSuccessMessage==true}">
+	<div class="alert alert-danger" id="message-danger">
+		<strong>Deleted!</strong> product with name <strong>${product.productName}</strong>.
+	</div>
+</c:if>
+
+
+<!-- for displaying add product success Message -->
+
+<c:if test="${addProductSuccessMessage==true}">
+	<div class="alert alert-success">
+		<strong>Added!</strong> product with name <strong>${lastProduct}</strong> on
+		row number <strong>${productListSize}</strong>.
+	</div>
+</c:if>
+<a href="${contextPath}/admin/viewProducts/addProduct"
+	class="btn btn-lg btn-success">Add Product</a>
+<br>
+<br>
+
 <table class="table table-hover" id="viewTable">
 	<thead>
-		<%
-			int i = 1;
-			int j = 0;
-		%>
+
 		<tr class="table-primary">
 
-			<c:forEach items="curtains-001,curtains-002,curtains-003" var="product">
+			<c:forEach items="${products}" var="product">
 				<%
 					j++;
 				%>
 			</c:forEach>
-			<th>Sr.No <span>( <%out.println(j);	%> )
+			<th>Sr.No <span>( <%
+				out.println(j);
+			%> )
 			</span>
 			</th>
 			<th>Product Image</th>
@@ -26,26 +53,31 @@
 	</thead>
 	<tbody>
 
-		<c:forEach items="curtains-001,curtains-002,curtains-003"
-			var="product">
+		<c:forEach items="${products}" var="p">
+
+
 			<tr>
 				<td>
 					<%
 						out.println(i);
 					%>
 				</td>
-				<td><img src="${images}/curtains/${product}.jpg"
+				<td><img src="${images}/product/${p.product.productId}.png"
 					id="tableImage"></td>
-				<td>Product Name</td>
-				<td>Product Description</td>
-				<td>Product Category</td>
-				<td>Product Supplier</td>
-				<td>Product Quantity</td>
-				<td>Product Price</td>
+				<td>${p.product.productName }</td>
+				<td>${p.product.description }</td>
+				<td>${p.categoryName}</td>
+
+				<td>${p.supplierName}</td>
+				<td>${p.product.quantity }</td>
+				<td>${p.product.price }</td>
 				<td>
 					<div class="btn-group-vertical">
-						<button class="btn btn-sm	 btn-warning">Update Product</button>
-						<button class="btn btn-sm btn-danger">Delete Product</button>
+						<a
+							href="${contextPath}/admin/viewProducts/${p.product.productId }"
+							class="btn btn-sm btn-warning">Update Product</a> <a
+							href="${contextPath}/admin/viewProducts/delete/${p.product.productId}"
+							class="btn btn-sm btn-danger">Delete Product</a>
 					</div>
 				</td>
 			</tr>

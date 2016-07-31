@@ -75,6 +75,7 @@ body {
 
 #productMainTitle {
 	padding: 7px;
+	border-left:6px #3bb300 solid;
 }
 
 #productMainDiv {
@@ -100,6 +101,7 @@ body {
 	cursor: pointer;
 	margin-left: 10px;
 	margin-top: 25px;
+	
 	/*transition: border 0.2s linear;*/
 }
 
@@ -129,10 +131,12 @@ body {
 
 #viewTable>thead>tr>th {
 	text-align: center;
+	vertical-align: middle;
 }
 
 #viewTable>tbody>tr>td{
 	text-align: center;
+	vertical-align: middle;
 }
 
 #tableImage {
@@ -185,6 +189,11 @@ input[type="submit"]:hover {
 	transition: box-shadow 1s ease-in:
 }
 
+.btn{
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	transition: box-shadow 1s ease-in:
+}
+
 .nav-active {
 	background-color: white;
 	color: black;
@@ -198,3 +207,21 @@ input[type="submit"]:hover {
 .sidebar-active>a {
 	color: black;
 }
+
+
+
+/* Product Detail Tab */
+#productDetail{
+	padding:15px;
+}
+#productDetail>img{
+	height: 300px; 
+	width: 100%;
+	box-shadow:3px 3px 2px 2px;
+	
+}
+
+#message-danger{
+	color:white;
+	background-color: #c53531;
+	}

@@ -4,6 +4,10 @@
 	</footer>
 	<script>window.activeMenu='${active}';</script>
 	<script>window.activeNavMenu='${activeNavMenu}'</script>
+	<script type="text/javascript">
+    function myhref(web){
+      window.location.href = web;}
+</script>
 	<script src="${angularApp}"></script>
 	<script src="${Angularjs}"></script>
 	<script src="${angularRoute}"></script>

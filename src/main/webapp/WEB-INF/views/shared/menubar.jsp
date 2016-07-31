@@ -1,5 +1,5 @@
 <div class="row">
-			<div class="col-sm-6"><img src="resources/images/My Furniture Logo.png" class="img-responsive"></div>
+			<div class="col-sm-6"><img src="${images}/My Furniture Logo.png" class="img-responsive"></div>
 			<div class="col-sm-6">
 				<div class="input-group" style="padding-top:50px;">
 					<input type="search" class="form-control" placeholder="Search" ng-model="searchProduct">

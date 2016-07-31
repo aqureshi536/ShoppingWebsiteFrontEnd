@@ -29,7 +29,7 @@
 				<div  ng-controller="productController">
 				<div  id="productMainDiv">
 					<div class="row">
-					<h2 id="productMainTitle" style="border-left:6px #3bb300 solid">Top Beds</h2>
+					<h2 id="productMainTitle">Top Beds</h2>
 						<div ng-repeat="bed in beds | filter : searchProduct.name" >
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="productDiv" >
 								<img ng-src="resources/images/beds/{{bed.image}}" class="img-rounded img-thumbnail" alt="" style="height:120px;width:170px;"/>

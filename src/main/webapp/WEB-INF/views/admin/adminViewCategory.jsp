@@ -3,35 +3,29 @@
 		<%int i=1;
 		int j=0;%>
 			<tr class="table-primary">
-			<c:forEach items="curtains-001,curtains-002,curtains-003" var="product">
+			<c:forEach items="${categories }" var="category">
 		<%j++; %>
 		</c:forEach>
 			<th>Sr.No <span>( <%out.println(j);%> )</span> 	</th>
-				<th>Product Image</th>
-				<th>Product Name</th>
-				<th>Product Description</th>
-				<th>Product Category</th>
-				<th>Product Supplier</th>
-				<th>Product Quantity</th>
-				<th>Product Price</th>
+				<th>Category Image</th>
+				<th>Category Name</th>
+				<th>Category Description</th>
+				<th>Products Present</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 		
-		<c:forEach items="curtains-001,curtains-002,curtains-003" var="product">
+		<c:forEach items="${categories}" var="c">
 		
 			<tr>
 			
 			<td><%out.println(i);%></td>
 			
-				<td><img src="${images}/curtains/${product}.jpg" id="tableImage"></td>
-				<td>Category Name</td>
-				<td>Category Description</td>
-				<td>Category Category</td>
-				<td>Category Supplier</td>
-				<td>Category Quantity</td>
-				<td>Category Price</td>
+				<td><img src="${images}/category/${c.category.categoryImage}" id="tableImage"></td>
+				<td valign="middle">${c.category.categoryName}</td>
+				<td>${c.category.categoryDescription}</td>
+				<td>${c.noOfProducts}</td>
 				<td>
 					<div class="btn-group-vertical">
 					<button class="btn btn-sm	 btn-warning">Update Category</button>

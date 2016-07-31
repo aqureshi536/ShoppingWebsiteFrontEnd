@@ -1,3 +1,4 @@
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!-- ADD Category -->
 
 <div class="panel panel-success">
@@ -6,13 +7,13 @@
 		<div class="row">
 			
 
-				<form class="form-horizontal" role="form" action="">
+				<form:form class="form-horizontal" role="form" action="admin/viewProduct/addProduct" method="post" commandName="Category">
 					<div class="form-group">
 						<label for="categoryName" class="control-label col-sm-2">Category
 							Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"
-								placeholder="Enter category name">
+							<form:input path="categoryName" type="text" class="form-control"
+								placeholder="Enter category name"></form:input>
 						</div>
 					</div>
 					<div class="form-group">
@@ -39,7 +40,7 @@
 						<input type="submit" class="btn btn-success btn-md"
 							value="Add Category">
 					</div>
-				</form>
+				</form:form>
 
 			</div>
 		</div>
