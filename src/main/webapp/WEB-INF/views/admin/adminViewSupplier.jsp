@@ -1,3 +1,6 @@
+<div id="productMainDiv">
+<a href="" class="btn btn-lg btn-success">Add Supplier</a><br>
+<br>
 <table class="table table-hover table-responsive" id="viewTable">
 	<thead>
 	<%
@@ -48,3 +51,5 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+</div>

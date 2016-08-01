@@ -91,8 +91,7 @@
 				<div class="form-group">
 			<center>
 				<input type="submit" value="Update Supplier" class="btn btn-warning btn-md">
-			</center>
-		
+			</center>		
 		</div>
 	</form>
 	</div>

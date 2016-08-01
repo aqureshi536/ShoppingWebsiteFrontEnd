@@ -1,45 +1,81 @@
 //SideBar
-$(function(){
+$(function() {
 	switch (activeMenu) {
 	case 'login':
 		$('#login').addClass('sidebar-active')
-//		alert(activeMenu);
+		// alert(activeMenu);
 		break;
-	case 'logout':	
+	case 'logout':
 		$('#logout').addClass('sidebar-active')
-//		alert(activeMenu);
+		// alert(activeMenu);
 		break;
-	case 'adminProducts':	
-		$('#viewProductsAdmin').addClass('sidebar-active')
-//		alert(activeMenu);
+	case 'adminProducts':
+		$('#viewProducts').addClass('sidebar-active')
+		// alert(activeMenu);
 		break;
 	case 'adminCategory':
-		$('#viewCategoryAdmin').addClass('sidebar-active');
-//		alert(activeMenu);
+		$('#viewCategory').addClass('sidebar-active');
+		// alert(activeMenu);
 		break;
 	case 'adminSupplier':
-		$('#viewSupplierAdmin').addClass('sidebar-active');
-//		alert(activeMenu);
+		$('#viewSupplier').addClass('sidebar-active');
+		// alert(activeMenu);
 		break;
 	default:
 		$('#home').addClass('sidebar-active')
-		//alert(activeMenu);
+		// alert(activeMenu);
 		break;
 	}
 });
 
-//NavBar
-$(function(){
-	switch(activeNavMenu)
-	{
+// NavBar
+$(function() {
+	switch (activeNavMenu) {
 	case 'viewAllProducts':
 		$('#viewAllProducts').addClass('nav-active');
-		$('#A_viewAllProducts').css("color","black");
-		//alert(activeNavMenu);
+		$('#A_viewAllProducts').css("color", "black");
+		// alert(activeNavMenu);
 		break;
 	}
 });
 
 
 
-	
+// To disappear on delete message
+$(function() {
+	$("#message-danger").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+
+// To disappear the success message on addition
+$(function() {
+	$("#message-success").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+
+$(function() {
+	$("#messageDelete-success").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+
+$(function() {
+	$("#messageDelete-danger").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+
+
+/*//To confirm delete or not
+document.getElementById("confirmDelete").addEventListener("click",
+		function(e) { // e => event
+			if (!confirm("Do you really want to do this?")) {
+				e.preventDefault(); // ! => don't want to do this
+			} else {
+				// want to do this! => maybe do something about it?
+				window.location.href = "http://www.google.co.in";
+			}
+		});
+*/

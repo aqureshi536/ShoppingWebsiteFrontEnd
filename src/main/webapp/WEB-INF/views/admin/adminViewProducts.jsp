@@ -4,7 +4,7 @@
 	int j = 0;
 	int k = 0;
 %>
-
+<div id="productMainDiv">
 
 <c:if test="${deleteProductSuccessMessage==true}">
 	<div class="alert alert-danger" id="message-danger">
@@ -16,7 +16,7 @@
 <!-- for displaying add product success Message -->
 
 <c:if test="${addProductSuccessMessage==true}">
-	<div class="alert alert-success">
+	<div class="alert alert-success" id="message-success">
 		<strong>Added!</strong> product with name <strong>${lastProduct}</strong> on
 		row number <strong>${productListSize}</strong>.
 	</div>
@@ -74,10 +74,10 @@
 				<td>
 					<div class="btn-group-vertical">
 						<a
-							href="${contextPath}/admin/viewProducts/${p.product.productId }"
-							class="btn btn-sm btn-warning">Update Product</a> <a
-							href="${contextPath}/admin/viewProducts/delete/${p.product.productId}"
-							class="btn btn-sm btn-danger">Delete Product</a>
+							href="${contextPath}/admin/viewProducts/updateProduct/${p.product.productId}"
+							class="btn btn-sm btn-warning">Update Product</a> 
+							<a href="${contextPath}/admin/viewProducts/delete/${p.product.productId}" 	
+							class="btn btn-sm btn-danger" id="confirmDelete">Delete Product</a>
 					</div>
 				</td>
 			</tr>
@@ -87,3 +87,5 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+</div>

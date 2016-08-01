@@ -123,8 +123,9 @@ body {
 /* this is present on admin Page */
 #viewTable {
 	padding: 35px;
-	border:2px solid;
-	border-radius:5px 5px 5px 5px;
+	border:2px solid; 
+	border-radius:5px ;
+	box-shadow:2px;
 	overflow-x:scroll;
 	overflow-y:scroll;  
 }
@@ -137,6 +138,7 @@ body {
 #viewTable>tbody>tr>td{
 	text-align: center;
 	vertical-align: middle;
+	background-color:white;	
 }
 
 #tableImage {
@@ -154,18 +156,18 @@ body {
 	cursor: pointer;
 }
 
-.footer {
+footer {
 	margin: 10px;
-	background-color: black;
-	opacity: 0.6;
+	background-color:whitesmoke ;
+	opacity: 1;
 	text-align: center;
 	max-width: 100%;
-	color: white;
+	color: black;
 	line-height: 30px;
 	font-size: 20px;
 	border: 2px solid;
 	border-radius: 5px;
-}
+} 
 
 /*Login Wrapper*/
 #loginWrapper {
@@ -180,9 +182,15 @@ body {
 	padding-top: 20%;
 	padding-left: 15%;
 }*/
+
+.panel-success>.panel-heading{
+	color:
+}
 .panel-body {
 	padding: 25px;
 }
+
+
 
 input[type="submit"]:hover {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
@@ -221,7 +229,11 @@ input[type="submit"]:hover {
 	
 }
 
-#message-danger{
-	color:white;
-	background-color: #c53531;
-	}
+
+#formImage{
+	height:100px;
+	width:150px;
+	border:2px solid;
+	
+}
+
