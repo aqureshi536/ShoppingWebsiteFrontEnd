@@ -21,6 +21,14 @@
 		row number <strong>${productListSize}</strong>.
 	</div>
 </c:if>
+
+<c:if test="${updateProductSuccessMessage==true}">
+	<div class="alert alert-warning" id="ProductUpdated-warning">
+	Product	<strong>Updated!</strong> with name <strong>${productNameToUpdate}</strong>
+	</div>
+</c:if>
+<%-- with name <strong>${lastProduct}</strong> on --%>
+<%-- 		row number <strong>${productListSize}</strong>. --%>
 <a href="${contextPath}/admin/viewProducts/addProduct"
 	class="btn btn-lg btn-success">Add Product</a>
 <br>

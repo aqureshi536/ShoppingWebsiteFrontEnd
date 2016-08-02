@@ -54,6 +54,12 @@ $(function() {
 		$("#success-alert").alert('close');
 	});
 });
+//To disappear the update message on addition
+$(function() {
+	$("#ProductUpdated-warning").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
 
 $(function() {
 	$("#messageDelete-success").fadeTo(4000, 500).slideUp(500, function() {
@@ -66,7 +72,23 @@ $(function() {
 		$("#success-alert").alert('close');
 	});
 });
+$(function() {
+	$("#addedSupplierMessage").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+$(function() {
+	$("#deletedSupplierMessage").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+$(function() {
+	$("#updatedSupplierMessage").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
 
+"updatedSupplierMessage"
 
 /*//To confirm delete or not
 document.getElementById("confirmDelete").addEventListener("click",

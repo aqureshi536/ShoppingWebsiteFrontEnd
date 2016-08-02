@@ -13,7 +13,7 @@
 	data-spy="affix" data-offset-top="124">
 	<ul class="nav navbar-nav">
 	<li id="viewAllProducts"><a href="${contextPath}/allProducts" id="A_viewAllProducts" >View all products</a></li>
-		<li><a href="">$</a></li>
+		<li><a href="">Curtains</a></li>
 		<li><a href="">Sofa</a></li>
 		<li><a href="">Bed</a></li>
 		<li><a href="">Table</a></li>

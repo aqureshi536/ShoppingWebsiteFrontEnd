@@ -32,7 +32,7 @@
 					<h2 id="productMainTitle">Top Beds</h2>
 						<div ng-repeat="bed in beds | filter : searchProduct.name" >
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="productDiv" >
-								<img ng-src="resources/images/beds/{{bed.image}}" class="img-rounded img-thumbnail" alt="" style="height:120px;width:170px;"/>
+								<img ng-src="/resources/images/{{bed.image}}" class="img-rounded img-thumbnail" alt="" style="height:120px;width:170px;"/>
 								<h2 id="pricePara"><b>{{bed.price}}</b></p>
 								<h4>{{bed.name}}</h4>
 								<h5>{{bed.brand}}</h5>
@@ -45,7 +45,7 @@
 					<h2 style="border-left:6px #3bb300 solid" id="productMainTitle">Top Sofas</h2>
 						<div ng-repeat="sofa in sofas" >
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="productDiv" >
-								<img ng-src="resources/images/sofas/{{sofa.image}}" class="img-rounded img-thumbnail" alt="" style="height:120px;width:170px;"/>
+								<img ng-src="resources/images/{{sofa.image}}" class="img-rounded img-thumbnail" alt="" style="height:120px;width:170px;"/>
 								<p id="pricePara"><b>{{sofa.price}}</b></p>
 								<h4>{{sofa.name}}</h4>
 								<h5>{{sofa.brand}}</h5>

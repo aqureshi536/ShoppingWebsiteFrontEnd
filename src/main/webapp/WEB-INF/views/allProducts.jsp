@@ -13,7 +13,7 @@
 					</h2>
 					<div class="btn-group-vertical" id="actionButtons">
 						<a class="btn btn-warning btn-md">Add to Cart</a>
-						<a class="btn btn-success btn-md">Buy</a>
+						
 					</div>
 					<h4>${product.productName}</h4>
 					<h5>${product.description}</h5>

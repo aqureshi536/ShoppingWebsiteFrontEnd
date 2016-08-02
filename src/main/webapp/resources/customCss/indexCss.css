@@ -5,6 +5,7 @@ body {
 .affix {
 	top: 0;
 	width: 97.8%;
+	
 }
 
 .affix+#homeNavbar {
@@ -15,7 +16,7 @@ body {
 	border-radius: 0px;
 	font-weight: bolder;
 	max-width: 100%;
-	z-index: 2;
+	z-index: 50;
 	min-height: 50px;
 }
 
@@ -75,7 +76,7 @@ body {
 
 #productMainTitle {
 	padding: 7px;
-	border-left:6px #3bb300 solid;
+	border-left: 6px #3bb300 solid;
 }
 
 #productMainDiv {
@@ -101,7 +102,7 @@ body {
 	cursor: pointer;
 	margin-left: 10px;
 	margin-top: 25px;
-	
+
 	/*transition: border 0.2s linear;*/
 }
 
@@ -123,11 +124,11 @@ body {
 /* this is present on admin Page */
 #viewTable {
 	padding: 35px;
-	border:2px solid; 
-	border-radius:5px ;
-	box-shadow:2px;
-	overflow-x:scroll;
-	overflow-y:scroll;  
+	border: 2px solid;
+	border-radius: 5px;
+	box-shadow: 2px;
+	overflow-x: scroll;
+	overflow-y: scroll;
 }
 
 #viewTable>thead>tr>th {
@@ -135,11 +136,20 @@ body {
 	vertical-align: middle;
 }
 
-#viewTable>tbody>tr>td{
+#viewTable>tbody>tr>td {
 	text-align: center;
 	vertical-align: middle;
-	background-color:white;	
+	background-color: white;
 }
+
+/* #viewTable>tbody>tr {
+	transition: background-color .3s ease;
+}
+
+#viewTable>tbody>tr:hover {
+	background-color: whitesmoke;
+	
+} */
 
 #tableImage {
 	height: 60px;
@@ -151,14 +161,13 @@ body {
 	color: white;
 }
 
-
 .table-hover>tbody>tr {
 	cursor: pointer;
 }
 
 footer {
 	margin: 10px;
-	background-color:whitesmoke ;
+	background-color: whitesmoke;
 	opacity: 1;
 	text-align: center;
 	max-width: 100%;
@@ -167,7 +176,7 @@ footer {
 	font-size: 20px;
 	border: 2px solid;
 	border-radius: 5px;
-} 
+}
 
 /*Login Wrapper*/
 #loginWrapper {
@@ -182,22 +191,20 @@ footer {
 	padding-top: 20%;
 	padding-left: 15%;
 }*/
-
-.panel-success>.panel-heading{
+.panel-success>.panel-heading {
 	color:
 }
+
 .panel-body {
 	padding: 25px;
 }
-
-
 
 input[type="submit"]:hover {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 	transition: box-shadow 1s ease-in:
 }
 
-.btn{
+.btn {
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 	transition: box-shadow 1s ease-in:
 }
@@ -216,24 +223,19 @@ input[type="submit"]:hover {
 	color: black;
 }
 
-
-
 /* Product Detail Tab */
-#productDetail{
-	padding:15px;
+#productDetail {
+	padding: 15px;
 }
-#productDetail>img{
-	height: 300px; 
+
+#productDetail>img {
+	height: 300px;
 	width: 100%;
-	box-shadow:3px 3px 2px 2px;
-	
+	box-shadow: 3px 3px 2px 2px;
 }
 
-
-#formImage{
-	height:100px;
-	width:150px;
-	border:2px solid;
-	
+#formImage {
+	height: 100px;
+	width: 150px;
+	border: 2px solid;
 }
-

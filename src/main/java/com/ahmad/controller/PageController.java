@@ -33,9 +33,6 @@ import com.ahmad.viewmodel.ProductModel;
 public class PageController {
 
 	@Autowired
-	private UserLoginDAO userLoginDAO;
-
-	@Autowired
 	private Product product;
 	@Autowired
 	private ProductDAO productDAO;
@@ -50,12 +47,8 @@ public class PageController {
 	@Autowired
 	private SupplierDAO supplierDAO;
 
-	public void setUserLoginDAO(UserLoginDAO userLoginDAO) {
-		this.userLoginDAO = userLoginDAO;
-	}
-
 	// Activates When Home Page Is accessed
-	
+
 	@RequestMapping(value = { "/", "/index" })
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView("index");
@@ -120,70 +113,53 @@ public class PageController {
 		return mv;
 	}
 
-	
-	
-	// activates when admin clicked Category on sideBar
+	// Product methods goes here
 
-	@RequestMapping("/admin/viewSupplier")
-	public ModelAndView adminViewSupplier(Model model) {
-		List<Supplier> supplierList = supplierDAO.listSupplier();
-		model.addAttribute("suppliers", supplierList);
+	// activates when admin clicked Product on Side Bar
 
+	@RequestMapping("/admin/viewProducts")
+	public ModelAndView adminViewProducts(Model model) {
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("isClickedAdminViewSupplier", "true");
-		mv.addObject("active", "adminSupplier");
+
+		// Add products to we page
+		List<Product> productList = productDAO.listProduct();
+		model.addAttribute("products", productList);
+
+		// gets category List and name should be accessed from the front end
+		// Tried but showing same category name
+		/*
+		 * List<Category> categoryList = categoryDAO.listCategory(); String
+		 * categoryName; List listName=null; for(int
+		 * i=0;i<productList.size();i++){ product=productList.get(i);
+		 * category=categoryDAO.get(product.getCategoryId());
+		 * categoryName=category.getCategoryName(); listName=new ArrayList<>();
+		 * listName.add(categoryName); }
+		 */
+
+		List<ProductModel> products = new ArrayList<>();
+		ProductModel productModel = null;
+		for (Product p : productList) {
+			productModel = new ProductModel();
+			productModel.setProduct(p);
+
+			category = categoryDAO.get(p.getCategoryId());
+			supplier = supplierDAO.get(p.getSupplierId());
+			productModel.setCategoryName(category.getCategoryName());
+			productModel.setSupplierName(supplier.getSupplierName());
+			products.add(productModel);
+		}
+
+		model.addAttribute("products", products);
+
+		// gets supplier List and name should be accessed from the front end
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("supplierName", supplierList);
+
+		mv.addObject("isClickedAdminViewProducts", "true");
+		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
-	
-	
-	//Product methods goes here
-	
-		// activates when admin clicked Product on Side Bar
-
-			@RequestMapping("/admin/viewProducts")
-			public ModelAndView adminViewProducts(Model model) {
-				ModelAndView mv = new ModelAndView("index");
-
-				// Add products to we page
-				List<Product> productList = productDAO.listProduct();
-				model.addAttribute("products", productList);
-
-				// gets category List and name should be accessed from the front end
-				// Tried but showing same category name
-				/*
-				 * List<Category> categoryList = categoryDAO.listCategory(); String
-				 * categoryName; List listName=null; for(int
-				 * i=0;i<productList.size();i++){ product=productList.get(i);
-				 * category=categoryDAO.get(product.getCategoryId());
-				 * categoryName=category.getCategoryName(); listName=new ArrayList<>();
-				 * listName.add(categoryName); }
-				 */
-
-				List<ProductModel> products = new ArrayList<>();
-				ProductModel productModel = null;
-				for (Product p : productList) {
-					productModel = new ProductModel();
-					productModel.setProduct(p);
-
-					category = categoryDAO.get(p.getCategoryId());
-					supplier = supplierDAO.get(p.getSupplierId());
-					productModel.setCategoryName(category.getCategoryName());
-					productModel.setSupplierName(supplier.getSupplierName());
-					products.add(productModel);
-				}
-
-				model.addAttribute("products", products);
-
-				// gets supplier List and name should be accessed from the front end
-				List<Supplier> supplierList = supplierDAO.listSupplier();
-				model.addAttribute("supplierName", supplierList);
-
-				mv.addObject("isClickedAdminViewProducts", "true");
-				mv.addObject("active", "adminProducts");
-				mv.addObject("displayAdminAction", "true");
-				return mv;
-			}
 
 	// Add the product to database
 
@@ -257,12 +233,6 @@ public class PageController {
 		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
-	
-	
-	
-	
-	
-
 
 	// Update the product till the form
 	@RequestMapping(value = "/admin/viewProducts/updateProduct/{productId}")
@@ -277,7 +247,7 @@ public class PageController {
 		model.addAttribute("suppliers", supplierList);
 		mv.addObject("categories", categoryList);
 		mv.addObject("suppliers", supplierList);
-
+		mv.addObject("product", product);
 		category = categoryDAO.get(product.getCategoryId());
 		String categoryName = category.getCategoryName();
 		supplier = supplierDAO.get(this.product.getSupplierId());
@@ -293,10 +263,12 @@ public class PageController {
 	@RequestMapping(value = "/admin/viewProducts/updateProduct", method = RequestMethod.POST)
 	public ModelAndView updateProduct(@ModelAttribute("Product") Product product, Model model,
 			HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView("index");
 		MultipartFile productImage = product.getImageUrl();
 		String rootDiectory = request.getSession().getServletContext().getRealPath("/");
-
+		String productName=product.getProductName();
+		mv.addObject("productNameToUpdate", productName);
+		
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				productImage.transferTo(new File(
@@ -307,7 +279,40 @@ public class PageController {
 			}
 		}
 		productDAO.saveOrUpdate(product);
+		List<Product> productList = productDAO.listProduct();
 
+		// Get the Last Product
+		int productListSize = productDAO.listProduct().size();
+		Product pL = productList.get(productListSize - 1);
+		String lastProduct = pL.getProductName();
+		mv.addObject("lastProduct", lastProduct);
+		mv.addObject("updateProductSuccessMessage", "true");
+
+		// ----------------------------------------------------------------------
+		model.addAttribute("productListSize", productListSize);
+		model.addAttribute("products", productList);
+
+		List<ProductModel> products = new ArrayList<>();
+		ProductModel productModel = null;
+		for (Product p : productList) {
+			productModel = new ProductModel();
+			productModel.setProduct(p);
+
+			category = categoryDAO.get(p.getCategoryId());
+			supplier = supplierDAO.get(p.getSupplierId());
+			productModel.setCategoryName(category.getCategoryName());
+			productModel.setSupplierName(supplier.getSupplierName());
+			products.add(productModel);
+		}
+		model.addAttribute("products", products);
+
+		// gets supplier List and name should be accessed form the front end
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("suppliers", supplierList);
+		// ---------------------------------------------------------
+		mv.addObject("isClickedAdminViewProducts", "true");
+		mv.addObject("active", "adminProducts");
+		mv.addObject("displayAdminAction", "true");
 		return mv;
 		// get the list of products
 		// return "redirect:/admin/viewProducts";
@@ -357,6 +362,7 @@ public class PageController {
 		mv.addObject("isClickedAdminViewProducts", "true");
 		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
+		mv.addObject("isUpdateProductClicked", "true");
 		return mv;
 
 	}
@@ -364,73 +370,13 @@ public class PageController {
 	// Methods to add Category goer here
 	// activates when admin licked Category on sideBar
 
-	
-		@RequestMapping("/admin/viewCategory")
-		public ModelAndView adminViewCategory(Model model) {
-			ModelAndView mv = new ModelAndView("index");
-			List<Category> categoryList = categoryDAO.listCategory();
-
-			CategoryModel categoryModel = null;
-			List<CategoryModel> categories = new ArrayList<CategoryModel>();
-			int noOfProduct;
-			for (Category c : categoryList) {
-				categoryModel = new CategoryModel();
-				categoryModel.setCategory(c);
-				noOfProduct = categoryDAO.getProductCountByCategory(c.getCategoryId());
-				categoryModel.setNoOfProducts(noOfProduct);
-				categories.add(categoryModel);
-			}
-			model.addAttribute("categories", categories);
-
-			mv.addObject("isClickedAdminViewCategory", "true");
-			mv.addObject("active", "adminCategory");
-			mv.addObject("displayAdminAction", "true");
-			return mv;
-		}
-
-	
-	
-	@RequestMapping("/admin/viewCategory/addCategory")
-	public ModelAndView addCategory(@ModelAttribute("Category") Category category,Model model) {
-		ModelAndView mv = new ModelAndView("/index");
-
-		mv.addObject("isAddCategoryClicked", "true");
-
-		mv.addObject("displayLogout", "true");
-		mv.addObject("displayAdminAction", "true");
-		return mv;
-	}
-
-	@RequestMapping(value = "/admin/viewCategory", method = RequestMethod.POST)
-	public ModelAndView addCategory(@ModelAttribute("Category") Category category, Model model,
-			HttpServletRequest request) {
+	@RequestMapping("/admin/viewCategory")
+	public ModelAndView adminViewCategory(Model model) {
 		ModelAndView mv = new ModelAndView("index");
-		categoryDAO.saveOrUpdate(category);
-
-		MultipartFile categoryImage = category.getCategoryImage();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		if (categoryImage != null && !categoryImage.isEmpty()) {
-			try {
-				categoryImage.transferTo(new File(Paths
-						.get(rootDirectory + "\\resources\\images\\category\\" + this.category.getCategoryId() + ".png")
-						.toString()));
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Category Image Saving Failed", e);
-			}
-		}
 		List<Category> categoryList = categoryDAO.listCategory();
 
 		CategoryModel categoryModel = null;
 		List<CategoryModel> categories = new ArrayList<CategoryModel>();
-		
-		int categoryListSize = categoryDAO.listCategory().size();
-		this.category=categoryList.get(categoryListSize-1);
-		String categoryName = this.category.getCategoryName();
-		mv.addObject("categoryName", categoryName);
-		mv.addObject("categoryListSize", categoryListSize);
-		mv.addObject("addedCategoryMessage", "true");
-		
 		int noOfProduct;
 		for (Category c : categoryList) {
 			categoryModel = new CategoryModel();
@@ -445,10 +391,75 @@ public class PageController {
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
-		
-		
+	}
 
-	
+	@RequestMapping(value = "/admin/viewCategory/addCategory")
+	public ModelAndView addCategory() {
+		ModelAndView mv = new ModelAndView("/index");
+		mv.addObject("category", category);
+
+		mv.addObject("isAddCategoryClicked", "true");
+
+		mv.addObject("category", category);
+
+		mv.addObject("displayLogout", "true");
+		mv.addObject("displayAdminAction", "true");
+		return mv;
+	}
+
+	// @RequestMapping(value = "admin/viewCategory", method =
+	// RequestMethod.POST)
+	// public String addCategory(@ModelAttribute("category") Category category,
+	// Model model, HttpServletRequest request) {
+	//
+	// return "redirect:/admin/viewCategory";
+	// }
+
+	@RequestMapping(value = "/viewCategory/add", method = RequestMethod.POST)
+	public ModelAndView addCategory(@ModelAttribute("category") Category category, Model model,
+			HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("index");
+
+		categoryDAO.saveOrUpdate(category);
+
+		MultipartFile categoryImage = category.getCategoryImage();
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		if (categoryImage != null && !categoryImage.isEmpty()) {
+			try {
+				categoryImage.transferTo(new File(
+						Paths.get(rootDirectory + "\\resources\\images\\category\\" + category.getCategoryId() + ".png")
+								.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Category Image Saving Failed", e);
+			}
+		}
+		List<Category> categoryList = categoryDAO.listCategory();
+
+		CategoryModel categoryModel = null;
+		List<CategoryModel> categories = new ArrayList<CategoryModel>();
+
+		int categoryListSize = categoryDAO.listCategory().size();
+		this.category = categoryList.get(categoryListSize - 1);
+		String categoryName = this.category.getCategoryName();
+		mv.addObject("categoryName", categoryName);
+		mv.addObject("categoryListSize", categoryListSize);
+		mv.addObject("addedCategoryMessage", "true");
+
+		int noOfProduct;
+		for (Category c : categoryList) {
+			categoryModel = new CategoryModel();
+			categoryModel.setCategory(c);
+			noOfProduct = categoryDAO.getProductCountByCategory(c.getCategoryId());
+			categoryModel.setNoOfProducts(noOfProduct);
+			categories.add(categoryModel);
+		}
+		model.addAttribute("categories", categories);
+
+		mv.addObject("isClickedAdminViewCategory", "true");
+		mv.addObject("active", "adminCategory");
+		mv.addObject("displayAdminAction", "true");
+		return mv;
 
 	}
 
@@ -457,10 +468,10 @@ public class PageController {
 			HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 		category = categoryDAO.get(categoryId);
-		String categoryName=category.getCategoryName();
+		String categoryName = category.getCategoryName();
 		mv.addObject("categoryNameDeleted", categoryName);
 		mv.addObject("deletedCategoryMessage", "true");
-		
+
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"));
@@ -476,7 +487,6 @@ public class PageController {
 		categoryDAO.delete(categoryId);
 
 		List<Category> categoryList = categoryDAO.listCategory();
-
 		CategoryModel categoryModel = null;
 		List<CategoryModel> categories = new ArrayList<CategoryModel>();
 		int noOfProduct;
@@ -493,12 +503,31 @@ public class PageController {
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
-		
+
+	}
+	// ------------------------------ end of category ----------------
+
+	// Supplier methods goes
+	// here=============================================================
+
+	@RequestMapping("/admin/viewSupplier")
+	public ModelAndView adminViewSupplier(Model model) {
+		ModelAndView mv = new ModelAndView("index");
+
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("suppliers", supplierList);
+
+		mv.addObject("isClickedAdminViewSupplier", "true");
+		mv.addObject("active", "adminSupplier");
+		mv.addObject("displayAdminAction", "true");
+		return mv;
+
 	}
 
-	@RequestMapping("/addSupplier")
+	@RequestMapping("/admin/viewSupplier/addSupplier")
 	public ModelAndView addSupplier() {
-		ModelAndView mv = new ModelAndView("/index");
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("supplier", supplier);
 		mv.addObject("isAddSupplierClicked", "true");
 
 		mv.addObject("displayLogout", "true");
@@ -506,23 +535,143 @@ public class PageController {
 		return mv;
 	}
 
-	@RequestMapping("/updateSupplier")
-	public ModelAndView updateSupplier() {
-		ModelAndView mv = new ModelAndView("/index");
-		mv.addObject("isUpdateSupplierClicked", "true");
+	@RequestMapping(value = "/admin/viewSupplier", method = RequestMethod.POST)
+	public ModelAndView addSuupplier(@ModelAttribute("supplier") Supplier supplier, Model model,
+			HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("index");
 
+		supplierDAO.saveOrUpdate(supplier);
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("suppliers", supplierList);
+
+		MultipartFile supplierImage = this.supplier.getSupplierImage();
+
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		if (supplierImage != null && !supplierImage.isEmpty()) {
+			try {
+				supplierImage.transferTo(new File(
+						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
+								.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Supplier Image Saving Failed", e);
+			}
+		}
+
+		// Get supplier name and supplier row
+		int supplierSize = supplierList.size();
+		this.supplier = supplierList.get(supplierSize - 1);
+		String supplierName = this.supplier.getSupplierName();
+
+		mv.addObject("supplierName", supplierName);
+		mv.addObject("supplierSize", supplierSize);
+		// ====================================================
+		mv.addObject("addedSupplierMessage", "true");
+		mv.addObject("isClickedAdminViewSupplier", "true");
+		mv.addObject("active", "adminSupplier");
+		mv.addObject("displayAdminAction", "true");
+		return mv;
+	}
+
+	@RequestMapping("/admin/viewSupplier/deleteSupplier/{supplierId}")
+	public ModelAndView deleteSupplier(@PathVariable("supplierId") String supplierId, Model model,
+			HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("supplier", supplier);
+
+		supplier = supplierDAO.get(supplierId);
+
+		// Get the supplier name
+		String supplierName = supplier.getSupplierName();
+		mv.addObject("supplierNameDeleted", supplierName);
+		// =======================================================
+		mv.addObject("deletedSupplierMessage", "true");
+
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+
+		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
+		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"))) {
+			try {
+				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("File unable to delete", e);
+			}
+		}
+
+		supplierDAO.delete(supplierId);
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("suppliers", supplierList);
+
+		mv.addObject("deletedSupplierMessage", "true");
+		mv.addObject("isClickedAdminViewSupplier", "true");
+		mv.addObject("active", "adminSupplier");
+		mv.addObject("displayAdminAction", "true");
+		return mv;
+	}
+
+	@RequestMapping("/admin/viewSupplier/updateSupplier/{supplierId}")
+	public ModelAndView updateSupplier(@PathVariable("supplierId") String supplierId) {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("supplier", supplier);
+		supplier = supplierDAO.get(supplierId);
+		mv.addObject("supplierToUpdate", supplier);
+
+		mv.addObject("isUpdateSupplierClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
 
-	public ModelAndView names(Model model) {
-		ModelAndView mv = new ModelAndView();
+	@RequestMapping(value = "/admin/viewSupplier/update", method = RequestMethod.POST)
+	public ModelAndView updateSupplier(@ModelAttribute("supplier") Supplier supplier, HttpServletRequest request,
+			Model model) {
+		ModelAndView mv = new ModelAndView("index");
+		List<Supplier> supplierList = supplierDAO.listSupplier();
+		model.addAttribute("suppliers", supplierList);
+		supplierDAO.saveOrUpdate(supplier);
+		
+		MultipartFile supplierImage = this.supplier.getSupplierImage();
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
-		category = categoryDAO.get("${product}");
-		String categoryName = category.getCategoryName();
-		model.addAttribute("categoryName", categoryName);
+		if (supplierImage != null && !supplierImage.isEmpty()) {
+			try {
+				supplierImage.transferTo(new File(
+						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
+								.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Supplier Image updating failed", e);
+			}
+
+		}
+		
+
+		String supplierName = supplier.getSupplierName();
+		mv.addObject("updatedSupplierName",supplierName);
+		mv.addObject("updatedSupplierMessage", "true");
+		
+		mv.addObject("isUpdateSupplierClicked", "true");
+		mv.addObject("displayLogout", "true");
+		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
+
+	// Method for displaying Products on the admin page
+
+	// private ModelAndView displaySupplierList(Model model) {
+	//
+	//
+	// List<Supplier> supplierList = supplierDAO.listSupplier();
+	// model.addAttribute("suppliers", supplierList);
+	//
+	//
+	// ModelAndView mv= null;
+	// mv.addObject("isClickedAdminViewSupplier", "true");
+	// mv.addObject("active", "adminSupplier");
+	// mv.addObject("displayAdminAction", "true");
+	// return mv;
+	// }
 
 }

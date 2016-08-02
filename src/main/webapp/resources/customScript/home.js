@@ -1,5 +1,5 @@
 /// <reference path="../js/angular.js"/>
-var app=angular.module("homeModule",["ngRoute"])
+var app=angular.module("homeModule",[])
 			 // .config(function($routeProvider,$locationProvider)
 				// {
 				// 	$routeProvider.
@@ -29,11 +29,11 @@ var app=angular.module("homeModule",["ngRoute"])
 						];
 						$scope.sofas=sofas;
 					});
-			  app.controller("loginController",function($scope)
+			 /* app.controller("loginController",function($scope)
 			   {
 					$scope.message="Login Page";
 			   });
-				
+				*/
 
 
 
