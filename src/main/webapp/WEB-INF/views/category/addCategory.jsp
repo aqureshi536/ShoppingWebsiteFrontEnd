@@ -7,7 +7,7 @@
 		<div class="row">
 			
 
-				<form:form class="form-horizontal" role="form" action="${contextPath}/viewCategory/add" method="post" modelAttribute="category">
+				<form:form class="form-horizontal" role="form" action="${contextPath}/admin/viewCategory" enctype="multipart/form-data" method="post" modelAttribute="category">
 					<div class="form-group">
 						<label for="categoryName" class="control-label col-sm-2">Category
 							Name</label>

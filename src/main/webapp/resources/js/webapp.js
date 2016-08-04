@@ -88,8 +88,14 @@ $(function() {
 	});
 });
 
-"updatedSupplierMessage"
+$(function() {
+	$("#categoryUpdateMessage").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
 
+
+categoryUpdateMessage
 /*//To confirm delete or not
 document.getElementById("confirmDelete").addEventListener("click",
 		function(e) { // e => event

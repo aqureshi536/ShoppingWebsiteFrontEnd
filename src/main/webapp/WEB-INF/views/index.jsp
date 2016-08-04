@@ -92,7 +92,7 @@
 				</c:if>
 
 				<!--Activates Update Category -->
-				<c:if test="${isUpdateCategoryClicked==true }">
+				<c:if test="${isClickedAdminUpdateCategory==true }">
 					<%@include file="./category/updateCategory.jsp"%>
 				</c:if>
 

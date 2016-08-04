@@ -11,7 +11,7 @@
 		</div>
 	</c:if>
 	<c:if test="${updatedSupplierMessage== true }">
-		<div class="alert alert-danger" id="updatedSupplierMessage">
+		<div class="alert alert-warning" id="updatedSupplierMessage">
 			<strong>Updated!</strong> supplier with name <strong>${updatedSupplierName}</strong>
 		</div>
 	</c:if>
@@ -59,7 +59,7 @@
 							out.println(i);
 						%>
 					</td>
-					<td><img src="${images}/supplier/${supplier.supplierImage}"
+					<td><img src="${images}/supplier/${supplier.supplierId}.png"
 						id="tableImage"></td>
 					<td>${supplier.supplierName}</td>
 					<td>${supplier.supplierContact}</td>

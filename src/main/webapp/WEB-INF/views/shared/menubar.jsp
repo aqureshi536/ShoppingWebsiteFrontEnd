@@ -7,11 +7,16 @@
 			</div>
 		</div>
 			
-		 	
-
+		 <br>	
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#homeNavbar" >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
 <div class="navbar navbar-inverse" id="homeNavbar"
 	data-spy="affix" data-offset-top="124">
-	<ul class="nav navbar-nav">
+	
+	<ul class="nav navbar-nav" id="navbar">	 	
 	<li id="viewAllProducts"><a href="${contextPath}/allProducts" id="A_viewAllProducts" >View all products</a></li>
 		<li><a href="">Curtains</a></li>
 		<li><a href="">Sofa</a></li>

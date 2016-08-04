@@ -1,10 +1,13 @@
 <div id="productMainDiv">
 
 <c:if test="${addedCategoryMessage==true }">
-<div class="alert alert-success" id="messageDelete-success"><strong>Added!</strong>category with name <strong>${categoryName}</strong> on row number <strong>${categoryListSize}</strong></div>
+<div class="alert alert-success" id="messageDelete-success"><strong>Added!</strong> category with name <strong>${categoryName}</strong> on row number <strong>${categoryListSize}</strong></div>
 </c:if>
 <c:if test="${deletedCategoryMessage==true }">
-<div class="alert alert-danger" id="messageDelete-danger"><strong>Deleted!</strong>category with name <strong>${categoryNameDeleted}</strong></div>
+<div class="alert alert-danger" id="messageDelete-danger"><strong>Deleted!</strong> category with name <strong>${categoryNameDeleted}</strong></div>
+</c:if>
+<c:if test="${categoryUpdateMessage==true }">
+<div class="alert alert-warning" id="categoryUpdateMessage"><strong>Updated!</strong> category with name <strong>${categoryNameAfterUpdate}</strong></div>
 </c:if>
 <a href="${contextPath}/admin/viewCategory/addCategory" class="btn btn-lg btn-success">Add Category </a>
 <br>
@@ -39,7 +42,7 @@
 				<td>${c.noOfProducts}</td>
 				<td>
 					<div class="btn-group-vertical">
-					<a  class="btn btn-sm btn-warning">Update Category</a>
+					<a href="${contextPath}/admin/viewCategory/update/${c.category.categoryId}" class="btn btn-sm btn-warning">Update Category</a>
 					<a href="${contextPath}/admin/viewCategory/delete/${c.category.categoryId}" class="btn btn-sm btn-danger">Delete Category</a>
 					</div>
 				</td>

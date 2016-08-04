@@ -10,7 +10,7 @@
 					<div class="form-group">
 						<label for="" class="control-label col-sm-2">Supplier Name</label>
 						<div class="col-sm-10">
-							<input type="text" value="${supplierToUpdate.supplierName}"
+							<input type="text" value="${supplier.supplierName}"
 								disabled class="form-control">
 						</div>
 					</div>
@@ -19,14 +19,14 @@
 							Contact No</label>
 						<div class="col-sm-10">
 							<input type="text" disabled
-								value="${supplierToUpdate.supplierContact}" class="form-control">
+								value="${supplier.supplierContact}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="" class="control-label col-sm-2">Email Id</label>
 						<div class="col-sm-10">
 							<input type="text" disabled
-								value="${supplierToUpdate.supplierEmail}" class="form-control">
+								value="${supplier.supplierEmail}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -34,7 +34,7 @@
 							address</label>
 						<div class="col-sm-10">
 							<textarea type="text" rows="7" disabled
-								placeholder="${supplierToUpdate.supplierAddress}"
+								placeholder="${supplier.supplierAddress}"
 								class="form-control"></textarea>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 						<label for="" class="control-label col-sm-2">Supplier
 							Image</label>
 						<div class="col-sm-10">
-							<img src="${images}/supplier/${supplierToUpdate.supplierId}"
+							<img src="${images}/supplier/${supplier.supplierId}"
 								style="height: 100px; width: 100px"
 								class="img-responsive img-rounded">
 						</div>
@@ -56,7 +56,7 @@
 						<label for="updateSupplierName" class="control-label col-sm-2">Supplier
 							Name</label>
 						<div class="col-sm-10">
-							<form:input path="supplierName" type="text" name="updateSupplierName" value="${supplierToUpdate.supplierName}" class="form-control"
+							<form:input path="supplierName" type="text" name="updateSupplierName" value="${supplier.supplierName}" class="form-control"
 								placeholder="Enter supplier's new name"/>
 						</div>
 					</div>
@@ -66,7 +66,7 @@
 							Contact No</label>
 						<div class="col-sm-10">
 							<form:input path="supplierContact" type="text" name="updateSuppierContact"
-								class="form-control" value="${supplierToUpdate.supplierContact}"
+								class="form-control" value="${supplier.supplierContact}"
 								placeholder="Enter supplier's new Contact No"/>
 						</div>
 					</div>
@@ -75,7 +75,7 @@
 							Id</label>
 						<div class="col-sm-10">
 							<form:input type="email" path="supplierEmail" name="updateSupplierEmail"
-								class="form-control" value="${supplierToUpdate.supplierEmail}"  placeholder="Enter supplier's new Email Id"/>
+								class="form-control" value="${supplier.supplierEmail}"  placeholder="Enter supplier's new Email Id"/>
 						</div>
 					</div>
 					<div class="form-group">

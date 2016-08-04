@@ -6,7 +6,7 @@
 				>
 		</div>
 
-		<div class="col-sm-3">
+		<div class="col-sm-5">
 			<h1>${product.productName }</h1>
 			<h2>
 				<span class="fa fa-inr"></span> ${product.price }
@@ -14,7 +14,7 @@
 			<h3>Product By ${supplierName}</h3>
 			<h4>Description:
 			<p>${product.description }</p></h4>	
-			
+			<br> 
 			<a class="btn btn-lg btn-warning">Add to Cart</a>
 			<a class="btn btn-lg btn-success">Buy</a>
 		</div>
