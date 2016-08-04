@@ -33,7 +33,7 @@
 						</div> <!-- End of previous product column-->
 
 						<!--start of update category -->
-						<form:form action="${contextPath}/admin/viewCategory/updated" method="post" class="form-horizontal" modelAttribute="category" enctype="multipart/form-data">
+						<form:form action="${contextPath}/admin/viewCategory/updated?${_csrf.parameterName}=${_csrf.token}" method="post" class="form-horizontal" modelAttribute="category" enctype="multipart/form-data">
 						<div class="col-sm-6">
 							<h4 class="col-xs-offset-2">Update Category</h4>
 							<form:hidden path="categoryId"/>

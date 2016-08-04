@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,33 +38,38 @@ public class PageController {
 	@Autowired
 	private ProductDAO productDAO;
 
-	@Autowired
-	private Category category;
-	@Autowired
-	private CategoryDAO categoryDAO;
-
-	@Autowired
-	private Supplier supplier;
-	@Autowired
-	private SupplierDAO supplierDAO;
+	
 
 	// Activates When Home Page Is accessed
 
-	@RequestMapping(value = { "/", "/index" })
+	@RequestMapping(value = { "/", "/index" ,"/logout"})
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("isHomeClicked", "true");
 		mv.addObject("active", "home");
 		mv.addObject("displayLogin", "true");
 		mv.addObject("displayCart", "true");
+		
+//		Optional
+		mv.addObject("pageBeforeAdminAction", "true");
+		
 		return mv;
 	}
 
 	// Activates WHen Login Clicked
 
 	@RequestMapping("/login")
-	public ModelAndView loginPage() {
+	public ModelAndView loginPage(@RequestParam(value="error", required=false)String error,
+								  @RequestParam(value="logout", required=false)String logout,Model model) {
 		ModelAndView mv = new ModelAndView("/index");
+		if(error!=null)
+		{
+			model.addAttribute("error","Oops! Invalid credentials,Please try again");
+		}
+		if(logout!=null)
+		{
+			model.addAttribute("msg", "Thank You,You're successfully logged out");
+		}
 		mv.addObject("isLoginClicked", "true");
 		mv.addObject("displayLogin", "true");
 		mv.addObject("active", "login");
@@ -85,13 +91,13 @@ public class PageController {
 		mv.addObject("displayLogin", "true");
 		mv.addObject("displayCart", "true");
 		mv.addObject("activeNavMenu", "viewAllProducts");
+		
+		
+//		Optional
+		mv.addObject("pageBeforeAdminAction", "true");
 		return mv;
 	}
 
 	// Activate When clicked on any Product
-
-	
-
-	
 
 }

@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<div class="col-sm-6">
-				<form:form action="${contextPath}/admin/viewSupplier/update" class="form-horizontal" method="post" commandName="supplier" enctype="multipart/form-data">
+				<form:form action="${contextPath}/admin/viewSupplier/update?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" method="post" commandName="supplier" enctype="multipart/form-data">
 					<form:hidden path="supplierId" />
 					<div class="form-group">
 						<label for="updateSupplierName" class="control-label col-sm-2">Supplier

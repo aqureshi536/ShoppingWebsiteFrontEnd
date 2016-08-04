@@ -6,7 +6,7 @@
 	<div class="panel-body">
 		<div class="row">
 			
-				<form:form action="${contextPath}/admin/viewSupplier" class="form-horizontal" method="post"  commandName="supplier" enctype="multipart/form-data">
+				<form:form action="${contextPath}/admin/viewSupplier?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" method="post"  commandName="supplier" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="supplierName" class="control-label col-sm-2">Supplier
 							Name</label>
