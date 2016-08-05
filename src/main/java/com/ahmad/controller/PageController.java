@@ -42,7 +42,7 @@ public class PageController {
 
 	// Activates When Home Page Is accessed
 
-	@RequestMapping(value = { "/", "/index" ,"/logout"})
+	@RequestMapping(value = { "/", "/index"})
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("isHomeClicked", "true");
@@ -58,7 +58,7 @@ public class PageController {
 
 	// Activates WHen Login Clicked
 
-	@RequestMapping("/login")
+	@RequestMapping(value={"/login"})
 	public ModelAndView loginPage(@RequestParam(value="error", required=false)String error,
 								  @RequestParam(value="logout", required=false)String logout,Model model) {
 		ModelAndView mv = new ModelAndView("/index");
@@ -68,7 +68,7 @@ public class PageController {
 		}
 		if(logout!=null)
 		{
-			model.addAttribute("msg", "Thank You,You're successfully logged out");
+			model.addAttribute("msg", "Thank You, You're successfully logged out");
 		}
 		mv.addObject("isLoginClicked", "true");
 		mv.addObject("displayLogin", "true");

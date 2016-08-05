@@ -1,3 +1,4 @@
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
@@ -6,11 +7,20 @@
 	<!--  Panel for Login form ---->
 	<div class="col-sm-5">
 		<c:if test="${not empty msg }">
-			<div class="alert alert-success">${msg}</div>
+			<div class="alert alert-success"><b>${msg}</b></div>
 		</c:if>
 		<c:if test="${not empty error }">
-			<div class="alert alert-danger">${error}</div>
+			<div class="alert alert-danger"><b>${error}</b></div>
 		</c:if>
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<div class="panel panel-primary" id="panelLogin">
 			<div class="panel-heading" id="panel-headingLogin">Login</div>
 			<div class="panel-body">
@@ -18,7 +28,7 @@
 				
 				
 				<form class="form-horizontal" role="form"
-					action=" ${contextPath}/j_spring_security_check" method="post">
+					action=" ${contextPath}/j_spring_security_check"  method="post">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="username">Email</label>
 						<div class="col-sm-10">
@@ -33,10 +43,10 @@
 								name="password" placeholder="Enter password" required>
 						</div>
 					</div>
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token }" /> <input type="submit" value="Login"
-						class="btn btn-primary btn-md col-sm-offset-2"
-						onclick="checkEmail()">
+					 <input type="submit" value="Login"
+						class="btn btn-primary btn-md col-sm-offset-2">
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token }" />
 				</form>
 			</div>
 			<!-- <div class="panel-footer">this is  a footer</div> -->

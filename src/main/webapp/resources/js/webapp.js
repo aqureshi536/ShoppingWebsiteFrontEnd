@@ -95,7 +95,10 @@ $(function() {
 });
 
 
-categoryUpdateMessage
+
+
+
+
 /*//To confirm delete or not
 document.getElementById("confirmDelete").addEventListener("click",
 		function(e) { // e => event

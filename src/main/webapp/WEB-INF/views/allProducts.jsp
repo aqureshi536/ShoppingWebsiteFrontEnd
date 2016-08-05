@@ -1,3 +1,4 @@
+<%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <div id="productMainDiv">
 
 	<div class="row">
@@ -11,10 +12,12 @@
 					<h2 id="pricePara">
 						<b><span class="fa fa-inr"></span> ${product.price}</b>
 					</h2>
+					<sec:authorize access="hasRole('ROLE_USER')">
 					<div class="btn-group-vertical" id="actionButtons">
 						<a class="btn btn-warning btn-md">Add to Cart</a>
 						
 					</div>
+					</sec:authorize>
 					<h4>${product.productName}</h4>
 					<h5>${product.description}</h5>
 

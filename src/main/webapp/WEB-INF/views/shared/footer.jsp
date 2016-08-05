@@ -6,7 +6,7 @@
 </footer>
 <script>window.activeMenu='${active}';</script>
 <script>window.activeNavMenu='${activeNavMenu}'</script>
-<script >  function myhref(web){ window.location.href = web;}
+<script>  function myhref(web){ window.location.href = web;}
 </script>
 <script>
 var call=confirm("Item selectd will be deleted,Do you really want to do this ?");
@@ -21,6 +21,13 @@ else{
 
 { window.location.href=link;	}</script>
 
+
+<!-- Submits the  form -->
+<script>
+			function formSubmit() {
+				document.getElementById("logoutForm").submit();
+			}
+		</script>
 <script src="${angularApp}"></script>
 <script src="${Angularjs}"></script>
 <script src="${angularRoute}"></script>

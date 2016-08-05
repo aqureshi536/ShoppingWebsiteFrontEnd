@@ -3,7 +3,7 @@ body {
 }
 
 .affix {
-	top: 0;
+	top:0px;
 	width: 97.8%;
 	
 }
@@ -12,10 +12,34 @@ body {
 	padding-top: 100px;
 }
 
+#homenavbarToggle{
+/* 	z-index:100;	 */
+	
+}
+
 .navbar-toggle
 {
 	background-color:black;
+	width:93%;
+	margin-left:15px;
+	line-height: 3px;
+	font-size: 30px;
 	color:white;
+	opacity:1;
+	
+}
+
+
+.navbar-toggle>.icon-bar{
+	background-color: white	;
+}
+
+#sideBarToggle{
+	width:93%;	
+	line-height: 3px;
+	font-size: 30px;
+	color:white;
+	opacity:1;
 }
 
 #homeNavbar {
@@ -24,11 +48,15 @@ body {
 	max-width: 100%;
 	z-index: 50;
 	min-height: 50px;
+	overflow:hidden;
+	
+
 }
 
 #navLogin, #homeNavbar>ul>li>a {
 	font-size: 20px;
 	color: white;
+	height:50px;
 }
 
 #homeNavbar>ul>li>a:hover {
@@ -42,6 +70,8 @@ body {
 #homeNavbar>ul>li:hover {
 	background-color: #fff;
 	color: black;
+	height:100%;
+	
 }
 
 #homeNavbar>button:hover{
@@ -50,10 +80,12 @@ body {
 }
 
 
+
 #sideMenu {
 	background-color: #c8d0d0;
 	padding: 5px;
 	border-radius: 10px;
+
 }
 
 #sideMenu>li {

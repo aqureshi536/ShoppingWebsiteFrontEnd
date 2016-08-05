@@ -20,9 +20,7 @@
 			
 	</bean>
 	
-<!-- <bean id="userLoginDAO" class="com.ahmad.dao.UserLoginDAO"/> -->
-<!-- <bean id="product" class="com.ahmad.model.Product"/> -->
-<!-- <bean id="productDAO" class="com.ahmad.dao.ProductDAO"/> -->
+
 	
 	<mvc:resources location="/resources/" mapping="/resources/**" />
 	

@@ -34,11 +34,12 @@
 
 		<div class="row">
 			<!-- Sidebar goes her -->
+	<br>
 			<div class="col-md-2">
 				<%@include file="./shared/sidebar.jsp"%>
 			</div>
 			<!--  col-sm-2 ends here -->
-
+<br>
 			<!-- Main Content goes here -->
 			<div class="col-sm-10">
 				<!-- activates Home -->
