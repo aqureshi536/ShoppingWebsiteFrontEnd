@@ -1,15 +1,18 @@
 package com.ahmad.admin.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,25 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ahmad.dao.CategoryDAO;
-import com.ahmad.dao.ProductDAO;
 import com.ahmad.dao.SupplierDAO;
-import com.ahmad.model.Category;
-import com.ahmad.model.Product;
 import com.ahmad.model.Supplier;
 
 @Controller
 public class SupplierController {
-
-	
-	
 
 	@Autowired
 	private Supplier supplier;
 	@Autowired
 	private SupplierDAO supplierDAO;
 
-	
 	// Supplier methods goes
 	// here=============================================================
 
@@ -53,6 +48,7 @@ public class SupplierController {
 
 	}
 
+	// It get form for adding supplier
 	@RequestMapping("/admin/viewSupplier/addSupplier")
 	public ModelAndView addSupplier() {
 		ModelAndView mv = new ModelAndView("index");
@@ -64,20 +60,27 @@ public class SupplierController {
 		return mv;
 	}
 
+	// It gets after add the supplier
 	@RequestMapping(value = "/admin/viewSupplier", method = RequestMethod.POST)
-	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier, Model model,
-			HttpServletRequest request) {
+	public ModelAndView addSupplier(@ModelAttribute("supplier") @Valid Supplier supplier, BindingResult result,
+			Model model, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 
-		
+		// This gets activated when the values are not properly
+		if (result.hasErrors()) {
+			mv.addObject("isAddSupplierClicked", "true");
+			mv.addObject("displayLogout", "true");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
+
 		MultipartFile supplierImage = supplier.getSupplierImage();
 
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (supplierImage != null && !supplierImage.isEmpty()) {
 			try {
-				if(!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\")))
-				{
-				 Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
 				}
 				supplierImage.transferTo(new File(
 						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
@@ -109,7 +112,7 @@ public class SupplierController {
 
 	@RequestMapping("/admin/viewSupplier/deleteSupplier/{supplierId}")
 	public ModelAndView deleteSupplier(@PathVariable("supplierId") String supplierId, Model model,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws IOException {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("supplier", supplier);
 
@@ -124,10 +127,17 @@ public class SupplierController {
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
-		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"))) {
+		if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
 			try {
-				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
 
+				}
+				if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"))) {
+
+					Files.delete(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
+
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("File unable to delete", e);
@@ -135,9 +145,10 @@ public class SupplierController {
 		}
 
 		supplierDAO.delete(supplierId);
+
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
-		
+
 		mv.addObject("deletedSupplierMessage", "true");
 		mv.addObject("isClickedAdminViewSupplier", "true");
 		mv.addObject("active", "adminSupplier");
@@ -148,10 +159,9 @@ public class SupplierController {
 	@RequestMapping("/admin/viewSupplier/updateSupplier/{supplierId}")
 	public ModelAndView updateSupplier(@PathVariable("supplierId") String supplierId) {
 		ModelAndView mv = new ModelAndView("index");
-		
+
 		supplier = supplierDAO.get(supplierId);
 		mv.addObject("supplier", supplier);
-		
 
 		mv.addObject("isUpdateSupplierClicked", "true");
 		mv.addObject("displayLogout", "true");
@@ -163,16 +173,19 @@ public class SupplierController {
 	public ModelAndView updateSupplier(@ModelAttribute("supplier") Supplier supplier, HttpServletRequest request,
 			Model model) {
 		ModelAndView mv = new ModelAndView("index");
-		
-		
+
 		MultipartFile supplierImage = this.supplier.getSupplierImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		if (supplierImage != null && !supplierImage.isEmpty()) {
 			try {
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
+				}
 				supplierImage.transferTo(new File(
 						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
 								.toString()));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("Supplier Image updating failed", e);
@@ -182,12 +195,12 @@ public class SupplierController {
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
-		
+
 		String supplierName = supplier.getSupplierName();
-		mv.addObject("updatedSupplierName",supplierName);
+		mv.addObject("updatedSupplierName", supplierName);
 		mv.addObject("updatedSupplierMessage", "true");
 		mv.addObject("isClickedAdminViewSupplier", "true");
-//		mv.addObject("isUpdateSupplierClicked", "true");
+		// mv.addObject("isUpdateSupplierClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
 		return mv;

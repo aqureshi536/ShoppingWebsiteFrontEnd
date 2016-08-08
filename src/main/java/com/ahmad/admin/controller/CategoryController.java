@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ahmad.dao.CategoryDAO;
-import com.ahmad.dao.SupplierDAO;
 import com.ahmad.model.Category;
-import com.ahmad.model.Product;
-import com.ahmad.model.Supplier;
 import com.ahmad.viewmodel.CategoryModel;
 
 @Controller
@@ -79,10 +78,17 @@ public class CategoryController {
 	// }
 
 	@RequestMapping(value = "/admin/viewCategory", method = RequestMethod.POST)
-	public ModelAndView addCategory(@ModelAttribute("category") Category category, Model model,
+	public ModelAndView addCategory(@ModelAttribute("category")@Valid Category category,BindingResult result, Model model,
 			HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 
+		if(result.hasErrors())
+		{
+			mv.addObject("isAddCategoryClicked", "true");
+			mv.addObject("displayLogout", "true");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
 		MultipartFile categoryImage = category.getCategoryImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (categoryImage != null && !categoryImage.isEmpty()) {
@@ -141,6 +147,9 @@ public class CategoryController {
 		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"));
 		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"))) {
 			try {
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\category\\"));
+				}
 				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -197,6 +206,9 @@ public class CategoryController {
 
 		if (categoryImage != null && !categoryImage.isEmpty()) {
 			try{
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\category\\"));
+				}
 				categoryImage.transferTo(new File(Paths.get(rootDirectory + "\\resources\\images\\category\\" + category.getCategoryId() + ".png")
 						.toString()));
 			}

@@ -14,6 +14,7 @@
 					<label for="productName" class="control-label col-sm-2">Product
 						Name</label>
 					<div class="col-sm-10">
+					<form:errors path="productName" class="error"/>
 						<form:input type="text" path="productName" class="form-control"
 							placeholder="Enter product name" />
 					</div>
@@ -22,6 +23,7 @@
 					<label for="productCategory" class="control-label col-sm-2">Select
 						Category</label>
 					<div class="col-sm-10">
+					<form:errors path="categoryId" class="error"/>
 						<form:select path="categoryId" name="productCategory" id=""
 							class="form-control">
 							<option value="-" disabled selected>Select Category</option>
@@ -35,6 +37,7 @@
 					<label for="productSupplier" class="control-label col-sm-2">Product
 						Supplier</label>
 					<div class="col-sm-10">
+					<form:errors path="supplierId" class="error"/>
 						<form:select path="supplierId" name="productSupplier" id=""
 							class="form-control">
 							<option value="-" selected disabled>Select Supplier</option>
@@ -48,6 +51,7 @@
 					<label for="productPrice" class="control-label col-sm-2">Product
 						price</label>
 					<div class="col-sm-10">
+					<form:errors path="price" class="error"/>
 						<form:input path="price" type="text" pattern="^[0-9]+$"
 							name="productPrice" class="form-control" />
 
@@ -57,6 +61,7 @@
 					<label for="productStock" class="control-label col-sm-2">Units
 						Available</label>
 					<div class="col-sm-10">
+					<form:errors path="quantity" class="error"/>
 						<form:input path="quantity" type="text" pattern="^[0-9]+$"
 							name="productStock" class="form-control" />
 					</div>
@@ -65,6 +70,7 @@
 					<label for="" class="control-label col-sm-2">Product
 						description</label>
 					<div class="col-sm-10">
+					<form:errors path="description" class="error"/>
 						<form:textarea path="description" rows="7" class="form-control" />
 					</div>
 				</div>

@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,7 +105,7 @@ public class ProductController {
 		 */
 
 		List<ProductModel> products = new ArrayList<>();
-		products=getNameSuppAndCat(products);
+		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
 		// gets supplier List and name should be accessed from the front end
@@ -132,19 +134,39 @@ public class ProductController {
 		return mv;
 	}
 
+	// This get after admin clicks add Product on the form
 	@RequestMapping(value = "/admin/viewProducts", method = RequestMethod.POST)
-	public ModelAndView addProduct(@ModelAttribute("Product") Product product, HttpServletRequest request,
-			Model model) {
+	public ModelAndView addProduct(@ModelAttribute("Product") @Valid Product product, BindingResult result,
+			HttpServletRequest request, Model model) {
 		ModelAndView mv = new ModelAndView("index");
+
+		// Hibernate validation
+		if (result.hasErrors()) {
+			List<Category> categoryList = categoryDAO.listCategory();
+			model.addAttribute("categories", categoryList);
+			List<Supplier> supplierList = supplierDAO.listSupplier();
+			model.addAttribute("suppliers", supplierList);
+
+			mv.addObject("isAddProductClicked", "true");
+			mv.addObject("displayLogout", "true");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
+
 		productDAO.saveOrUpdate(product);
 
 		MultipartFile productImage = product.getImageUrl();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\"))) {
+
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\product\\"));
+				}
 				productImage.transferTo(new File(
 						Paths.get(rootDirectory + "\\resources\\images\\product\\" + product.getProductId() + ".png")
 								.toString()));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("Product Image Saving Failed", e);
@@ -166,7 +188,7 @@ public class ProductController {
 		model.addAttribute("products", productList);
 
 		List<ProductModel> products = new ArrayList<>();
-		products=getNameSuppAndCat(products);
+		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
 		// gets supplier List and name should be accessed form the front end
@@ -225,21 +247,26 @@ public class ProductController {
 			HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 		MultipartFile productImage = product.getImageUrl();
-		String rootDiectory = request.getSession().getServletContext().getRealPath("/");
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String productName = product.getProductName();
 		mv.addObject("productNameToUpdate", productName);
 
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\"))) {
+
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\product\\"));
+				}
 				productImage.transferTo(new File(
-						Paths.get(rootDiectory + "\\resources\\images\\product\\" + product.getProductId() + ".png")
+						Paths.get(rootDirectory + "\\resources\\images\\product\\" + product.getProductId() + ".png")
 								.toString()));
+
 			} catch (Exception e) {
 				throw new RuntimeException("Product image updating failed", e);
 			}
 		}
 		productDAO.saveOrUpdate(product);
-		
+
 		List<Product> productList = productDAO.listProduct();
 
 		// Get the Last Product
@@ -254,7 +281,7 @@ public class ProductController {
 		model.addAttribute("products", productList);
 
 		List<ProductModel> products = new ArrayList<>();
-		products=getNameSuppAndCat(products);
+		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
 		// gets supplier List and name should be accessed form the front end
@@ -280,7 +307,12 @@ public class ProductController {
 		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"));
 		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"))) {
 			try {
+				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\"))) {
+
+					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\product\\"));
+				}
 				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("File unable to delete", e);
@@ -292,7 +324,7 @@ public class ProductController {
 		List<Product> productList = productDAO.listProduct();
 		model.addAttribute("products", productList);
 		List<ProductModel> products = new ArrayList<>();
-		products=getNameSuppAndCat(products);
+		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
 		// gets supplier List and name should be accessed form the front end
@@ -307,11 +339,8 @@ public class ProductController {
 
 	}
 
-	
-	
-//	This method is common for almost every methods
-	private List<ProductModel> getNameSuppAndCat(List<ProductModel> products)
-	{
+	// This method is common for almost every methods
+	private List<ProductModel> getNameSuppAndCat(List<ProductModel> products) {
 		List<Product> productList = productDAO.listProduct();
 		ProductModel productModel = null;
 		for (Product p : productList) {
@@ -340,4 +369,3 @@ public class ProductController {
 	}
 
 }
-

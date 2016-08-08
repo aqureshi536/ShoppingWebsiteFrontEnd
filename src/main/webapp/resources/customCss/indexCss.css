@@ -290,3 +290,10 @@ input[type="submit"]:hover {
 	width: 150px;
 	border: 2px solid;
 }
+
+
+.error{
+	color:red;
+	font-family:sans-serif;
+	
+}

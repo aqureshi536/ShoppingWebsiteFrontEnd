@@ -11,6 +11,7 @@
 						<label for="supplierName" class="control-label col-sm-2">Supplier
 							Name</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierName" class="error"/>
 							<form:input type="text" path="supplierName" name="supplierName"
 								placeholder="Enter supplier name" class="form-control"/>
 						</div>
@@ -19,6 +20,7 @@
 						<label for="" class="control-label col-sm-2">Supplier
 							Contact No</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierContact" class="error"/>
 							<form:input path="supplierContact" type="text" pattern="^[0-9]{10}" class="form-control" required="true"/>
 						</div>
 					</div>
@@ -26,6 +28,7 @@
 						<label for="supplierEmail" class="control-label col-sm-2">Supplier
 							Email Id</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierEmail" class="error"/>
 							<form:input path="supplierEmail" type="email" name="supplierEmail" class="form-control"/>
 						</div>
 					</div>
@@ -33,6 +36,7 @@
 						<label for="supplierAddress" class="control-label col-sm-2">Supplier
 							Address</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierAddress" class="error"/>
 							<form:textarea path="supplierAddress" name="supplierAddress" rows="7" class="form-control"></form:textarea>
 						</div>
 					</div>
