@@ -56,15 +56,18 @@
 						<label for="updateSupplierName" class="control-label col-sm-2">Supplier
 							Name</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierName" class="error"/>
 							<form:input path="supplierName" type="text" name="updateSupplierName" value="${supplier.supplierName}" class="form-control"
 								placeholder="Enter supplier's new name"/>
 						</div>
 					</div>
 					
 					<div class="form-group">
+					<form:errors path="" class="error"/>
 						<label for="updateSuppierContact" class="control-label col-sm-2">Supplier
 							Contact No</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierContact" class="error"/>
 							<form:input path="supplierContact" type="text" name="updateSuppierContact"
 								class="form-control" value="${supplier.supplierContact}"
 								placeholder="Enter supplier's new Contact No"/>
@@ -74,6 +77,7 @@
 						<label for="updateSupplierEmail" class="control-label col-sm-2">Email
 							Id</label>
 						<div class="col-sm-10">
+						<form:errors path="supplierEmail" class="error"/>
 							<form:input type="email" path="supplierEmail" name="updateSupplierEmail"
 								class="form-control" value="${supplier.supplierEmail}"  placeholder="Enter supplier's new Email Id"/>
 						</div>
@@ -82,7 +86,8 @@
 						<label for="updateSupplierEmail" path="supplierAddress" class="control-label col-sm-2">Supplier
 							Address</label>
 						<div class="col-sm-10">
-							<form:textarea type="text" rows="7" name="updateSupplierDescription"
+						<form:errors path="supplierAddress" class="error"/>
+							<form:textarea type="text" rows="7" name="updateSupplierAddress"
 								placeholder="Enter a new supplier description" path="supplierAddress"
 								class="form-control"></form:textarea>
 						</div>

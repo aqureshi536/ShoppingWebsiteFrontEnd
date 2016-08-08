@@ -194,10 +194,18 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/admin/viewCategory/updated", method = RequestMethod.POST)
-	public ModelAndView updateCategory(@ModelAttribute("category") Category category, Model model,
+	public ModelAndView updateCategory(@ModelAttribute("category") @Valid Category category,BindingResult result, Model model,
 			HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
+		if(result.hasErrors()){
+			
 		
+			mv.addObject("categoryToUpdate", category);
+			mv.addObject("isClickedAdminUpdateCategory", "true");
+			mv.addObject("active", "adminCategory");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
 		
 		
 		MultipartFile categoryImage = category.getCategoryImage();

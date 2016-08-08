@@ -170,11 +170,21 @@ public class SupplierController {
 	}
 
 	@RequestMapping(value = "/admin/viewSupplier/update", method = RequestMethod.POST)
-	public ModelAndView updateSupplier(@ModelAttribute("supplier") Supplier supplier, HttpServletRequest request,
-			Model model) {
+	public ModelAndView updateSupplier(@ModelAttribute("supplier") @Valid Supplier supplier, BindingResult result,
+			HttpServletRequest request, Model model) {
 		ModelAndView mv = new ModelAndView("index");
-
-		MultipartFile supplierImage = this.supplier.getSupplierImage();
+		
+		
+		if (result.hasErrors()) {
+			mv.addObject("isUpdateSupplierClicked", "true");
+			mv.addObject("displayLogout", "true");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
+		
+		
+		
+		MultipartFile supplierImage = supplier.getSupplierImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		if (supplierImage != null && !supplierImage.isEmpty()) {

@@ -73,6 +73,7 @@
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">Product Name</label>
 							<div class="col-sm-10">
+							<form:errors path="productName" class="error" />
 								<form:input type="text" path="productName" class="form-control"
 									placeholder="Enter new product name" />
 							</div>
@@ -81,6 +82,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Category</label>
 							<div class="col-sm-10">
+							<form:errors path="categoryId" class="error" />
 								<form:select path="categoryId" name="updateProductCategory" id="" class="form-control">
 									<option value="" selected disabled>Select the category
 										to be updated</option>
@@ -94,6 +96,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Supplier</label>
 							<div class="col-sm-10">
+							<form:errors path="supplierId" class="error" />
 								<form:select path="supplierId" name="updateProductSupplier" id="" class="form-control">
 									<option value="" selected disabled>Select the supplier
 										to be updated</option>
@@ -107,6 +110,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Price</label>
 							<div class="col-sm-10">
+							<form:errors path="price" class="error" />
 								<form:input path="price" type="text"  class="form-control"
 									placeholder="Enter new product price"/>
 							</div>
@@ -115,6 +119,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Units</label>
 							<div class="col-sm-10">
+							<form:errors path="quantity" class="error" />
 								<form:input path="quantity" type="text" class="form-control"
 									placeholder="Enter new product stock"/>
 							</div>
@@ -123,6 +128,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Description</label>
 							<div class="col-sm-10">
+							<form:errors path="description" class="error" />
 								<form:textarea path="description" rows="7" class="form-control" placeholder="Enter a new product description"></form:textarea>
 							</div>
 						</div>

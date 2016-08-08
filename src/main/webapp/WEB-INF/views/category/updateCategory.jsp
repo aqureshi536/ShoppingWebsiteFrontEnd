@@ -13,6 +13,7 @@
 								<label for="categoryName" class="control-label col-sm-2">Category
 									Name</label>
 								<div class="col-sm-10">
+								
 									<input type="text" value=${categoryToUpdate.categoryName} class="form-control" disabled>
 								</div>
 							</div>							
@@ -41,6 +42,7 @@
 								<label for="categoryName" class="control-label col-sm-2">Category
 									Name</label>
 								<div class="col-sm-10">
+								<form:errors path="categoryName" class="error"/>
 									<form:input path="categoryName" type="text" value="${categoryToUpdate.categoryName}" class="form-control"
 										placeholder="Enter new category name"/>
 								</div>
@@ -50,6 +52,7 @@
 								<label for="" class="control-label col-sm-2">Category
 									Description</label>
 								<div class="col-sm-10">
+								<form:errors path="categoryDescription" class="error"/>
 									<form:textarea path="categoryDescription" class="form-control" rows="7" cols="10"
 										placeholder="Give a new category Description"></form:textarea>
 								</div>

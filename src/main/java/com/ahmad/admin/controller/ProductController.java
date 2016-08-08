@@ -142,6 +142,7 @@ public class ProductController {
 
 		// Hibernate validation
 		if (result.hasErrors()) {
+			
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -205,16 +206,20 @@ public class ProductController {
 	@RequestMapping(value = "/admin/viewProducts/updateProduct/{productId}")
 	public ModelAndView updateProduct(@PathVariable("productId") String productId, Model model) {
 		ModelAndView mv = new ModelAndView("/index");
-		product = productDAO.get(productId);
-		model.addAttribute("productToUpdate", product);
+		mv.addObject("product", product);
 
+		
+		Product	product = productDAO.get(productId);
+		mv.addObject("productToUpdate", product);
+		
+		
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 		mv.addObject("categories", categoryList);
 		mv.addObject("suppliers", supplierList);
-		mv.addObject("product", product);
+		
 
 		String categoryName;
 		String supplierName;
@@ -238,14 +243,56 @@ public class ProductController {
 		mv.addObject("supplierName", supplierName);
 
 		mv.addObject("isUpdateProductClicked", "true");
+		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
 
 	// Actual update form
 	@RequestMapping(value = "/admin/viewProducts/updateProduct", method = RequestMethod.POST)
-	public ModelAndView updateProduct(@ModelAttribute("Product") Product product, Model model,
-			HttpServletRequest request) {
+	public ModelAndView updateProduct(@ModelAttribute("Product") @Valid Product product, BindingResult result,
+			Model model, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("productToUpdate", product);
+		// Hibernate validation update product
+		
+		if (result.hasErrors()) {
+			
+			List<Category> categoryList = categoryDAO.listCategory();
+			model.addAttribute("categories", categoryList);
+			List<Supplier> supplierList = supplierDAO.listSupplier();
+			model.addAttribute("suppliers", supplierList);
+			mv.addObject("categories", categoryList);
+			mv.addObject("suppliers", supplierList);
+			
+
+			String categoryName;
+			String supplierName;
+			if (product.getCategoryId() != null && !product.getCategoryId().isEmpty()) {
+				category = categoryDAO.get(product.getCategoryId());
+				categoryName = category.getCategoryName();
+			} else {
+				category.setCategoryName("Not Available");
+				categoryName = category.getCategoryName();
+			}
+
+			if (product.getSupplierId() != null && !product.getSupplierId().isEmpty()) {
+				supplier = supplierDAO.get(product.getSupplierId());
+				supplierName = supplier.getSupplierName();
+			} else {
+				supplier.setSupplierName("Not Available");
+				supplierName = supplier.getSupplierName();
+			}
+			
+			mv.addObject("categoryName", categoryName);
+			mv.addObject("supplierName", supplierName);
+			mv.addObject("isUpdateProductClicked", "true");
+			mv.addObject("displayAdminAction", "true");
+			return mv;
+		}
+
+		
+//		Actual update Starts here 
+		
 		MultipartFile productImage = product.getImageUrl();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String productName = product.getProductName();
