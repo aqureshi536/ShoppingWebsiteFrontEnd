@@ -64,49 +64,80 @@ public class CartController {
 		customer = customerDAO.getCustomerByUserName(userName);
 		String customerId = customer.getCustomerId();
 		product = productDAO.get(productId);
+		String cartId = null;
 		if (cartDAO.getCartByCustomerId(customerId) == null) {
 			cart.setCustomerId(customerId);
 			cartDAO.saveOrUpdate(cart);
-			String cartId = cart.getCartId();
+
+			cartId = cart.getCartId();
 			cartItem.setCartId(cartId);
-			cartItem.setProductId(productId);
-			cartItem.setCustomerId(cart.getCustomerId());
-			if (cartItem.getProductId().equals(productId)) {
-				cartItem.setQuantity(cartItem.getQuantity() + 1);
-			} else {
-				cartItem.setQuantity(1);
-			}
-			cartItem.setTotalPrice(cartItem.getTotalPrice() + product.getPrice());
-			
-		} else {
-			Cart cart = cartDAO.getCartByCustomerId(customerId);
-			cartItem.setProductId(productId);
-			cartItem.setCartId(cart.getCartId());
-			cartItem.setCustomerId(customerId);
-			if (cartItem.getProductId().equals(productId)) {
-				cartItem.setQuantity(cartItem.getQuantity() + 1);
-			} else {
-				cartItem.setQuantity(1);
-			}
-			cartItem.setTotalPrice(cartItem.getTotalPrice() + product.getPrice());
-			
+
 		}
+		/*
+		 * cartItem.setProductId(productId); *
+		 * cartItem.setCustomerId(cart.getCustomerId()); if *
+		 * (cartItem.getProductId().equals(productId)) {
+		 * cartItem.setQuantity(cartItem.getQuantity() + 1); }
+		 */ // cartItem.setTotalPrice(cartItem.getTotalPrice() +//
+			// product.getPrice());
+
+		else {
+			Cart cart = cartDAO.getCartByCustomerId(customerId);
+			cartId = cart.getCartId();
+			cartItem.setCartId(cartId); // This id is a global variable
+		}
+		
+	
+//	Now get the productId from a method
+	
+		if (returnProductId(customerId, productId) != null) {
+			if (returnProductId(customerId, productId).equals(productId)) {
+				cartItem.setQuantity(cartItem.getQuantity() + 1);
+																	// Sets
+																	// Quantity
+			} else {
+				cartItem = new CartItem();
+
+				Cart cart = cartDAO.getCartByCustomerId(customerId);
+				cartId = cart.getCartId();
+				cartItem.setCartId(cartId); // This cart id got from the uppper
+											// part
+				cartItem.setQuantity(1);// sets new cart item quantity
+			}
+		} else {
+			cartItem = new CartItem();
+
+			Cart cart = cartDAO.getCartByCustomerId(customerId);
+			cartId = cart.getCartId();
+			cartItem.setCartId(cartId); // This cart id got from the uppper part
+			cartItem.setQuantity(1);// sets new cart item quantity
+		}
+		cartItem.setProductId(productId); // sets product product id
+		cartItem.setCustomerId(customerId); // sets customer id
+		cartItem.setTotalPrice(cartItem.getTotalPrice() + product.getPrice());
+
 		cartItemDAO.saveOrUpdate(cartItem);
-		
-		
-//		Setting the values of grand total and noof products
+
+		// Setting the values of grand total and no Of products
 		List<CartItem> cartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 		double grandTotalPrice = 0;
 		for (CartItem cartItem : cartItems) {
 			grandTotalPrice = grandTotalPrice + cartItem.getTotalPrice();
 		}
-		cart.setCartId(cart.getCartId());
+		cart.setCartId(cartItem.getCartId());
 		cart.setCustomerId(customerId);
 		cart.setGrandTotal(grandTotalPrice);
-		cart.setNoOfProducts(cartItemDAO.getCartItemsByCustomerId(customerId).size());
+
+		// Sets no of products in the carts
+		int noOfProducts = cartItemDAO.getCartItemsByCustomerId(customerId).size();
+		cart.setNoOfProducts(noOfProducts);
+
 		cartDAO.saveOrUpdate(cart);
+		mv.addObject("cartItems", noOfProducts);
 		mv.addObject("addToCartSuccessMessage", true);
-		// This helps not to navigate to another page
+
+		// This helps not to navigate to another page this is a different page
+		// on which
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);
 
@@ -135,7 +166,28 @@ public class CartController {
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
+
 		return mv;
 	}
 
+	{
+		cart = null;
+		cartItem = null;
+		product = null;
+	}
+	
+public	String returnProductId(String customerId,String productId)
+		{
+			List<CartItem> listOfCartItems=	cartItemDAO.getCartItemsByCustomerId(customerId);
+			String idToUse="";
+		for(CartItem GotCartItem : listOfCartItems)
+		{
+			if(GotCartItem.getProductId().equals(productId)){
+				idToUse=GotCartItem.getProductId();
+			return idToUse;
+			}
+			
+		}
+		return null;
+		}
 }

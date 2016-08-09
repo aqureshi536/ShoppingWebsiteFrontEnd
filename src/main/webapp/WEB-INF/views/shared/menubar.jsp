@@ -22,7 +22,7 @@
 			class="icon-bar"></span>
 	</button>
 </div>
-<div style="clear:both"></div>
+
 <div class="navbar navbar-inverse collapse navbar-collapse"
 	id="homeNavbar" data-spy="affix" data-offset-top="124">
 

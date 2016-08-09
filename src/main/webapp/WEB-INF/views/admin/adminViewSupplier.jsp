@@ -20,6 +20,7 @@
 	
 	<a href="${contextPath}/admin/viewSupplier/addSupplier"
 		class="btn btn-lg btn-success">Add Supplier</a><br> <br>
+		<div class="table-outer">
 	<table class="table table-hover table-responsive" id="viewTable">
 		<thead>
 			<%
@@ -80,5 +81,5 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
+</div>
 </div>

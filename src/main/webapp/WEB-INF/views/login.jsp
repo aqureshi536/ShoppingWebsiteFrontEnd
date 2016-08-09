@@ -38,7 +38,7 @@
 						<label class="control-label col-sm-2" for="username">Email</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="username"
-								name="username" placeholder="Enter username" required>
+								name="username" placeholder="Enter username" required autofocus="autofocus">
 						</div>
 					</div>
 					<div class="form-group">

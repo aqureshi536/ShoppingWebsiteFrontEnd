@@ -188,7 +188,10 @@ body {
 	vertical-align: middle;
 	background-color: white;
 }
-
+.table-outer
+{
+	overflow-x: scroll;
+}
 /* #viewTable>tbody>tr {
 	transition: background-color .3s ease;
 }
