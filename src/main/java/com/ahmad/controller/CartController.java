@@ -1,5 +1,6 @@
 package com.ahmad.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,88 +57,71 @@ public class CartController {
 	@Autowired
 	CartItemDAO cartItemDAO;
 
-	@RequestMapping("/addToCart/{productId}/{userName}")
-	public ModelAndView addToCart(@PathVariable("userName") String userName,
-			@PathVariable("productId") String productId, Model model) {
+	@RequestMapping("/addToCart/{productId}")
+	public ModelAndView addToCart(@PathVariable("productId") String productId, Model model, Principal userName) {
 		ModelAndView mv = new ModelAndView("index");
+		// System.out.println(name);
 
-		customer = customerDAO.getCustomerByUserName(userName);
+		// 1.Get the customer id by its user name
+		String customerName = userName.getName();
+		customer = customerDAO.getCustomerByUserName(customerName);
 		String customerId = customer.getCustomerId();
-		product = productDAO.get(productId);
-		String cartId = null;
+
+		// 2.Check whether his cart is present in the cart table
+		// If cart is not present then make a cart for him
 		if (cartDAO.getCartByCustomerId(customerId) == null) {
 			cart.setCustomerId(customerId);
 			cartDAO.saveOrUpdate(cart);
-
-			cartId = cart.getCartId();
-			cartItem.setCartId(cartId);
-
+			// cartItem.setCartId(cart.getCartId());
 		}
-		/*
-		 * cartItem.setProductId(productId); *
-		 * cartItem.setCustomerId(cart.getCustomerId()); if *
-		 * (cartItem.getProductId().equals(productId)) {
-		 * cartItem.setQuantity(cartItem.getQuantity() + 1); }
-		 */ // cartItem.setTotalPrice(cartItem.getTotalPrice() +//
-			// product.getPrice());
 
-		else {
-			Cart cart = cartDAO.getCartByCustomerId(customerId);
-			cartId = cart.getCartId();
-			cartItem.setCartId(cartId); // This id is a global variable
+		// 3.get the product price
+
+		product = productDAO.get(productId);
+		
+
+		// If cart is present then go into the cartItem table and search for
+		// product
+		// this customer selected whether it exists or it is a new product.
+		// -------------
+		// passing the customerId and productId to a method name returnCartItem
+		// through a method
+
+		//if we get null means the product is not present
+		
+		if (addCartItem(customerId, productId, cart.getCartId()) == null) {
+			cartItem=new CartItem();
+			cartItem.setCartId(cart.getCartId());
+			cartItem.setCustomerId(customerId);
+			cartItem.setProductId(product.getProductId());
+			cartItem.setQuantity(1);
+			cartItem.setTotalPrice(product.getPrice());
+			cartItemDAO.saveOrUpdate(cartItem);
+			System.out.println("Insertion of cartItem");
 		}
 		
-	
-//	Now get the productId from a method
-	
-		if (returnProductId(customerId, productId) != null) {
-			if (returnProductId(customerId, productId).equals(productId)) {
-				cartItem.setQuantity(cartItem.getQuantity() + 1);
-																	// Sets
-																	// Quantity
-			} else {
-				cartItem = new CartItem();
 
-				Cart cart = cartDAO.getCartByCustomerId(customerId);
-				cartId = cart.getCartId();
-				cartItem.setCartId(cartId); // This cart id got from the uppper
-											// part
-				cartItem.setQuantity(1);// sets new cart item quantity
-			}
-		} else {
-			cartItem = new CartItem();
-
-			Cart cart = cartDAO.getCartByCustomerId(customerId);
-			cartId = cart.getCartId();
-			cartItem.setCartId(cartId); // This cart id got from the uppper part
-			cartItem.setQuantity(1);// sets new cart item quantity
+		List<CartItem> listOfSelectedCartItems;
+		// Now after getting the cartItem change grandTotal and No of Products
+		listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+		double grandTotal = 0;
+		for (CartItem item : listOfSelectedCartItems) {
+			grandTotal = grandTotal + item.getTotalPrice();
 		}
-		cartItem.setProductId(productId); // sets product product id
-		cartItem.setCustomerId(customerId); // sets customer id
-		cartItem.setTotalPrice(cartItem.getTotalPrice() + product.getPrice());
+		cart.setGrandTotal(grandTotal);
 
-		cartItemDAO.saveOrUpdate(cartItem);
-
-		// Setting the values of grand total and no Of products
-		List<CartItem> cartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
-		double grandTotalPrice = 0;
-		for (CartItem cartItem : cartItems) {
-			grandTotalPrice = grandTotalPrice + cartItem.getTotalPrice();
-		}
-		cart.setCartId(cartItem.getCartId());
-		cart.setCustomerId(customerId);
-		cart.setGrandTotal(grandTotalPrice);
-
-		// Sets no of products in the carts
-		int noOfProducts = cartItemDAO.getCartItemsByCustomerId(customerId).size();
+		int noOfProducts = listOfSelectedCartItems.size();
+		cart.setCartId(cart.getCartId());
 		cart.setNoOfProducts(noOfProducts);
-
 		cartDAO.saveOrUpdate(cart);
+
 		mv.addObject("cartItems", noOfProducts);
 		mv.addObject("addToCartSuccessMessage", true);
 
-		// This helps not to navigate to another page this is a different page
-		// on which
+		// =========== Completed Adding the item to cart =====
+
+		// Now navigate to the same page
+
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);
 
@@ -170,24 +154,39 @@ public class CartController {
 		return mv;
 	}
 
-	{
-		cart = null;
-		cartItem = null;
-		product = null;
-	}
-	
-public	String returnProductId(String customerId,String productId)
-		{
-			List<CartItem> listOfCartItems=	cartItemDAO.getCartItemsByCustomerId(customerId);
-			String idToUse="";
-		for(CartItem GotCartItem : listOfCartItems)
-		{
-			if(GotCartItem.getProductId().equals(productId)){
-				idToUse=GotCartItem.getProductId();
-			return idToUse;
+	// This is the method which perform all the operations related to addition
+	// of product cartItem
+	public String addCartItem(String customerId, String productId, String cartId) {
+		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+
+		Product product = productDAO.get(productId);
+		
+		
+		
+		for (CartItem item : listOfSelectedCartItems) {
+			String itemProductId = item.getProductId();
+			System.out.println(itemProductId);
+			if (itemProductId.equals(product.getProductId())) {
+				System.out.println(item.getCartItemId());
+				item.setCartItemId(item.getCartItemId());
+				
+				System.out.println(item.getQuantity());
+				item.setQuantity(item.getQuantity() + 1);
+				
+				System.out.println(item.getTotalPrice());
+				item.setTotalPrice(item.getTotalPrice() + product.getPrice());
+				
+				System.out.println(item.toString());
+				cartItemDAO.saveOrUpdate(item);
+				return "Updation Successful";	
 			}
 			
 		}
+
 		return null;
-		}
+	}
+	
+	
+
+	
 }

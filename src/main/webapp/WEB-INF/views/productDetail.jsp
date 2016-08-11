@@ -23,7 +23,7 @@
 			<p>${product.description }</p></h4>	
 			<br> 
 			<sec:authorize access="hasRole('ROLE_USER')">
-				<a href="${contextPath}/cart/addToCart/${product.productId}/${pageContext.request.userPrincipal.name}" class="btn btn-lg btn-warning">Add to Cart</a>
+				<a href="${contextPath}/cart/addToCart/${product.productId}" class="btn btn-lg btn-warning">Add to Cart</a>
 				<a class="btn btn-lg btn-success">Buy</a>
 			</sec:authorize>		
 		</div>
