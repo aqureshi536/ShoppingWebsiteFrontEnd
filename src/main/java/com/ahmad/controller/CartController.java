@@ -1,6 +1,7 @@
 package com.ahmad.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
 import com.ahmad.model.Supplier;
+import com.ahmad.viewmodel.CartItemModel;
 
 @Controller
 @RequestMapping("/cart")
@@ -57,6 +59,43 @@ public class CartController {
 	@Autowired
 	CartItemDAO cartItemDAO;
 
+	@RequestMapping("/")
+	public ModelAndView viewCart(Model model, Principal userName) {
+		ModelAndView mv = new ModelAndView("index");
+
+		String customerName = userName.getName();
+		customer = customerDAO.getCustomerByUserName(customerName);
+		String customerId = customer.getCustomerId();
+		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+
+		List<CartItem> cartItems = new ArrayList<CartItem>();
+		cartItems = returnProductName(cartItems);
+		model.addAttribute("cartItems", cartItems);
+
+		model.addAttribute("listOfCartItems", listOfCartItems);
+
+		mv.addObject("isClickedViewCart", true);
+		mv.addObject("displayCart", "true");
+		mv.addObject("active", "viewCart");
+
+		return mv;
+	}
+
+	// Method to get name of product
+	public List<CartItem> returnProductName(List<CartItem> cartItems) {
+		List<CartItem> cartItemList = cartItemDAO.listCartItems();
+		CartItemModel cartItemModel = null;
+		for (CartItem item : cartItemList) {
+			cartItemModel = new CartItemModel();
+			cartItemModel.setCartItem(item);
+			
+			product = productDAO.get(item.getProductId());
+			cartItemModel.setProductName(product.getProductName());
+			cartItems.add(item);
+		}
+		return cartItems;
+	}
+
 	@RequestMapping("/addToCart/{productId}")
 	public ModelAndView addToCart(@PathVariable("productId") String productId, Model model, Principal userName) {
 		ModelAndView mv = new ModelAndView("index");
@@ -78,7 +117,6 @@ public class CartController {
 		// 3.get the product price
 
 		product = productDAO.get(productId);
-		
 
 		// If cart is present then go into the cartItem table and search for
 		// product
@@ -87,10 +125,10 @@ public class CartController {
 		// passing the customerId and productId to a method name returnCartItem
 		// through a method
 
-		//if we get null means the product is not present
-		
-		if (addCartItem(customerId, productId, cart.getCartId()) == null) {
-			cartItem=new CartItem();
+		// if we get null means the product is not present
+
+		if (addCartItem(customerId, productId, cart.getCartId(), product) == null) {
+			cartItem = new CartItem();
 			cartItem.setCartId(cart.getCartId());
 			cartItem.setCustomerId(customerId);
 			cartItem.setProductId(product.getProductId());
@@ -99,7 +137,6 @@ public class CartController {
 			cartItemDAO.saveOrUpdate(cartItem);
 			System.out.println("Insertion of cartItem");
 		}
-		
 
 		List<CartItem> listOfSelectedCartItems;
 		// Now after getting the cartItem change grandTotal and No of Products
@@ -156,37 +193,30 @@ public class CartController {
 
 	// This is the method which perform all the operations related to addition
 	// of product cartItem
-	public String addCartItem(String customerId, String productId, String cartId) {
+	public String addCartItem(String customerId, String productId, String cartId, Product product) {
 		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 
-		Product product = productDAO.get(productId);
-		
-		
-		
 		for (CartItem item : listOfSelectedCartItems) {
 			String itemProductId = item.getProductId();
 			System.out.println(itemProductId);
 			if (itemProductId.equals(product.getProductId())) {
 				System.out.println(item.getCartItemId());
 				item.setCartItemId(item.getCartItemId());
-				
+
 				System.out.println(item.getQuantity());
 				item.setQuantity(item.getQuantity() + 1);
-				
+
 				System.out.println(item.getTotalPrice());
 				item.setTotalPrice(item.getTotalPrice() + product.getPrice());
-				
+
 				System.out.println(item.toString());
 				cartItemDAO.saveOrUpdate(item);
-				return "Updation Successful";	
+				return "Updation Successful";
 			}
-			
+
 		}
 
 		return null;
 	}
-	
-	
 
-	
 }

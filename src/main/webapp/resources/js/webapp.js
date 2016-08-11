@@ -21,6 +21,9 @@ $(function() {
 		$('#viewSupplier').addClass('sidebar-active');
 		// alert(activeMenu);
 		break;
+	case 'viewCart':
+	$('#viewCart').addClass('sidebar-active');
+	break;
 	default:
 		$('#home').addClass('sidebar-active')
 		// alert(activeMenu);

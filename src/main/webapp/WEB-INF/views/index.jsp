@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- Css -->
@@ -105,6 +105,9 @@
 				<!--Activate Update Supplier -->
 				<c:if test="${isUpdateSupplierClicked==true }">
 					<%@include file="./supplier/updateSupplier.jsp"%>
+				</c:if>
+				<c:if test="${isClickedViewCart==true }">
+					<%@include file="viewCart.jsp"%>			
 				</c:if>
 			</div>
 			<!--  col-sm-9 ends here -->

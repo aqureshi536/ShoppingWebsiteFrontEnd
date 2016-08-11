@@ -1,10 +1,13 @@
 <div class="table-outer">
-		<table class="table table-hover" id="viewTable">
+		<table class="table table-hover table-reponsive" class="table-cart">
 			<thead>
-
+<%
+				int i = 1;
+				int j = 0;
+			%>
 				<tr class="table-primary">
 
-					<c:forEach items="${products}" var="product">
+					<c:forEach items="${listOfCartItems}" var="cartItem">
 						<%
 							j++;
 						%>
@@ -15,18 +18,15 @@
 					</span>
 					</th>
 					<th>Product Image</th>
-					<th>Product Name</th>
-					<th>Product Description</th>
-					
-					
+					<th>Product Name</th>		
 					<th>Product Quantity</th>
-					<th>Product Price</th>
+					<th>Total Price</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 
-				<c:forEach items="${products}" var="p">
+				<c:forEach items="${listOfCartItems}" var="cartItem">
 
 
 					<tr>
@@ -35,11 +35,10 @@
 								out.println(i);
 							%>
 						</td>
-						<td><img src="${images}/product/${}.png" class="cart-Image"></td>
-						<td></td>
-						<td></td>	
-						<td></td>
-						<td></td>
+						<td><img src="${images}/product/${cartItem.productId}.png" class="cart-Image"></td>
+						<td></td>							
+						<td>${cartItem.quantity}</td>
+						<td>${cartItem.totalPrice}</td>
 						<td>
 							<div class="btn-group-vertical">
 								

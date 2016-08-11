@@ -105,7 +105,9 @@ public class ProductController {
 		 */
 
 		List<ProductModel> products = new ArrayList<>();
+		// Calling a method
 		products = getNameSuppAndCat(products);
+
 		model.addAttribute("products", products);
 
 		// gets supplier List and name should be accessed from the front end
@@ -125,6 +127,7 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView("/index");
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
+
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 
@@ -142,7 +145,7 @@ public class ProductController {
 
 		// Hibernate validation
 		if (result.hasErrors()) {
-			
+
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -208,18 +211,15 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("product", product);
 
-		
-		Product	product = productDAO.get(productId);
+		Product product = productDAO.get(productId);
 		mv.addObject("productToUpdate", product);
-		
-		
+
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 		mv.addObject("categories", categoryList);
 		mv.addObject("suppliers", supplierList);
-		
 
 		String categoryName;
 		String supplierName;
@@ -254,16 +254,15 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("productToUpdate", product);
 		// Hibernate validation update product
-		
+
 		if (result.hasErrors()) {
-			
+
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
 			model.addAttribute("suppliers", supplierList);
 			mv.addObject("categories", categoryList);
 			mv.addObject("suppliers", supplierList);
-			
 
 			String categoryName;
 			String supplierName;
@@ -282,7 +281,7 @@ public class ProductController {
 				supplier.setSupplierName("Not Available");
 				supplierName = supplier.getSupplierName();
 			}
-			
+
 			mv.addObject("categoryName", categoryName);
 			mv.addObject("supplierName", supplierName);
 			mv.addObject("isUpdateProductClicked", "true");
@@ -290,9 +289,8 @@ public class ProductController {
 			return mv;
 		}
 
-		
-//		Actual update Starts here 
-		
+		// Actual update Starts here
+
 		MultipartFile productImage = product.getImageUrl();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String productName = product.getProductName();
@@ -408,9 +406,9 @@ public class ProductController {
 				productModel.setSupplierName(supplier.getSupplierName());
 			} else {
 				productModel.setSupplierName("Not Available");
+				products.add(productModel);
 			}
 
-			products.add(productModel);
 		}
 		return products;
 	}

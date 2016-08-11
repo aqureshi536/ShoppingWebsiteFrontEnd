@@ -56,7 +56,7 @@
 			</c:if>
 			<sec:authorize access="hasRole('ROLE_USER')">
 				<c:if test="${displayCart == true }">
-					<li><a href=""><span class="fa fa-cart-plus"></span> Cart <span class="badge">${cartItems}</span></a></li>
+					<li id="viewCart"><a href="${contextPath}/cart/"><span class="fa fa-cart-plus"></span> Cart <span class="badge">${cartItems}</span></a></li>
 				</c:if>
 			</sec:authorize>
 
