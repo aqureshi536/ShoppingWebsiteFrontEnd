@@ -27,7 +27,7 @@
 					</div><!--div carousel  -->
 				</div>
 				<div  ng-controller="productController">
-				<div  id="productMainDiv">
+				<div  class="productMainDiv">
 					<div class="row">
 					<h2 id="productMainTitle">Top Beds</h2>
 						<div ng-repeat="bed in beds | filter : searchProduct.name" >
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 				</div><!--div bed controller  -->
-				<div id="productMainDiv" >
+				<div class="productMainDiv" >
 					<div class="row">
 					<h2 style="border-left:6px #3bb300 solid" id="productMainTitle">Top Sofas</h2>
 						<div ng-repeat="sofa in sofas" >

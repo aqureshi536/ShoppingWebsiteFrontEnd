@@ -113,7 +113,7 @@ body {
 	border-left: 6px #3bb300 solid;
 }
 
-#productMainDiv {
+.productMainDiv {
 	margin-top: 15px;
 	margin-bottom: 15px;
 	position: relative;
@@ -124,7 +124,7 @@ body {
 	background-color: #eff1f1;
 }
 
-#productDiv {
+.productDiv {
 	position: relative;
 	right: -10px;
 	min-width: 290px;
@@ -141,16 +141,16 @@ body {
 	/*transition: border 0.2s linear;*/
 }
 
-#productDiv:hover {
+.productDiv:hover {
 	box-shadow: 3px 3px 3px 3px;
 	border-radius: 5px;
 	background-color: white;
 }
 
-#productDiv>#pricePara {
+.productDiv>.pricePara {
 	display: inline;
-	font-size: 30px;
-	margin-left: 10px;
+	font-size: 20px;
+	margin-left: 5px;
 }
 
 #actionButtons {
@@ -193,16 +193,21 @@ body {
 .table-cart {
 	padding: 35px;
 	box-shadow: 2px;
+	
 }
 
-table>thead>tr>th {
+
+
+.table-cart>thead>tr>th {
 	text-align: center;
 	vertical-align: middle;
 }
 
-table>tbody>tr>td {
+.table-cart>tbody>tr>td {
 	text-align: center;
 	vertical-align: middle;
+	background-color: white;
+	cursor: default;
 }
 
 #tableImage {

@@ -209,7 +209,7 @@ public class ProductController {
 	@RequestMapping(value = "/admin/viewProducts/updateProduct/{productId}")
 	public ModelAndView updateProduct(@PathVariable("productId") String productId, Model model) {
 		ModelAndView mv = new ModelAndView("/index");
-		mv.addObject("product", product);
+		mv.addObject("product", productDAO.get(productId));
 
 		Product product = productDAO.get(productId);
 		mv.addObject("productToUpdate", product);
@@ -251,8 +251,9 @@ public class ProductController {
 	@RequestMapping(value = "/admin/viewProducts/updateProduct", method = RequestMethod.POST)
 	public ModelAndView updateProduct(@ModelAttribute("Product") @Valid Product product, BindingResult result,
 			Model model, HttpServletRequest request) {
+		
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("productToUpdate", product);
+		mv.addObject("product", product);
 		// Hibernate validation update product
 
 		if (result.hasErrors()) {
@@ -406,9 +407,9 @@ public class ProductController {
 				productModel.setSupplierName(supplier.getSupplierName());
 			} else {
 				productModel.setSupplierName("Not Available");
-				products.add(productModel);
+			
 			}
-
+			products.add(productModel);
 		}
 		return products;
 	}

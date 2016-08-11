@@ -34,7 +34,7 @@
 
 		<div class="row">
 			<!-- Sidebar goes her -->
-	<br>
+
 			<div class="col-md-2">
 				<%@include file="./shared/sidebar.jsp"%>
 			</div>

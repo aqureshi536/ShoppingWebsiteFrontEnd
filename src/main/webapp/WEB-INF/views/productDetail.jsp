@@ -1,6 +1,6 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div id="productMainDiv">
+<div class="productMainDiv">
 <c:if test="${addToCartSuccessMessage==true }">
 <div class="alert alert-success">
 <strong>Product added to cart SuccessFully</strong>
@@ -29,6 +29,6 @@
 		</div>
 	</div>
 </div>
-<div id="productMainDiv">
+<div class="productMainDiv">
 <h2 id="productMainTitle">View Similar Products</h2>
 </div>

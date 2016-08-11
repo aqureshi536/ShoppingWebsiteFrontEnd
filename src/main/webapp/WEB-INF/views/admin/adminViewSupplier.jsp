@@ -1,4 +1,4 @@
-<div id="productMainDiv">
+<div class="productMainDiv">
 	<c:if test="${ addedSupplierMessage==true}">
 		<div class="alert alert-success" id="addedSupplierMessage">
 			<strong>Added!</strong>supplier with name<strong>${supplierName}</strong>

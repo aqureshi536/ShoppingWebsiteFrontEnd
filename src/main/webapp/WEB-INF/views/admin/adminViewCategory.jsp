@@ -1,4 +1,4 @@
-<div id="productMainDiv">
+<div class="productMainDiv">
 
 	<c:if test="${addedCategoryMessage==true }">
 		<div class="alert alert-success" id="messageDelete-success">

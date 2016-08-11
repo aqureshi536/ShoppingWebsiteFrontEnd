@@ -66,14 +66,17 @@ public class CartController {
 		String customerName = userName.getName();
 		customer = customerDAO.getCustomerByUserName(customerName);
 		String customerId = customer.getCustomerId();
-		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
-
-		List<CartItem> cartItems = new ArrayList<CartItem>();
-		cartItems = returnProductName(cartItems);
+		
+		List<CartItemModel> cartItems = new ArrayList<>();
+		cartItems = returnProductName(cartItems,customerId);
+		
 		model.addAttribute("cartItems", cartItems);
-
-		model.addAttribute("listOfCartItems", listOfCartItems);
-
+		int noOfProduct= cartItems.size();
+		mv.addObject("noOfProducts", noOfProduct);
+		
+		double grandTotal = cartDAO.getCartByCustomerId(customerId).getGrandTotal();
+		mv.addObject("grandTotal", grandTotal);
+		
 		mv.addObject("isClickedViewCart", true);
 		mv.addObject("displayCart", "true");
 		mv.addObject("active", "viewCart");
@@ -82,16 +85,19 @@ public class CartController {
 	}
 
 	// Method to get name of product
-	public List<CartItem> returnProductName(List<CartItem> cartItems) {
-		List<CartItem> cartItemList = cartItemDAO.listCartItems();
+	public List<CartItemModel> returnProductName(List<CartItemModel> cartItems,String customerId) {
+		List<CartItem> cartItemList = cartItemDAO.getCartItemsByCustomerId(customerId);
 		CartItemModel cartItemModel = null;
 		for (CartItem item : cartItemList) {
 			cartItemModel = new CartItemModel();
 			cartItemModel.setCartItem(item);
-			
-			product = productDAO.get(item.getProductId());
-			cartItemModel.setProductName(product.getProductName());
-			cartItems.add(item);
+			if (item.getProductId() != null && !item.getProductId().isEmpty()) {
+				product = productDAO.get(item.getProductId());
+				cartItemModel.setProductName(product.getProductName());
+			} else {
+				cartItemModel.setProductName("Currently not avilable");
+			}
+			cartItems.add(cartItemModel);
 		}
 		return cartItems;
 	}
@@ -127,7 +133,7 @@ public class CartController {
 
 		// if we get null means the product is not present
 
-		if (addCartItem(customerId, productId, cart.getCartId(), product) == null) {
+		if (addCartItem(customerId, productId, cart.getCartId()) == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cart.getCartId());
 			cartItem.setCustomerId(customerId);
@@ -152,7 +158,7 @@ public class CartController {
 		cart.setNoOfProducts(noOfProducts);
 		cartDAO.saveOrUpdate(cart);
 
-		mv.addObject("cartItems", noOfProducts);
+		mv.addObject("noOfProducts", noOfProducts);
 		mv.addObject("addToCartSuccessMessage", true);
 
 		// =========== Completed Adding the item to cart =====
@@ -193,9 +199,9 @@ public class CartController {
 
 	// This is the method which perform all the operations related to addition
 	// of product cartItem
-	public String addCartItem(String customerId, String productId, String cartId, Product product) {
+	public String addCartItem(String customerId, String productId, String cartId) {
 		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
-
+		Product product=productDAO.get(productId);
 		for (CartItem item : listOfSelectedCartItems) {
 			String itemProductId = item.getProductId();
 			System.out.println(itemProductId);

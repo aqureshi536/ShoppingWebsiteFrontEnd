@@ -4,7 +4,7 @@
 	int j = 0;
 	int k = 0;
 %>
-<div id="productMainDiv">
+<div class="productMainDiv">
 
 	<c:if test="${deleteProductSuccessMessage==true}">
 		<div class="alert alert-danger" id="message-danger">
