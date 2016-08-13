@@ -4,18 +4,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- Css -->
-<spring:url value="/resources/css/bootstrap.css" var="bootstrapCss" />
-<spring:url value="/resources/css/bootstrap-theme.css"
-	var="bootstrapTheme" />
-<spring:url value="/resources/css/font-awesome.css" var="fontAwesome" />
-<spring:url value="/resources/customCss" var="customCss" />
+<spring:url value="/resources/css" var="css" />
 <spring:url value="/resources/images" var="images" />
 <!-- JavaScript -->
-<spring:url value="/resources/customScript/home.js" var="angularApp" />
-<spring:url value="/resources/js/angular.js" var="Angularjs" />
-<spring:url value="/resources/js/angular-route.js" var="angularRoute" />
-<spring:url value="/resources/js/jquery-1.12.4.js" var="jQuery" />
-<spring:url value="/resources/js/bootstrap.js" var="boostrapJs" />
 <spring:url value="/resources/js" var="js" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
@@ -32,17 +23,11 @@
 		<%@include file="./shared/menubar.jsp"%>
 
 
-		<div class="row">
+		<div class="content">
 			<!-- Sidebar goes her -->
 
-			<div class="col-md-2">
-				<%@include file="./shared/sidebar.jsp"%>
-			</div>
-			<!--  col-sm-2 ends here -->
-			
-			<!-- Main Content goes here -->
-			<div class="col-sm-10">
 				<!-- activates Home -->
+				
 				<c:if test="${isHomeClicked==true }">
 					<%@include file="home.jsp"%>
 				</c:if>
@@ -106,8 +91,13 @@
 				<c:if test="${isUpdateSupplierClicked==true }">
 					<%@include file="./supplier/updateSupplier.jsp"%>
 				</c:if>
+				<%--View Cart --%>
 				<c:if test="${isClickedViewCart==true }">
-					<%@include file="viewCart.jsp"%>			
+					<%@include file="./cart/viewCart.jsp"%>			
+				</c:if>
+				<%-- --%>
+				<c:if test="${isViewProductByCategory==true }">
+				<%@include file="productByCategory.jsp" %>
 				</c:if>
 			</div>
 			<!--  col-sm-9 ends here -->
@@ -118,6 +108,6 @@
 		<%@include file="./shared/footer.jsp"%>
 
 
-	</div>
+	
 </body>
 </html>

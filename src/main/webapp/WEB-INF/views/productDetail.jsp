@@ -1,9 +1,9 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="productMainDiv">
-<c:if test="${addToCartSuccessMessage==true }">
-<div class="alert alert-success">
-<strong>Product added to cart SuccessFully</strong>
+<c:if test="${not empty addToCartSuccessMessage}">
+<div id="addToCartSuccessMessage" class="alert alert-success">
+<strong>${addToCartSuccessMessage}</strong>
 </div>
 </c:if>
 	<div class="row">

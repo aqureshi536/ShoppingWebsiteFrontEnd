@@ -20,40 +20,10 @@
     <div class="collapse navbar-collapse" id="sidebar">
 		
 		<ul id="sideMenu" class="nav nav-pills nav-stacked">
-		
-			<li id="home"><a href="${contextPath}/index"><span
-					class="glyphicon glyphicon-home"></span> Home</a></li>
 
-			<c:if test="${pageContext.request.userPrincipal.name == null }">
-				<li id="login"><a href="${contextPath}/login"><span
-						class="glyphicon glyphicon-log-in"></span> Login</a></li>
-			</c:if>
+	
 
-
-
-
-
-			<c:if test="${pageContext.request.userPrincipal.name != null }">
-				<c:url value="/j_spring_security_logout" var="logoutUrl" />
-				<form action="${logoutUrl}" method="post" id="logoutForm">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-				</form>
-
-
-				<c:if test="${pageContext.request.userPrincipal.name != null}">
-					<li><a href="javascript:formSubmit()"><span
-							class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-
-				</c:if>
-
-
-
-
-
-
-
-			</c:if>
+			
 			<sec:authorize access="hasRole('ROLE_USER')">
 				<c:if test="${displayCart == true }">
 					<li id="viewCart"><a href="${contextPath}/cart/"><span class="fa fa-cart-plus"></span> Cart <span class="badge">${noOfProducts}</span></a></li>

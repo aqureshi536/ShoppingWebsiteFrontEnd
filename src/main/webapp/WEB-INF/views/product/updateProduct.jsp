@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<h4>Existing Product</h4>
-					<form:hidden path="productId"/>
+					
 					<div class="form-group">
 						<label for="" class="col-sm-2 control-label">Product Name</label>
 						<div class="col-sm-10">
@@ -69,7 +69,7 @@
 				<div class="col-sm-6">
 					<h4>Update Product</h4>
 					<form:form action="${contextPath}/admin/viewProducts/updateProduct?${_csrf.parameterName}=${_csrf.token}" method="post" commandName="product" enctype="multipart/form-data">
-						
+						<form:hidden path="productId"/>
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">Product Name</label>
 							<div class="col-sm-10">
@@ -78,7 +78,7 @@
 									placeholder="Enter new product name" />
 							</div>
 						</div>
-						<form:hidden path="productId"/>
+						
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">Product
 								Category</label>

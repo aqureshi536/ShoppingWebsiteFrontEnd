@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.SupplierDAO;
+import com.ahmad.model.Category;
 import com.ahmad.model.Supplier;
 
 @Controller
@@ -30,6 +32,8 @@ public class SupplierController {
 	private Supplier supplier;
 	@Autowired
 	private SupplierDAO supplierDAO;
+	@Autowired
+	private CategoryDAO categoryDAO;
 
 	// Supplier methods goes
 	// here=============================================================
@@ -40,7 +44,10 @@ public class SupplierController {
 
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
-
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewSupplier", "true");
 		mv.addObject("active", "adminSupplier");
 		mv.addObject("displayAdminAction", "true");
@@ -54,7 +61,10 @@ public class SupplierController {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("supplier", supplier);
 		mv.addObject("isAddSupplierClicked", "true");
-
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
@@ -68,6 +78,10 @@ public class SupplierController {
 
 		// This gets activated when the values are not properly
 		if (result.hasErrors()) {
+			// Gets the category on the navbar
+			List<Category> categoryList = categoryDAO.listCategory();
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("isAddSupplierClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
@@ -103,6 +117,10 @@ public class SupplierController {
 		mv.addObject("supplierName", supplierName);
 		mv.addObject("supplierSize", supplierSize);
 		// ====================================================
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("addedSupplierMessage", "true");
 		mv.addObject("isClickedAdminViewSupplier", "true");
 		mv.addObject("active", "adminSupplier");
@@ -149,6 +167,11 @@ public class SupplierController {
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
+
 		mv.addObject("deletedSupplierMessage", "true");
 		mv.addObject("isClickedAdminViewSupplier", "true");
 		mv.addObject("active", "adminSupplier");
@@ -163,6 +186,11 @@ public class SupplierController {
 		supplier = supplierDAO.get(supplierId);
 		mv.addObject("supplier", supplier);
 
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
+
 		mv.addObject("isUpdateSupplierClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -173,17 +201,18 @@ public class SupplierController {
 	public ModelAndView updateSupplier(@ModelAttribute("supplier") @Valid Supplier supplier, BindingResult result,
 			HttpServletRequest request, Model model) {
 		ModelAndView mv = new ModelAndView("index");
-		
-		
+
 		if (result.hasErrors()) {
+			// Gets the category on the navbar
+			List<Category> categoryList = categoryDAO.listCategory();
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("isUpdateSupplierClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
 			return mv;
 		}
-		
-		
-		
+
 		MultipartFile supplierImage = supplier.getSupplierImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
@@ -205,7 +234,12 @@ public class SupplierController {
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
-
+		
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
+		
 		String supplierName = supplier.getSupplierName();
 		mv.addObject("updatedSupplierName", supplierName);
 		mv.addObject("updatedSupplierMessage", "true");

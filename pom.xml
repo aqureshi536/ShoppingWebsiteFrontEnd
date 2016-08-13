@@ -15,7 +15,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Servlet API -->
+		<!-- Servlet API java ee -->
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>

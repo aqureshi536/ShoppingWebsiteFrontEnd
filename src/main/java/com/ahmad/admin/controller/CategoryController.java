@@ -51,7 +51,10 @@ public class CategoryController {
 			categories.add(categoryModel);
 		}
 		model.addAttribute("categories", categories);
-
+		
+		// Gets the category on the navber
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -62,7 +65,10 @@ public class CategoryController {
 	public ModelAndView addCategory() {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("category", category);
-
+		// Gets the category on the navber
+				List<Category> categoryList = categoryDAO.listCategory();
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		mv.addObject("isAddCategoryClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -84,6 +90,10 @@ public class CategoryController {
 
 		if(result.hasErrors())
 		{
+			// Gets the category on the navber
+			List<Category> categoryList = categoryDAO.listCategory();
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("isAddCategoryClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
@@ -126,6 +136,10 @@ public class CategoryController {
 		}
 		model.addAttribute("categories", categories);
 
+		// Gets the category on the navber
+				
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -171,7 +185,10 @@ public class CategoryController {
 			categories.add(categoryModel);
 		}
 		model.addAttribute("categories", categories);
-
+		// Gets the category on the navber
+			
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -186,7 +203,10 @@ public class CategoryController {
 
 		category = categoryDAO.get(categoryId);
 		mv.addObject("categoryToUpdate", category);
-
+		// Gets the category on the navber
+				List<Category> categoryList = categoryDAO.listCategory();
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		mv.addObject("isClickedAdminUpdateCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -199,7 +219,10 @@ public class CategoryController {
 		ModelAndView mv = new ModelAndView("index");
 		if(result.hasErrors()){
 			
-		
+			// Gets the category on the navber
+			List<Category> categoryList = categoryDAO.listCategory();
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("categoryToUpdate", category);
 			mv.addObject("isClickedAdminUpdateCategory", "true");
 			mv.addObject("active", "adminCategory");
@@ -248,7 +271,10 @@ public class CategoryController {
 		
 		String categoryNameAfterUpdate= category.getCategoryName();
 		mv.addObject("categoryNameAfterUpdate", categoryNameAfterUpdate);
-		
+		// Gets the category on the navber
+			
+				mv.addObject("categoryList", categoryList);
+				// ================================================================
 		 mv.addObject("categoryUpdateMessage", "true");
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");

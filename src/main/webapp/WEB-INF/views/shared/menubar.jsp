@@ -15,11 +15,10 @@
 
 
 
-	<button type="button" class="navbar-toggle"  data-toggle="collapse"
-		data-target="#homeNavbar" id="homenavbarToggle" >
-		<span><b>Categories</b></span>
-		<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-			class="icon-bar"></span>
+	<button type="button" class="navbar-toggle" data-toggle="collapse"
+		data-target="#homeNavbar" id="homenavbarToggle">
+		<span><b>Categories</b></span> <span class="icon-bar"></span> <span
+			class="icon-bar"></span> <span class="icon-bar"></span>
 	</button>
 </div>
 
@@ -27,19 +26,31 @@
 	id="homeNavbar" data-spy="affix" data-offset-top="124">
 
 	<ul class="nav navbar-nav">
-		<li id="viewAllProducts"><a href="${contextPath}/allProducts"
-			id="A_viewAllProducts">View all products</a></li>
-		<li><a href="">Curtains</a></li>
-		<li><a href="">Sofa</a></li>
-		<li><a href="">Bed</a></li>
-		<li><a href="">Table</a></li>
-		<li><a href="">Cabinet</a></li>
-		<li><a href="">Dining Table</a></li>
-		<li><a href="">Cupboards</a></li>
-		<li><a href="">Chair</a></li>
+		<li id="home"><a id="A_home" href="${contextPath}/index"><span
+				class="glyphicon glyphicon-home"></span> Home</a></li>
+		<li id="category"><a href="${contextPath}/allProducts"
+			id="A_category">Home & Furniture</a></li>
+
+<%-- 		<c:forEach items="${categoryList}" var="category"> --%>
+<%-- 			<li><a href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li> --%>
+<%-- 			<%-- <c:choose> --%>
+<%-- 		<c:when test="${isViewProductByCategory==true }">		 --%>
+<%-- 		<li><a href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li> --%>
+<%-- 		</c:when> --%>
+<%-- 		<c:otherwise> --%>
+		
+<%-- 		</c:otherwise> --%>
+<%-- 		</c:choose> --%> --%>
+<%-- 		</c:forEach> --%>
+
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
-
+		<sec:authorize access="hasRole('ROLE_USER')">
+			<c:if test="${displayCart == true }">
+				<li id="viewCart"><a id="A_viewCart" href="${contextPath}/cart/"><span
+						class="fa fa-cart-plus"></span> Cart <span class="badge">${noOfProducts}</span></a></li>
+			</c:if>
+		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<c:if
 				test="${pageBeforeAdminAction==true && pageContext.request.userPrincipal.name != null }">
@@ -54,6 +65,25 @@
 						${pageContext.request.userPrincipal.name}</a></li>
 			</c:if>
 		</sec:authorize>
+		<c:if test="${pageContext.request.userPrincipal.name == null }">
+			<li id="login"><a id="A_login" href="${contextPath}/login"><span
+					class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		</c:if>
+
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<li><a href="javascript:formSubmit()"><span
+					class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+		</c:if>
+		<c:if test="${pageContext.request.userPrincipal.name != null }">
+				<c:url value="/j_spring_security_logout" var="logoutUrl" />
+				<form action="${logoutUrl}" method="post" id="logoutForm">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</form>
+		</c:if>
+
+
 
 	</ul>
 </div>

@@ -1,10 +1,7 @@
 //SideBar
 $(function() {
 	switch (activeMenu) {
-	case 'login':
-		$('#login').addClass('sidebar-active')
-		// alert(activeMenu);
-		break;
+	
 	case 'logout':
 		$('#logout').addClass('sidebar-active')
 		// alert(activeMenu);
@@ -24,25 +21,35 @@ $(function() {
 	case 'viewCart':
 	$('#viewCart').addClass('sidebar-active');
 	break;
-	default:
-		$('#home').addClass('sidebar-active')
-		// alert(activeMenu);
-		break;
+	
 	}
 });
 
 // NavBar
 $(function() {
 	switch (activeNavMenu) {
-	case 'viewAllProducts':
-		$('#viewAllProducts').addClass('nav-active');
-		$('#A_viewAllProducts').css("color", "black");
+	case 'category':
+		$('#category').addClass('nav-active');
+		$('#A_category').css("color", "black");
 		// alert(activeNavMenu);
+		break;
+	case 'login':
+		$('#login').addClass('nav-active');
+		$('#A_login').css("color", "black");
+		// alert(activeNavMenu);
+		break;
+	case 'viewCart':
+		$('#viewCart').addClass('nav-active');
+		$('#A_viewCart').css("color", "black");
+		// alert(activeNavMenu);
+		break;
+	default:
+		$('#home').addClass('nav-active');
+	$('#A_home').css("color", "black");
+		// alert(activeMenu);
 		break;
 	}
 });
-
-
 
 // To disappear on delete message
 $(function() {
@@ -97,8 +104,16 @@ $(function() {
 	});
 });
 
-
-
+$(function() {
+	$("#cartItemRemoved").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+$(function() {
+	$("#addToCartSuccessMessage").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
 
 
 

@@ -19,7 +19,7 @@ else{
 	
 }
 
-{ window.location.href=link;	}</script>
+{ window.location.href=link;}</script>
 
 
 <!-- Submits the  form -->
@@ -27,10 +27,10 @@ else{
 			function formSubmit() {
 				document.getElementById("logoutForm").submit();
 			}
-		</script>
+</script>
 <script src="${angularApp}"></script>
 <script src="${Angularjs}"></script>
 <script src="${angularRoute}"></script>
-<script src="${jQuery}"></script>
-<script src="${boostrapJs}"></script>
+<script src="${js}/jquery-1.12.4.js"></script>
+<script src="${js}/bootstrap.js"></script>
 <script src="${js}/webapp.js"></script>

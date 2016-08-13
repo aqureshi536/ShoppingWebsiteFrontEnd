@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.ProductDAO;
+import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
 
@@ -20,25 +23,29 @@ import com.ahmad.model.Product;
 public class PageController {
 
 	@Autowired
-	private Product product;
-	@Autowired
 	private ProductDAO productDAO;
-	
+
+	@Autowired
+	private CategoryDAO categoryDAO;
 	@Autowired
 	Customer customer;
 	@Autowired
 	CustomerDAO customerDAO;
-	
 
 	// Activates When Home Page Is accessed
 
 	@RequestMapping(value = { "/", "/index" })
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView("index");
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isHomeClicked", "true");
-		mv.addObject("active", "home");
+		mv.addObject("activeNavMenu", "home");
 		mv.addObject("displayLogin", "true");
 		mv.addObject("displayCart", "true");
+		mv.addObject("displayAdminAction", "true");
 
 		// Optional
 		mv.addObject("pageBeforeAdminAction", "true");
@@ -59,9 +66,13 @@ public class PageController {
 		if (logout != null) {
 			model.addAttribute("msg", "Thank You, You're successfully logged out");
 		}
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isLoginClicked", "true");
 		mv.addObject("displayLogin", "true");
-		mv.addObject("active", "login");
+		mv.addObject("activeNavMenu", "login");
 		mv.addObject("displayCart", "true");
 		return mv;
 	}
@@ -69,17 +80,26 @@ public class PageController {
 	// activates when clicked View All Products on NavBar
 
 	@RequestMapping("/allProducts")
-	public ModelAndView allProducts(Model model) {
+	public ModelAndView allProducts(Model model,
+			@RequestParam(value = "addToCartAllProducts", required = false) String addToCartAllProducts) {
+		if(addToCartAllProducts!=null)
+		{
+			model.addAttribute("addToCartAllProducts", "Product added to cart Successfully");
+		}
 		ModelAndView mv = new ModelAndView("index");
 
+		
 		// Add products to we page
 		List<Product> productList = productDAO.listProduct();
 		model.addAttribute("products", productList);
-
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedViewAllProducts", "true");
 		mv.addObject("displayLogin", "true");
 		mv.addObject("displayCart", "true");
-		mv.addObject("activeNavMenu", "viewAllProducts");
+		mv.addObject("activeNavMenu", "category");
 
 		// Optional
 		mv.addObject("pageBeforeAdminAction", "true");
@@ -89,9 +109,9 @@ public class PageController {
 	// Customer after registered
 
 	@RequestMapping(value = "/customer/home", method = RequestMethod.POST)
-	public ModelAndView register(@ModelAttribute("customer")Customer customer) {
+	public ModelAndView register(@ModelAttribute("customer") Customer customer) {
 		ModelAndView mv = new ModelAndView("index");
-		
+
 		customerDAO.saveOrUpdate(customer);
 		mv.addObject("isHomeClicked", "true");
 		mv.addObject("active", "home");
@@ -100,9 +120,34 @@ public class PageController {
 
 		// Optional
 		mv.addObject("pageBeforeAdminAction", "true");
-
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		return mv;
 	}
-	// Activate When clicked on any Product
+
+	// To get the products according to category
+	@RequestMapping("/allProducts/{categoryId}")
+	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId) {
+		ModelAndView mv = new ModelAndView("index");
+		
+		
+		List<Product> productList = categoryDAO.selectedCategoryProductList(categoryId);
+		if(!productList.isEmpty())
+		{
+		mv.addObject("productList", productList);
+		}
+		else{
+			mv.addObject("productNotPresent","true");
+		}
+		mv.addObject("isViewProductByCategory", "true");
+		
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
+		return mv;
+	}
 
 }

@@ -10,11 +10,11 @@
 						</ol>
 
 						<div class="carousel-inner" role="listbox">
-							<div class="item active	"><img src="resources/images/bigsale1.jpg" class="img-responsive" alt="" style="height:450px;width:1200px;"></div>
-							<div class="item"><img src="resources/images/curtainhome1.jpg" alt="" class="img-responsive" style="height:450px;width:1200px;"></div>
-							<div class="item"><img src="resources/images/bed3.jpg" alt="" class="img-responsive" style="height:450px;width:1200px;"></div>
-							<div class="item"><img src="resources/images/chair4.jpg" alt=""  class="img-responsive" style="height:450px;width:1200px;"></div>
-							<div class="item"><img src="resources/images/cab5.jpg" alt="" class="img-responsive" style="height:450px;width:1200px;"></div>
+							<div class="item active	"><img src="resources/images/bigsale1.jpg" class="img-responsive" alt="" style="height:500px;width:1300px;"></div>
+							<div class="item"><img src="resources/images/curtainhome1.jpg" alt="" class="img-responsive" style="height:500px;width:1300px;"></div>
+							<div class="item"><img src="resources/images/bed3.jpg" alt="" class="img-responsive" style="height:500px;width:1300px;"></div>
+							<div class="item"><img src="resources/images/chair4.jpg" alt=""  class="img-responsive" style="height:500px;width:1300px;"></div>
+							<div class="item"><img src="resources/images/cab5.jpg" alt="" class="img-responsive" style="height:500px;width:1300px;"></div>
 						</div>
 						<a class="left carousel-control" href="#productCarousel" role="button" data-slide="prev">
 							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

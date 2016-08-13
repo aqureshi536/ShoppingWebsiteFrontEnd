@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,9 +48,12 @@ public class ProductController {
 	private SupplierDAO supplierDAO;
 
 	@RequestMapping("/productDetail/{productId}")
-	public ModelAndView productDetail(@PathVariable String productId, Model model) {
+	public ModelAndView productDetail(@PathVariable String productId, Model model,@RequestParam(value="addToCartSuccessMessage",required=false)String addToCartSuccessMessage) {
 		ModelAndView mv = new ModelAndView("/index");
-
+if(addToCartSuccessMessage!=null)
+{
+	model.addAttribute("addToCartSuccessMessage", "Product added to cart successfully");
+}
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);
 
@@ -74,7 +78,10 @@ public class ProductController {
 			supplierName = supplier.getSupplierName();
 		}
 		mv.addObject("supplierName", supplierName);
-
+		// Gets the category on the navber
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
@@ -103,7 +110,10 @@ public class ProductController {
 		 * categoryName=category.getCategoryName(); listName=new ArrayList<>();
 		 * listName.add(categoryName); }
 		 */
-
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		List<ProductModel> products = new ArrayList<>();
 		// Calling a method
 		products = getNameSuppAndCat(products);
@@ -131,6 +141,9 @@ public class ProductController {
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 
+		// Gets the category on the navbar
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isAddProductClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -150,7 +163,10 @@ public class ProductController {
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
 			model.addAttribute("suppliers", supplierList);
+			// Gets the category on the navbar
 
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("isAddProductClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
@@ -199,20 +215,29 @@ public class ProductController {
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 		// ---------------------------------------------------------
+
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewProducts", "true");
 		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
 		return mv;
 	}
 
+	String productId;
+
 	// Update the product till the form
 	@RequestMapping(value = "/admin/viewProducts/updateProduct/{productId}")
 	public ModelAndView updateProduct(@PathVariable("productId") String productId, Model model) {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("product", productDAO.get(productId));
-
-		Product product = productDAO.get(productId);
-		mv.addObject("productToUpdate", product);
+		
+		this.productId = productDAO.get(productId).getProductId();
+		
+	Product product = productDAO.get(productId);
+	mv.addObject("productToUpdate", product);
 
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
@@ -238,6 +263,10 @@ public class ProductController {
 			supplier.setSupplierName("Not Available");
 			supplierName = supplier.getSupplierName();
 		}
+		// Gets the category on the navbar
+
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 
 		mv.addObject("categoryName", categoryName);
 		mv.addObject("supplierName", supplierName);
@@ -249,15 +278,16 @@ public class ProductController {
 
 	// Actual update form
 	@RequestMapping(value = "/admin/viewProducts/updateProduct", method = RequestMethod.POST)
-	public ModelAndView updateProduct(@ModelAttribute("Product") @Valid Product product, BindingResult result,
+	public ModelAndView updateProduct(@ModelAttribute("product") @Valid Product product, BindingResult result,
 			Model model, HttpServletRequest request) {
-		
+
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("product", product);
+
 		// Hibernate validation update product
-
+		
+		
 		if (result.hasErrors()) {
-
+			
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -283,6 +313,10 @@ public class ProductController {
 				supplierName = supplier.getSupplierName();
 			}
 
+			// Gets the category on the navbar
+
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
 			mv.addObject("categoryName", categoryName);
 			mv.addObject("supplierName", supplierName);
 			mv.addObject("isUpdateProductClicked", "true");
@@ -334,6 +368,10 @@ public class ProductController {
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 		// ---------------------------------------------------------
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewProducts", "true");
 		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
@@ -373,6 +411,10 @@ public class ProductController {
 		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
+		// Gets the category on the navbar
+		List<Category> categoryList = categoryDAO.listCategory();
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
@@ -407,7 +449,7 @@ public class ProductController {
 				productModel.setSupplierName(supplier.getSupplierName());
 			} else {
 				productModel.setSupplierName("Not Available");
-			
+
 			}
 			products.add(productModel);
 		}
