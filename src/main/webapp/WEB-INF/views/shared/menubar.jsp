@@ -25,7 +25,7 @@
 <div class="navbar navbar-inverse collapse navbar-collapse"
 	id="homeNavbar" data-spy="affix" data-offset-top="124">
 
-	<ul class="nav navbar-nav">
+	<ul class="nav navbar-nav" data-hover="dropdown" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft">
 		<li id="home"><a id="A_home" href="${contextPath}/index"><span
 				class="glyphicon glyphicon-home"></span> Home</a></li>
 		<li id="category"><a href="${contextPath}/allProducts"

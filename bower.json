@@ -1,0 +1,28 @@
+{
+  "name": "Shopping Website",
+  "homepage": "https://github.com/aqureshi536/ShoppingWebsiteFrontEnd",
+  "authors": [
+    "Ahmad Qureshi <aqureshi536@gmail.com>"
+  ],
+  "description": "This is an e-commerce website developed at  Niit",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "angular": "^1.5.8",
+    "bootstrap-dropdown-hover": "^1.0.4",
+    "materialize": "^0.97.7",
+    "angular-route": "^1.5.8"
+  },
+  "resolutions": {
+    "jquery": "^3.1.0"
+  }
+}

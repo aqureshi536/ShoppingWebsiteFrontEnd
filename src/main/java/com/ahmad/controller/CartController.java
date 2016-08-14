@@ -141,12 +141,22 @@ public class CartController {
 
 		// 2.Check whether his cart is present in the cart table
 		// If cart is not present then make a cart for him
-		String cartId = "";
+
 		if (cartDAO.getCartByCustomerId(customerId) == null) {
+			cart = new Cart();
 			cart.setCustomerId(customerId);
 			cartDAO.saveOrUpdate(cart);
+
 			// cartItem.setCartId(cart.getCartId());
 		}
+
+		// This statement changes the cart if cart is present and due to
+		// unpresence of this there where errors
+		else {
+			cart = cartDAO.getCartByCustomerId(customerId);
+		}
+
+		String cartId = cart.getCartId();
 
 		// 3.get the product price
 
@@ -160,8 +170,8 @@ public class CartController {
 		// through a method
 
 		// if we get null means the product is not present
-		cartId = cart.getCartId();
-		if (addCartItem(customerId, productId, cart.getCartId()) == null) {
+
+		if (addCartItem(customerId, productId, cart.getCartId(), model) == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);
@@ -170,7 +180,15 @@ public class CartController {
 			cartItem.setTotalPrice(product.getPrice());
 			cartItemDAO.saveOrUpdate(cartItem);
 			System.out.println("Insertion of cartItem");
+			int noOfProducts = updateCartAgain(cartId, customerId);
+			model.addAttribute("noOfProducts", noOfProducts);
 		}
+		// Now navigate to the same page
+		return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+	}
+
+	// This function will update the cart
+	public int updateCartAgain(String cartId, String customerId) {
 
 		List<CartItem> listOfSelectedCartItems;
 		// Now after getting the cartItem change grandTotal and No of Products
@@ -182,22 +200,20 @@ public class CartController {
 		cart.setGrandTotal(grandTotal);
 
 		int noOfProducts = listOfSelectedCartItems.size();
+
 		cart.setCartId(cartId);
-		cart.setCustomerId(cart.getCustomerId());
+		cart.setCustomerId(customerId);
 		cart.setNoOfProducts(noOfProducts);
-		cartDAO.saveOrUpdate(cart);
-		model.addAttribute("noOfProducts", noOfProducts);
+		cartDAO.saveOrUpdate(cart); // This method updates the cart
 
+		return noOfProducts;
 		// =========== Completed Adding the item to cart =====
-
-		// Now navigate to the same page
-		return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
 
 	}
 
 	// This is the method which perform all the operations related to addition
 	// of product cartItem
-	public String addCartItem(String customerId, String productId, String cartId) {
+	public String addCartItem(String customerId, String productId, String cartId, Model model) {
 		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 		Product product = productDAO.get(productId);
 		for (CartItem item : listOfSelectedCartItems) {
@@ -215,7 +231,10 @@ public class CartController {
 
 				System.out.println(item.toString());
 				cartItemDAO.saveOrUpdate(item);
-				return "Updation Successful";
+				int noOfProducts = updateCartAgain(cartId, customerId);
+				model.addAttribute("noOfProducts", noOfProducts);
+				return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+
 			}
 
 		}
@@ -227,21 +246,10 @@ public class CartController {
 	public String removeCarItems(@PathVariable("cartItemId") String cartItemId, Model model) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
 		String customerId = cartItem.getCustomerId();
+		String cartId = cartItem.getCartId();
 		cartItemDAO.delete(cartItemId);
-		List<CartItem> listOfSelectedCartItems;
-		// Now after getting the cartItem change grandTotal and No of Products
-		listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
-		double grandTotal = 0;
-		for (CartItem item : listOfSelectedCartItems) {
-			grandTotal = grandTotal + item.getTotalPrice();
-		}
-		cart.setGrandTotal(grandTotal);
-
-		int noOfProducts = listOfSelectedCartItems.size();
-		cart.setCartId(cart.getCartId());
-		cart.setNoOfProducts(noOfProducts);
-		cartDAO.saveOrUpdate(cart);
-
+		int noOfProducts = updateCartAgain(cartId, customerId);
+		model.addAttribute("noOfProducts", noOfProducts);
 		return "redirect:/cart/?cartItemRemoved";
 	}
 
