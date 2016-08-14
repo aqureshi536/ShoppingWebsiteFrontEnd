@@ -171,7 +171,7 @@ public class CartController {
 
 		// if we get null means the product is not present
 
-		if (addCartItem(customerId, productId, cart.getCartId(), model) == null) {
+		if (addCartItem(customerId, productId,cartId, model) == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);

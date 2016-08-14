@@ -133,18 +133,18 @@ body {
 	border: 2px solid;
 	border-radius: 10px;
 	padding: 15px;
-/* 	min-width: 360px; */
+	min-width: 400px;
 	background-color: #eff1f1;
 }
 
 .productDiv {
 	position: relative;
-	right: -10px;
+	right: -20px;
 /* 	min-width: 290px; */
-	max-width: 330px;
+	max-width: 350px;
 	border-radius: 5px;
 	padding: 15px;
-	margin-right: 10px;
+	margin-right: 30px;
 	transition: box-shadow 0.3s;
 	transition: background-color 0.3;
 	cursor: pointer;
@@ -152,6 +152,14 @@ body {
 	margin-top: 25px;
 
 	/*transition: border 0.2s linear;*/
+}
+
+@media(max-width:847){
+.productDiv{
+position:inherit;
+	margin-right:10px;
+}
+	
 }
 
 .productDiv:hover {
@@ -320,5 +328,13 @@ input[type="submit"]:hover {
 .error {
 	color: red;
 	font-family: sans-serif;
+}
+
+.badge{
+	background-color:#ff9933;
+	color:white;
+	height:25px;
+	width:25px;
+	font-size: 15px;
 }
 

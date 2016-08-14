@@ -101,12 +101,12 @@
 				</c:if>
 			</div>
 			<!--  col-sm-9 ends here -->
-		</div>
+		
 		<!-- row ends here -->
 
 		<!-- footer -->
 		<%@include file="./shared/footer.jsp"%>
-
+</div>
 
 	
 </body>
