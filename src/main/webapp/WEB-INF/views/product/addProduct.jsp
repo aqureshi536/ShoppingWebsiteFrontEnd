@@ -16,7 +16,7 @@
 					<div class="col-sm-10">
 					<form:errors path="productName" class="error"/>
 						<form:input type="text" path="productName" class="form-control"
-							placeholder="Enter product name" />
+							placeholder="Enter product name"  required="required"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -25,7 +25,7 @@
 					<div class="col-sm-10">
 					<form:errors path="categoryId" class="error"/>
 						<form:select path="categoryId" name="productCategory" id=""
-							class="form-control">
+							class="form-control" required="required">
 							<option value="-" disabled selected>Select Category</option>
 							<c:forEach items="${categories}" var="category">
 								<form:option value="${category.categoryId}">${category.categoryName}</form:option>
@@ -39,7 +39,7 @@
 					<div class="col-sm-10">
 					<form:errors path="supplierId" class="error"/>
 						<form:select path="supplierId" name="productSupplier" id=""
-							class="form-control">
+							class="form-control" required="required">
 							<option value="-" selected disabled>Select Supplier</option>
 							<c:forEach items="${suppliers}" var="supplier">
 								<form:option value="${supplier.supplierId}">${supplier.supplierName}</form:option>
@@ -53,7 +53,7 @@
 					<div class="col-sm-10">
 					<form:errors path="price" class="error"/>
 						<form:input path="price" type="text" pattern="^[0-9]+$"
-							name="productPrice" class="form-control" />
+							name="productPrice" class="form-control" required="required"/>
 
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 					<div class="col-sm-10">
 					<form:errors path="quantity" class="error"/>
 						<form:input path="quantity" type="text" pattern="^[0-9]+$"
-							name="productStock" class="form-control" />
+							name="productStock" class="form-control" required="required"/>
 					</div>
 				</div>
 				<div class="form-group">

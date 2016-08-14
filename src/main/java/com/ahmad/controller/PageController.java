@@ -90,8 +90,8 @@ public class PageController {
 
 		
 		// Add products to we page
-		List<Product> productList = productDAO.listProduct();
-		model.addAttribute("products", productList);
+		List<Product> productListByStock = productDAO.listProductByStock();		
+		model.addAttribute("products", productListByStock);
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);

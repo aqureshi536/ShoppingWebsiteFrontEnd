@@ -75,7 +75,14 @@
 						<td>${p.categoryName}</td>
 
 						<td>${p.supplierName}</td>
+						<c:choose> 
+						<c:when test="${p.product.isOutOffStock}">
+						<td style="color:red;font-size:20px;">${p.product.quantity }</td>
+						</c:when>
+						<c:otherwise >
 						<td>${p.product.quantity }</td>
+						</c:otherwise>
+						</c:choose>
 						<td>${p.product.price }</td>
 						<td>
 							<div class="btn-group-vertical">

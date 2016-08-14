@@ -44,7 +44,7 @@
 								<div class="col-sm-10">
 								<form:errors path="categoryName" class="error"/>
 									<form:input path="categoryName" type="text" value="${categoryToUpdate.categoryName}" class="form-control"
-										placeholder="Enter new category name"/>
+										placeholder="Enter new category name" required="required"/>
 								</div>
 							</div>
 							
@@ -54,7 +54,7 @@
 								<div class="col-sm-10">
 								<form:errors path="categoryDescription" class="error"/>
 									<form:textarea path="categoryDescription" class="form-control" rows="7" cols="10"
-										placeholder="Give a new category Description"></form:textarea>
+										placeholder="Give a new category Description" required="required"></form:textarea>
 								</div>
 							</div>
 							<div class="form-group">

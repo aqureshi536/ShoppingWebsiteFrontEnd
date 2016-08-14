@@ -17,7 +17,7 @@
 					<div class="col-sm-10">
 						<form:errors path="categoryName" class="error"/>
 						<form:input path="categoryName" type="text" class="form-control"
-							placeholder="Enter category name"></form:input>
+							placeholder="Enter category name" required="required"></form:input>
 					</div>
 				</div>
 
@@ -27,7 +27,7 @@
 					<div class="col-sm-10">
 						<form:errors path="categoryDescription" class="error"/>
 						<form:textarea path="categoryDescription" class="form-control"
-							rows="7" cols="10" placeholder="Give a category Description"></form:textarea>
+							rows="7" cols="10" placeholder="Give a category Description" required="required"></form:textarea>
 					</div>
 				</div>
 				<div class="form-group">

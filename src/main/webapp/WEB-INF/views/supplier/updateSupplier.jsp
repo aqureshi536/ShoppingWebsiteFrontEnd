@@ -1,4 +1,4 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- Update Supplier Section -->
 
 <div class="panel panel-warning">
@@ -10,23 +10,23 @@
 					<div class="form-group">
 						<label for="" class="control-label col-sm-2">Supplier Name</label>
 						<div class="col-sm-10">
-							<input type="text" value="${supplier.supplierName}"
-								disabled class="form-control">
+							<input type="text" value="${supplier.supplierName}" disabled
+								class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="" class="control-label col-sm-2">Supplier
 							Contact No</label>
 						<div class="col-sm-10">
-							<input type="text" disabled
-								value="${supplier.supplierContact}" class="form-control">
+							<input type="text" disabled value="${supplier.supplierContact}"
+								class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="" class="control-label col-sm-2">Email Id</label>
 						<div class="col-sm-10">
-							<input type="text" disabled
-								value="${supplier.supplierEmail}" class="form-control">
+							<input type="text" disabled value="${supplier.supplierEmail}"
+								class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -34,8 +34,7 @@
 							address</label>
 						<div class="col-sm-10">
 							<textarea type="text" rows="7" disabled
-								placeholder="${supplier.supplierAddress}"
-								class="form-control"></textarea>
+								placeholder="${supplier.supplierAddress}" class="form-control"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,54 +49,63 @@
 				</div>
 			</div>
 			<div class="col-sm-6">
-				<form:form action="${contextPath}/admin/viewSupplier/update?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" method="post" commandName="supplier" enctype="multipart/form-data">
+				<form:form
+					action="${contextPath}/admin/viewSupplier/update?${_csrf.parameterName}=${_csrf.token}"
+					class="form-horizontal" method="post" commandName="supplier"
+					enctype="multipart/form-data">
 					<form:hidden path="supplierId" />
 					<div class="form-group">
 						<label for="updateSupplierName" class="control-label col-sm-2">Supplier
 							Name</label>
 						<div class="col-sm-10">
-						<form:errors path="supplierName" class="error"/>
-							<form:input path="supplierName" type="text" name="updateSupplierName" value="${supplier.supplierName}" class="form-control"
-								placeholder="Enter supplier's new name"/>
+							<form:errors path="supplierName" class="error" />
+							<form:input path="supplierName" type="text"
+								name="updateSupplierName" value="${supplier.supplierName}"
+								class="form-control" placeholder="Enter supplier's new name"
+								required="required" />
 						</div>
 					</div>
-					
+
 					<div class="form-group">
-					<form:errors path="" class="error"/>
+						<form:errors path="" class="error" />
 						<label for="updateSuppierContact" class="control-label col-sm-2">Supplier
 							Contact No</label>
 						<div class="col-sm-10">
-						<form:errors path="supplierContact" class="error"/>
-							<form:input path="supplierContact" type="text" name="updateSuppierContact"
-								class="form-control" value="${supplier.supplierContact}"
-								placeholder="Enter supplier's new Contact No"/>
+							<form:errors path="supplierContact" class="error" />
+							<form:input path="supplierContact" type="text"
+								name="updateSuppierContact" class="form-control"
+								value="${supplier.supplierContact}"
+								placeholder="Enter supplier's new Contact No"
+								required="required" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="updateSupplierEmail" class="control-label col-sm-2">Email
 							Id</label>
 						<div class="col-sm-10">
-						<form:errors path="supplierEmail" class="error"/>
-							<form:input type="email" path="supplierEmail" name="updateSupplierEmail"
-								class="form-control" value="${supplier.supplierEmail}"  placeholder="Enter supplier's new Email Id"/>
+							<form:errors path="supplierEmail" class="error" />
+							<form:input type="email" path="supplierEmail"
+								name="updateSupplierEmail" class="form-control"
+								value="${supplier.supplierEmail}"
+								placeholder="Enter supplier's new Email Id" required="required" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="updateSupplierEmail" path="supplierAddress" class="control-label col-sm-2">Supplier
-							Address</label>
+						<label for="updateSupplierEmail" path="supplierAddress"
+							class="control-label col-sm-2">Supplier Address</label>
 						<div class="col-sm-10">
-						<form:errors path="supplierAddress" class="error"/>
+							<form:errors path="supplierAddress" class="error" />
 							<form:textarea type="text" rows="7" name="updateSupplierAddress"
-								placeholder="Enter a new supplier description" path="supplierAddress"
-								class="form-control"></form:textarea>
+								placeholder="Enter a new supplier description"
+								path="supplierAddress" class="form-control" required="required" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="updateSupplierImage" class="control-label col-sm-2">Supplier
 							Image</label>
 						<div class="col-sm-10">
-							<form:input type="file" path="supplierImage" name="updateSupplierImage"
-								class="form-control" id=""/>
+							<form:input type="file" path="supplierImage"
+								name="updateSupplierImage" class="form-control" id="" />
 						</div>
 					</div>
 					<div class="form-group">

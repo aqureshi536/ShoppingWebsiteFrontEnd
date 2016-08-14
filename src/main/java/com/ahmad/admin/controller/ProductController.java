@@ -48,12 +48,12 @@ public class ProductController {
 	private SupplierDAO supplierDAO;
 
 	@RequestMapping("/productDetail/{productId}")
-	public ModelAndView productDetail(@PathVariable String productId, Model model,@RequestParam(value="addToCartSuccessMessage",required=false)String addToCartSuccessMessage) {
+	public ModelAndView productDetail(@PathVariable String productId, Model model,
+			@RequestParam(value = "addToCartSuccessMessage", required = false) String addToCartSuccessMessage) {
 		ModelAndView mv = new ModelAndView("/index");
-if(addToCartSuccessMessage!=null)
-{
-	model.addAttribute("addToCartSuccessMessage", "Product added to cart successfully");
-}
+		if (addToCartSuccessMessage != null) {
+			model.addAttribute("addToCartSuccessMessage", "Product added to cart successfully");
+		}
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);
 
@@ -172,7 +172,10 @@ if(addToCartSuccessMessage!=null)
 			mv.addObject("displayAdminAction", "true");
 			return mv;
 		}
+		// call a method
+		product = changeProductStock(product);
 
+		// This is a statement for adding the product to database
 		productDAO.saveOrUpdate(product);
 
 		MultipartFile productImage = product.getImageUrl();
@@ -233,11 +236,11 @@ if(addToCartSuccessMessage!=null)
 	public ModelAndView updateProduct(@PathVariable("productId") String productId, Model model) {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("product", productDAO.get(productId));
-		
+
 		this.productId = productDAO.get(productId).getProductId();
-		
-	Product product = productDAO.get(productId);
-	mv.addObject("productToUpdate", product);
+
+		Product product = productDAO.get(productId);
+		mv.addObject("productToUpdate", product);
 
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
@@ -285,8 +288,8 @@ if(addToCartSuccessMessage!=null)
 
 		// Hibernate validation update product
 		
-		
 		if (result.hasErrors()) {
+			mv.addObject("productToUpdate", product);
 			
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
@@ -322,7 +325,7 @@ if(addToCartSuccessMessage!=null)
 			mv.addObject("isUpdateProductClicked", "true");
 			mv.addObject("displayAdminAction", "true");
 			return mv;
-		}
+		} // error part completed
 
 		// Actual update Starts here
 
@@ -345,6 +348,8 @@ if(addToCartSuccessMessage!=null)
 				throw new RuntimeException("Product image updating failed", e);
 			}
 		}
+		// Call a method at last
+		product = changeProductStock(product);
 		productDAO.saveOrUpdate(product);
 
 		List<Product> productList = productDAO.listProduct();
@@ -454,6 +459,16 @@ if(addToCartSuccessMessage!=null)
 			products.add(productModel);
 		}
 		return products;
+	}
+
+	// This method changes the value of the product stock
+	public Product changeProductStock(Product product) {
+		if (product.getQuantity() <= 0) {
+			product.setOutOffStock(true);
+		} else {
+			product.setOutOffStock(false);
+		}
+		return product;
 	}
 
 }
