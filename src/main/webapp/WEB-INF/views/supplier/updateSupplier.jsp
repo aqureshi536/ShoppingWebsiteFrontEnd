@@ -33,7 +33,7 @@
 						<label for="" class="control-label col-sm-2">Supplier
 							address</label>
 						<div class="col-sm-10">
-							<textarea type="text" rows="7" disabled
+							<textarea  rows="7" disabled
 								placeholder="${supplier.supplierAddress}" class="form-control"></textarea>
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="updateSupplierEmail" path="supplierAddress"
+						<label for="updateSupplierEmail" 
 							class="control-label col-sm-2">Supplier Address</label>
 						<div class="col-sm-10">
 							<form:errors path="supplierAddress" class="error" />
