@@ -77,6 +77,12 @@ public class ProductController {
 			supplier.setSupplierName("'Not Available'");
 			supplierName = supplier.getSupplierName();
 		}
+		if (similarProducts(productId) != null) {
+			model.addAttribute("similarProducts", similarProducts(productId));
+		} else {
+			model.addAttribute("noSimilarProducts", "No similar products");
+		}
+
 		mv.addObject("supplierName", supplierName);
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -86,6 +92,38 @@ public class ProductController {
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
 		return mv;
+	}
+
+	// Pass on the similar products
+	public Product[] similarProducts(String productId) {
+		List<Product> similarProductList = productDAO.similarProducts(productId);
+		
+		int sizeOfSimilarProducts = similarProductList.size();
+		int size=0;
+		
+		switch (sizeOfSimilarProducts) {
+		case 1:
+			size = 0;
+			break;
+
+		case 2:
+			size = 1;
+			break;
+
+		default :
+			size = 2;
+			break;
+		
+		}
+		Product[] productArray = new Product[size+1];
+		if (sizeOfSimilarProducts != 0) {
+			for (int i = 0; i <= size; i++) {
+				int randomNumber = (int) (Math.random() * size);
+				productArray[i] = similarProductList.get(i);
+			}
+			return productArray;
+		}
+		return null;
 	}
 
 	// Product methods goes here
@@ -287,10 +325,10 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView("index");
 
 		// Hibernate validation update product
-		
+
 		if (result.hasErrors()) {
 			mv.addObject("productToUpdate", product);
-			
+
 			List<Category> categoryList = categoryDAO.listCategory();
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();

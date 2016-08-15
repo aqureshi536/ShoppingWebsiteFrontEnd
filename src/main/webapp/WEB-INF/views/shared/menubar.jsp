@@ -53,7 +53,7 @@
 		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<c:if
-				test="${pageBeforeAdminAction==true && pageContext.request.userPrincipal.name != null }">
+				test="${pageContext.request.userPrincipal.name != null }">
 				<li><a href="${contextPath}/admin/viewProducts"><span
 						class="glyphicon glyphicon-user"></span>
 						${pageContext.request.userPrincipal.name}</a></li>
@@ -61,7 +61,7 @@
 		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<c:if test="${ pageContext.request.userPrincipal.name != null }">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+				<li><a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span>
 						${pageContext.request.userPrincipal.name}</a></li>
 			</c:if>
 		</sec:authorize>

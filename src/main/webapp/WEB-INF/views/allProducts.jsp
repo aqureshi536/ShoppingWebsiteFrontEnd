@@ -12,7 +12,7 @@
 					<p class="pricePara">
 						<b><span class="fa fa-inr"></span> ${product.price}</b>
 					</p>
-					<sec:authorize access="hasRole('ROLE_USER')">
+					<sec:authorize access="!hasRole('ROLE_ADMIN')">
 					<div class="btn-group-vertical" id="actionButtons">
 						<a class="btn btn-warning btn-md">Add to Cart</a>
 						
