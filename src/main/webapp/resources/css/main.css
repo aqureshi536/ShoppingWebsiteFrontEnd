@@ -338,3 +338,19 @@ input[type="submit"]:hover {
 	font-size: 15px;
 }
 
+
+.dropdown .dropdown-menu .caret{
+	background-color:white!important;
+	color:black;	
+}
+#adminHoverMenu:hover,#MenuHoverCategory:hover
+{
+background-color:black!important;
+
+}
+#adminHoverMenu>a:hover,#MenuHoverCategory>a:hover{
+	
+	color:white!important;
+}
+
+

@@ -248,7 +248,7 @@ public class CartController {
 	}
 
 	@RequestMapping("/remove/{cartItemId}")
-	public String removeCarItems(@PathVariable("cartItemId") String cartItemId, Model model,Principal username) {
+	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model,Principal username) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
 		String customerId = cartItem.getCustomerId();
 		String cartId = cartItem.getCartId();

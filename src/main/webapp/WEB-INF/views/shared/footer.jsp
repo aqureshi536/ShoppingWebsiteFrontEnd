@@ -33,4 +33,5 @@ else{
 <script src="${angularRoute}"></script>
 <script src="${js}/jquery-1.12.4.js"></script>
 <script src="${js}/bootstrap.js"></script>
+<script src="${js}/bootstrap-dropdownhover.js"></script>
 <script src="${js}/webapp.js"></script>
