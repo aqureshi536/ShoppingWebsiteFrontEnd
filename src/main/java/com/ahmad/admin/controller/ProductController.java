@@ -102,6 +102,9 @@ public class ProductController {
 		int size=0;
 		
 		switch (sizeOfSimilarProducts) {
+		case 0:
+			size=-1;
+			break;
 		case 1:
 			size = 0;
 			break;

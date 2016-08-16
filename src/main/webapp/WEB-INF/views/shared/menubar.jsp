@@ -47,7 +47,7 @@
 	<ul class="nav navbar-nav navbar-right">
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<c:if test="${displayCart == true }">
-				<li id="viewCart"><a id="A_viewCart" href="${contextPath}/cart/"><span
+				<li id="viewCart"><a id="A_viewCart" href="${contextPath}/user/cart/"><span
 						class="fa fa-cart-plus"></span> Cart <span class="badge">${noOfProducts}</span></a></li>
 			</c:if>
 		</sec:authorize>

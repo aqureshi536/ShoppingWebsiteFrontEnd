@@ -59,7 +59,7 @@
 							<td>
 								<div class="btn-group-vertical">
 
-									<a href="${contextPath}/cart/remove/${c.cartItem.cartItemId}"
+									<a href="${contextPath}/user/cart/remove/${c.cartItem.cartItemId}"
 										class="btn btn-md btn-danger"><span
 										class="glyphicon glyphicon-remove-sign"></span> Remove</a>
 								</div>

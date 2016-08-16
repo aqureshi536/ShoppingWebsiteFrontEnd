@@ -25,7 +25,7 @@
 			</h4>
 			<br>
 			<sec:authorize access="!hasRole('ROLE_ADMIN')">
-				<a href="${contextPath}/cart/addToCart/${product.productId}"
+				<a href="${contextPath}/user/cart/addToCart/${product.productId}"
 					class="btn btn-lg btn-warning">Add to Cart</a>
 				<a class="btn btn-lg btn-success">Buy</a>
 			</sec:authorize>

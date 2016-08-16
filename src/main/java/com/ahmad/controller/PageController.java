@@ -1,6 +1,9 @@
 package com.ahmad.controller;
 
+import java.security.Principal;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.dao.CartDAO;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.ProductDAO;
+import com.ahmad.model.Cart;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
@@ -31,11 +36,17 @@ public class PageController {
 	Customer customer;
 	@Autowired
 	CustomerDAO customerDAO;
+	@Autowired
+	HttpSession httpSession;
+	@Autowired
+	CartDAO cartDAO;
+	@Autowired
+	Cart cart;
 
 	// Activates When Home Page Is accessed
 
 	@RequestMapping(value = { "/", "/index" })
-	public ModelAndView home() {
+	public ModelAndView home(Principal username) {
 		ModelAndView mv = new ModelAndView("index");
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -49,6 +60,25 @@ public class PageController {
 
 		// Optional
 		mv.addObject("pageBeforeAdminAction", "true");
+		if (username != null) {
+			if (customerDAO.getCustomerByUserName(username.getName()) != null) {
+				customer = customerDAO.getCustomerByUserName(username.getName());
+				String customerId = customer.getCustomerId();
+//				If customer doesnt exist like admin 
+				if (customerId != null) {
+					if(cartDAO.getCartByCustomerId(customerId)!=null){
+					int noOfProduct = cartDAO
+							.getCartByCustomerId(customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
+							.getNoOfProducts();
+					httpSession.setAttribute("noOfProducts", noOfProduct);
+							}
+					else{
+						httpSession.setAttribute("noOfProducts", 0);
+					}
+				}
+			}
+
+		}
 
 		return mv;
 	}
@@ -57,14 +87,18 @@ public class PageController {
 
 	@RequestMapping(value = { "/login" })
 	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, Model model) {
+			@RequestParam(value = "logout", required = false) String logout, Model model,
+			@RequestParam(value = "registarationSuccessfull,", required = false) String registered) {
 		ModelAndView mv = new ModelAndView("/index");
-		mv.addObject("customer", customer);
+		mv.addObject("customer", new Customer());
 		if (error != null) {
 			model.addAttribute("error", "Oops! Invalid credentials,Please try again");
 		}
 		if (logout != null) {
 			model.addAttribute("msg", "Thank You, You're successfully logged out");
+		}
+		if (registered != null) {
+			model.addAttribute("registered", "Registration Successfull, Please login again");
 		}
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -82,15 +116,13 @@ public class PageController {
 	@RequestMapping("/allProducts")
 	public ModelAndView allProducts(Model model,
 			@RequestParam(value = "addToCartAllProducts", required = false) String addToCartAllProducts) {
-		if(addToCartAllProducts!=null)
-		{
+		if (addToCartAllProducts != null) {
 			model.addAttribute("addToCartAllProducts", "Product added to cart Successfully");
 		}
 		ModelAndView mv = new ModelAndView("index");
 
-		
 		// Add products to we page
-		List<Product> productListByStock = productDAO.listProductByStock();		
+		List<Product> productListByStock = productDAO.listProductByStock();
 		model.addAttribute("products", productListByStock);
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -131,18 +163,15 @@ public class PageController {
 	@RequestMapping("/allProducts/{categoryId}")
 	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId) {
 		ModelAndView mv = new ModelAndView("index");
-		
-		
+
 		List<Product> productList = categoryDAO.selectedCategoryProductList(categoryId);
-		if(!productList.isEmpty())
-		{
-		mv.addObject("productList", productList);
-		}
-		else{
-			mv.addObject("productNotPresent","true");
+		if (!productList.isEmpty()) {
+			mv.addObject("productList", productList);
+		} else {
+			mv.addObject("productNotPresent", "true");
 		}
 		mv.addObject("isViewProductByCategory", "true");
-		
+
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
