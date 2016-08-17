@@ -8,6 +8,10 @@
 					<div class="col-sm-10"><form:input path="line1" type="text" class="form-control"/></div>
 				</div>
 				<div class="form-group">
+					<label for="" class="control-label col-sm-2">Line 2</label>
+					<div class="col-sm-10"><form:input path="line2" type="text" class="form-control"/></div>
+				</div>
+				<div class="form-group">
 					<label for="" class="control-label col-sm-2">City</label>
 					<div class="col-sm-10"><form:input path="city" type="text" class="form-control"/></div>
 				</div>

@@ -99,6 +99,12 @@
 				<c:if test="${isViewProductByCategory==true }">
 				<%@include file="productByCategory.jsp" %>
 				</c:if>
+				<c:if test="${isShippingAddress==true }">
+				<%@include file="./cart/shippingAddress.jsp" %>
+				</c:if>
+				<c:if test="${isBillingAddress==true }">
+				<%@include file="./cart/billingAddress.jsp" %>
+				</c:if>
 			</div>
 			<!--  col-sm-9 ends here -->
 		
