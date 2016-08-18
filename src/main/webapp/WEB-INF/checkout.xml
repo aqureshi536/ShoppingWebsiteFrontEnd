@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
+
+	<var name="shippingAddress" class="com.ahmad.model.ShippingAddress" />
+	<var name="billingAddress" class="com.ahmad.model.BillingAddress" />
+	<var name="orderedItems" class="com.ahmad.model.OrderedItems" />
+	<var name="orderDetail" class="com.ahmad.model.OrderDetail" />
+	<var name="cart" class="com.ahmad.model.Cart" />
+	<var name="cartItem" class="com.ahmad.model.CartItem" />
+
+	<on-start>
+		<evaluate expression="flowController.initFlow()" result="flowscope.shippingAddress" />
+	</on-start>
+
+	<view-state id="checkout" view="cart/shippingAddress" model="flowscope.shippingAddress">
+		<transition on="submitShippingAddress" to="shippingDetails" />
+	</view-state>
+
+	<action-state id="shippingDetails">
+		<evaluate
+			expression="flowController.addShippingAddress(flowscope.shippingAddress)"></evaluate>
+		<transition on="success" to="viewBillingDetails" />
+	</action-state>
+
+	<view-state id="viewBillingDetails" view="cart/billingAddress"
+		model="billingAddress">
+		<transition on="submitBillingAddress" to="billingDetails" />
+	</view-state>
+
+	<action-state id="billingDetails">
+		<evaluate expression="flowController.addBillingAddress(flowscope.billingAddress)"></evaluate>
+		<transition on="success" to="viewCardDetail" />
+	</action-state>
+
+	<view-state id="viewCardDetail" view="cart/cardDetail"
+		model="cardDetail">
+		<transition on="success" to="paymentDetails" />
+	</view-state>
+
+	<action-state id="paymentDetails">
+		<evaluate expression="flowController.addCardDetails(flowscope.cardDetail)"></evaluate>
+		<transition on="confirmCheckout" to="orderConfirm" />
+	</action-state>
+	
+	<end-state id="orderConfirm" view="cart/orderConfirmed" />
+	<end-state id="toCartView" view="externalRedirect:contextRelative:cart/viewCart"/>
+	
+	
+	<global-transitions>
+		<transition on="cancel" to="toCartView" />
+	</global-transitions>
+	
+	
+</flow>

@@ -12,11 +12,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<%@include file="./shared/header.jsp"%>
-<title>Insert title here</title>
-</head>
+
 <body>
 	<div class="container-fluid">
 		<!-- 	Navbar goes here -->
