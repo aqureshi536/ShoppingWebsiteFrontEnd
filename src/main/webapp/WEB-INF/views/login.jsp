@@ -79,11 +79,11 @@
 			<div class="panel-heading" id="panel-headingSignUp">Sign Up</div>
 			<div class="panel-body">
 				<form:form class="form-horizontal" role="form" method="post"
-					modelAttribute="customer" action="/login?registered">
+					modelAttribute="customer" action="${contextPath}/login?registered">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="reemail">Email</label>
 						<div class="col-sm-10">
-							<form:input path="userName" type="email" class="form-control"
+							<form:input path="username" type="email" class="form-control"
 								id="reemail" placeholder="Enter email" required="true"
 								name="reEmail" />
 						</div>
@@ -102,9 +102,9 @@
 						<label for="gender" class="control-label col-sm-2">Gender</label>
 						<div class="col-sm-offset-1 col-sm-9">
 							<label for="maleGender" class="radio-inline  label-control"><form:radiobutton
-									path="gender" name="gender" id="maleGender" required="true" />Male</label>
+									path="gender" name="gender" id="maleGender" value="male" required="true" />Male</label>
 							<label for="femaleGender" class="radio-inline label-control">
-								<form:radiobutton path="gender" name="gender" id="femaleGender"
+								<form:radiobutton path="gender" name="gender" value="female" id="femaleGender"
 									required="true" />Female
 							</label>
 						</div>

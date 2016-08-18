@@ -1,27 +1,72 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:web="http://www.springframework.org/schema/web" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:web="http://www.springframework.org/schema/web"
+	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	http://www.springframework.org/schema/web  http://www.springframework.org/schema/web/spring-web.xsd">
+	http://www.springframework.org/schema/web  http://www.springframework.org/schema/web/spring-web.xsd
+	http://www.springframework.org/schema/web  
+	http://www.springframework.org/schema/web/spring-webflow-config-2.3.xsd">
 
 
 	<context:component-scan base-package="com.ahmad" />
 	<mvc:annotation-driven />
 
+
+	<!-- ================================================================================= -->
+	<!-- Spring Webflow stuffs -->
+	<!-- <bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+
+	<webflow:flow-executor id="flowExecutor">
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="securityFlowExecutionListener" />
+		</webflow:flow-execution-listeners>
+	</webflow:flow-executor>
+
+	<bean id="securityFlowExecutionListener"
+		class="org.springframework.webflow.security.SecurityFlowExecutionListener" />
+
+	<webflow:flow-registry id="flowRegistry"
+		flow-builder-services="flowBuilderServices" base-path="/WEB-INF">
+		<webflow:flow-location id="checkout" path="/checkout.xml" />
+	</webflow:flow-registry>
+
+
+	<webflow:flow-builder-services id="webFlowBuilderServices"
+		view-factory-creator="viewFatoryCreator" validator="validator" />
+
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<property name="flowRegistry" ref="flowRegistry" />
+		<property name="order" value="0" />
+	</bean>
+
+	<bean id="viewFactoryCreator"
+		class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+		<property name="viewResolvers">
+			<list>
+				<ref bean="viewResolver" />
+			</list>
+		</property>
+	</bean>
+	=========================================================================
+	view Resolver Stuff -->
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
-			
-	</bean>
-	
 
-	
+	</bean>
+
 	<mvc:resources location="/resources/" mapping="/resources/**" />
-	
+
 </beans>

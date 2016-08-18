@@ -19,10 +19,14 @@ import com.ahmad.dao.CartDAO;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.ProductDAO;
+/*import com.ahmad.dao.UserAuthoritiesDAO;
+import com.ahmad.dao.UsersDAO;*/
 import com.ahmad.model.Cart;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
+/*import com.ahmad.model.UserAuthorities;
+import com.ahmad.model.Users;*/
 
 @Controller
 public class PageController {
@@ -36,6 +40,15 @@ public class PageController {
 	Customer customer;
 	@Autowired
 	CustomerDAO customerDAO;
+/*	@Autowired
+	Users users;
+	@Autowired
+	UsersDAO usersDAO;
+	@Autowired
+	UserAuthorities userAuthorities;
+	@Autowired
+	UserAuthoritiesDAO userAuthoritiesDAO;*/
+
 	@Autowired
 	HttpSession httpSession;
 	@Autowired
@@ -64,15 +77,15 @@ public class PageController {
 			if (customerDAO.getCustomerByUserName(username.getName()) != null) {
 				customer = customerDAO.getCustomerByUserName(username.getName());
 				String customerId = customer.getCustomerId();
-//				If customer doesnt exist like admin 
+				// If customer doesnt exist like admin
 				if (customerId != null) {
-					if(cartDAO.getCartByCustomerId(customerId)!=null){
-					int noOfProduct = cartDAO
-							.getCartByCustomerId(customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
-							.getNoOfProducts();
-					httpSession.setAttribute("noOfProducts", noOfProduct);
-							}
-					else{
+					if (cartDAO.getCartByCustomerId(customerId) != null) {
+						int noOfProduct = cartDAO
+								.getCartByCustomerId(
+										customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
+								.getNoOfProducts();
+						httpSession.setAttribute("noOfProducts", noOfProduct);
+					} else {
 						httpSession.setAttribute("noOfProducts", 0);
 					}
 				}
@@ -109,6 +122,29 @@ public class PageController {
 		mv.addObject("activeNavMenu", "login");
 		mv.addObject("displayCart", "true");
 		return mv;
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String registerCustomer(@ModelAttribute("customer") Customer customer) {
+		this.customer = customer;
+		// save to the customer table
+		customerDAO.saveOrUpdate(customer);
+		
+	/*	// After saving to customer table save to users table
+		users.setCustomerId(customer.getCustomerId());
+		users.setEnabled(true);
+		users.setUsername(customer.getUsername());
+		users.setPassword(customer.getPassword());
+		usersDAO.saveOrUpdate(users);
+		
+		
+		// After saving users table now save to user authorities table
+		userAuthorities.setCustomerId(customer.getCustomerId());
+		userAuthorities.setUsername(customer.getUsername());
+		userAuthorities.setAuthority("ROLE_USER");
+		userAuthoritiesDAO.saveOrUpdate(userAuthorities);*/
+		
+		return "redirect:/login?registarationSuccessfull";
 	}
 
 	// activates when clicked View All Products on NavBar
