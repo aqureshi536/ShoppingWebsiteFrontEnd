@@ -1,8 +1,8 @@
 <%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="productMainDiv">
-<c:if test="${productNotPresent==true }">
-<h2>Sorry, No Products available in this category</h2>
+<c:if test="${not empty productNotPresent}">
+<h2>${productNotPresent}</h2>
 </c:if>
 	<div class="row">
 		<c:forEach items="${productList}" var="product">

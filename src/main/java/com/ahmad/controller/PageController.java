@@ -19,14 +19,14 @@ import com.ahmad.dao.CartDAO;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.ProductDAO;
-/*import com.ahmad.dao.UserAuthoritiesDAO;
-import com.ahmad.dao.UsersDAO;*/
+import com.ahmad.dao.UserAuthoritiesDAO;
+import com.ahmad.dao.UsersDAO;
 import com.ahmad.model.Cart;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
-/*import com.ahmad.model.UserAuthorities;
-import com.ahmad.model.Users;*/
+import com.ahmad.model.UserAuthorities;
+import com.ahmad.model.Users;
 
 @Controller
 public class PageController {
@@ -40,14 +40,14 @@ public class PageController {
 	Customer customer;
 	@Autowired
 	CustomerDAO customerDAO;
-/*	@Autowired
+	@Autowired
 	Users users;
 	@Autowired
 	UsersDAO usersDAO;
 	@Autowired
 	UserAuthorities userAuthorities;
 	@Autowired
-	UserAuthoritiesDAO userAuthoritiesDAO;*/
+	UserAuthoritiesDAO userAuthoritiesDAO;
 
 	@Autowired
 	HttpSession httpSession;
@@ -101,7 +101,7 @@ public class PageController {
 	@RequestMapping(value = { "/login" })
 	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model,
-			@RequestParam(value = "registarationSuccessfull,", required = false) String registered) {
+			@RequestParam(value = "registrationSuccessfull", required = false) String registered) {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("customer", new Customer());
 		if (error != null) {
@@ -128,23 +128,21 @@ public class PageController {
 	public String registerCustomer(@ModelAttribute("customer") Customer customer) {
 		this.customer = customer;
 		// save to the customer table
-		customerDAO.saveOrUpdate(customer);
+		customerDAO.saveOrUpdate(customer);	
 		
-	/*	// After saving to customer table save to users table
+		// After saving to customer table save to users table
 		users.setCustomerId(customer.getCustomerId());
 		users.setEnabled(true);
 		users.setUsername(customer.getUsername());
 		users.setPassword(customer.getPassword());
 		usersDAO.saveOrUpdate(users);
 		
-		
 		// After saving users table now save to user authorities table
 		userAuthorities.setCustomerId(customer.getCustomerId());
 		userAuthorities.setUsername(customer.getUsername());
 		userAuthorities.setAuthority("ROLE_USER");
-		userAuthoritiesDAO.saveOrUpdate(userAuthorities);*/
-		
-		return "redirect:/login?registarationSuccessfull";
+		userAuthoritiesDAO.saveOrUpdate(userAuthorities);
+		return "redirect:/login?registrationSuccessfull";
 	}
 
 	// activates when clicked View All Products on NavBar
@@ -197,14 +195,14 @@ public class PageController {
 
 	// To get the products according to category
 	@RequestMapping("/allProducts/{categoryId}")
-	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId) {
+	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId,Model model) {
 		ModelAndView mv = new ModelAndView("index");
 
 		List<Product> productList = categoryDAO.selectedCategoryProductList(categoryId);
 		if (!productList.isEmpty()) {
 			mv.addObject("productList", productList);
 		} else {
-			mv.addObject("productNotPresent", "true");
+			model.addAttribute("productNotPresent", "Sorry, No products present in "+categoryDAO.get(categoryId).getCategoryName()+" category");
 		}
 		mv.addObject("isViewProductByCategory", "true");
 

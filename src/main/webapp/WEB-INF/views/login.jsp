@@ -18,7 +18,7 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty registered }">
-			<div class="alert alert-danger">
+			<div class="alert alert-success">
 				<b>${registered}</b>
 			</div>
 		</c:if>
@@ -122,8 +122,8 @@
 						<label class="control-label col-sm-2" for="reconpwd">Confirm
 							Password</label>
 						<div class="col-sm-10">
-							<input type="text" id="reconpwd" class="form-control"
-								placeholder="Confirm Password" required="true">
+							<input type="password" id="reconpwd" class="form-control"
+								placeholder="Confirm Password" required>
 						</div>
 					</div>
 					<input type="submit" value="Sign Up"
