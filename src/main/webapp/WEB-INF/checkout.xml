@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow  http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
 	<var name="shippingAddress" class="com.ahmad.model.ShippingAddress" />
 	<var name="billingAddress" class="com.ahmad.model.BillingAddress" />
@@ -10,18 +9,19 @@
 	<var name="orderDetail" class="com.ahmad.model.OrderDetail" />
 	<var name="cart" class="com.ahmad.model.Cart" />
 	<var name="cartItem" class="com.ahmad.model.CartItem" />
+	<var name="checkoutTemp" class="com.ahmad.temp.CheckoutTemp"></var>
 
 	<on-start>
-		<evaluate expression="flowController.initFlow()" result="flowscope.shippingAddress" />
+		<evaluate expression="flowController.initFlow()" result="flowScope.checkoutTemp" />
 	</on-start>
 
-	<view-state id="checkout" view="cart/shippingAddress" model="flowscope.shippingAddress">
+	<view-state id="checkout" view="cart/shippingAddress" model="shippingAddress">
 		<transition on="submitShippingAddress" to="shippingDetails" />
 	</view-state>
 
 	<action-state id="shippingDetails">
 		<evaluate
-			expression="flowController.addShippingAddress(flowscope.shippingAddress)"></evaluate>
+			expression="flowController.addShippingAddress(flowScope.checkoutTemp,shippingAddress)"></evaluate>
 		<transition on="success" to="viewBillingDetails" />
 	</action-state>
 
@@ -31,7 +31,8 @@
 	</view-state>
 
 	<action-state id="billingDetails">
-		<evaluate expression="flowController.addBillingAddress(flowscope.billingAddress)"></evaluate>
+		<evaluate
+			expression="flowController.addBillingAddress(flowScope.checkoutTemp,billingAddress)"></evaluate>
 		<transition on="success" to="viewCardDetail" />
 	</action-state>
 
@@ -41,17 +42,20 @@
 	</view-state>
 
 	<action-state id="paymentDetails">
-		<evaluate expression="flowController.addCardDetails(flowscope.cardDetail)"></evaluate>
+		<evaluate
+			expression="flowController.addCardDetails(flowScope.checkoutTemp,cardDetail)"></evaluate>
 		<transition on="confirmCheckout" to="orderConfirm" />
 	</action-state>
-	
-	<end-state id="orderConfirm" view="cart/orderConfirmed" />
-	<end-state id="toCartView" view="externalRedirect:contextRelative:cart/viewCart"/>
-	
-	
+
+
+
+	<end-state id="orderConfirm" view="cart/orderConfirmed"/>	
+	<end-state id="toCartView" view="externalRedirect:contextRelative:/user/cart/" />
+	<end-state id="toHome" view="externalRedirect:contextRelative:/" />
+
 	<global-transitions>
 		<transition on="cancel" to="toCartView" />
+		<transition on="home" to="toHome" />
 	</global-transitions>
-	
-	
-</flow>
+
+</flow>	

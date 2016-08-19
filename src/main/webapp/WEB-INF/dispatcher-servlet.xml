@@ -11,14 +11,14 @@
 
 
 	<context:component-scan base-package="com.ahmad" />
-	<mvc:annotation-driven />
+
 
 	<!-- Spring Webflow -->
-	
-	
+
+
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-		
+
 	<bean id="securityFlowExecutionListener"
 		class="org.springframework.webflow.security.SecurityFlowExecutionListener" />
 
@@ -37,7 +37,7 @@
 	</webflow:flow-registry>
 
 	<webflow:flow-builder-services id="flowBuilderServices"
-		view-factory-creator="viewFactoryCreator" validator="validator" />
+		view-factory-creator="viewFactoryCreator" validator="validator"/>
 
 	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
 		<property name="flowExecutor" ref="flowExecutor" />
@@ -57,7 +57,7 @@
 			</list>
 		</property>
 	</bean>
-<!-- ====================================================================== -->
+	<!-- ====================================================================== -->
 
 	<!-- view Resolver Stuff -->
 
@@ -68,6 +68,7 @@
 
 	</bean>
 
+	<mvc:annotation-driven />
 
 
 

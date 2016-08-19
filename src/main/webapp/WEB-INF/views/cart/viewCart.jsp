@@ -73,7 +73,7 @@
 			</table>
 
 
-			<a class="col-xs-offset-5 btn btn-lg btn-success">Checkout
+			<a class="col-xs-offset-5 btn btn-lg btn-success" href="${contextPath}/checkout">Checkout
 				&nbsp;&nbsp;<span class="fa fa-inr"></span> ${grandTotal}
 			</a>
 		</c:otherwise>

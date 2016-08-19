@@ -12,7 +12,7 @@
 
 <!DOCTYPE html>
 <html>
-
+<%@include file="./shared/header.jsp" %>
 <body>
 	<div class="container-fluid">
 		<!-- 	Navbar goes here -->
