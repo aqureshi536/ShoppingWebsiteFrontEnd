@@ -38,13 +38,13 @@
 
 	<view-state id="viewCardDetail" view="cart/cardDetail"
 		model="cardDetail">
-		<transition on="success" to="paymentDetails" />
+		<transition on="confirmCheckout" to="paymentDetails" />
 	</view-state>
 
 	<action-state id="paymentDetails">
 		<evaluate
 			expression="flowController.addCardDetails(flowScope.checkoutTemp,cardDetail)"></evaluate>
-		<transition on="confirmCheckout" to="orderConfirm" />
+		<transition on="success" to="orderConfirm" />
 	</action-state>
 
 

@@ -79,51 +79,52 @@ public class FlowController {
 		return checkoutTemp;
 	}
 
-	public String addShippingAddress(CheckoutTemp checkoutTemp,ShippingAddress shippingAddress) {
+	public String addShippingAddress(CheckoutTemp checkoutTemp, ShippingAddress shippingAddress) {
 		customer = customerDAO.getCustomerByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
-		
+
 		shippingAddress.setCustomerId(customer.getCustomerId());
 		checkoutTemp.setShippingAddress(shippingAddress);
-		/*this.shippingAddress.setCustomerId(customer.getCustomerId());
-		this.shippingAddress.setLine1(shippingAddress.getLine1());
-		this.shippingAddress.setLine2(shippingAddress.getLine2());
-		this.shippingAddress.setCity(shippingAddress.getCity());
-		this.shippingAddress.setState(shippingAddress.getState());
-		this.shippingAddress.setCountry(shippingAddress.getCountry());
-		this.shippingAddress.setZipCode(shippingAddress.getZipCode());*/
+		/*
+		 * this.shippingAddress.setCustomerId(customer.getCustomerId());
+		 * this.shippingAddress.setLine1(shippingAddress.getLine1());
+		 * this.shippingAddress.setLine2(shippingAddress.getLine2());
+		 * this.shippingAddress.setCity(shippingAddress.getCity());
+		 * this.shippingAddress.setState(shippingAddress.getState());
+		 * this.shippingAddress.setCountry(shippingAddress.getCountry());
+		 * this.shippingAddress.setZipCode(shippingAddress.getZipCode());
+		 */
 
 		return "success";
 	}
 
-	public String addBillingAddress(CheckoutTemp checkoutTemp,BillingAddress billingAddress) {
+	public String addBillingAddress(CheckoutTemp checkoutTemp, BillingAddress billingAddress) {
 		customer = customerDAO.getCustomerByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		billingAddress.setCustomerId(customer.getCustomerId());
 		checkoutTemp.setBillingAddress(billingAddress);
-		/*this.billingAddress.setCustomerId(customer.getCustomerId());
-		this.billingAddress.setLine1(billingAddress.getLine1());
-		this.billingAddress.setLine2(billingAddress.getLine2());
-		this.billingAddress.setCity(billingAddress.getCity());
-		this.billingAddress.setState(billingAddress.getState());
-		this.billingAddress.setCountry(billingAddress.getCountry());
-		this.billingAddress.setZipCode(billingAddress.getZipCode());*/
+		/*
+		 * this.billingAddress.setCustomerId(customer.getCustomerId());
+		 * this.billingAddress.setLine1(billingAddress.getLine1());
+		 * this.billingAddress.setLine2(billingAddress.getLine2());
+		 * this.billingAddress.setCity(billingAddress.getCity());
+		 * this.billingAddress.setState(billingAddress.getState());
+		 * this.billingAddress.setCountry(billingAddress.getCountry());
+		 * this.billingAddress.setZipCode(billingAddress.getZipCode());
+		 */
 		return "success";
 	}
 
-	public String addCardDetails(CheckoutTemp checkoutTemp,CardDetail cardDetail) {
+	public String addCardDetails(CheckoutTemp checkoutTemp, CardDetail cardDetail) {
 		System.out.println(checkoutTemp);
 		customer = customerDAO.getCustomerByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		shippingAddressDAO.saveOrUpdate(checkoutTemp.getShippingAddress());
 		billingAddressDAO.saveOrUpdate(checkoutTemp.getBillingAddress());
-		
-		
+
 		cardDetail.setCustomerId(customer.getCustomerId());
 		cardDetail.setTotalCost(cartDAO.getCartByCustomerId(customer.getCustomerId()).getGrandTotal());
 		cardDetailDAO.saveOrUpdate(cardDetail);
-		
-		
+
 		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
-		for(CartItem item : listOfCartItems)
-		{
+		for (CartItem item : listOfCartItems) {
 			orderedItems.setCustomerId(item.getCustomerId());
 			orderedItems.setProductId(item.getProductId());
 			orderedItems.setQuantity(item.getQuantity());
@@ -131,24 +132,21 @@ public class FlowController {
 			orderedItemsDAO.saveOrUpdate(orderedItems);
 			cartItemDAO.delete(item.getCartItemId());
 		}
-		
-		listOfCartItems=cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
-		Cart cart= new Cart();
+
+		listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
+		Cart cart = new Cart();
 		double grandTotal = 0;
-		for(CartItem item : listOfCartItems)
-		{
-			grandTotal=grandTotal+item.getTotalPrice();
+		for (CartItem item : listOfCartItems) {
+			grandTotal = grandTotal + item.getTotalPrice();
 		}
+		cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
 		cart.setGrandTotal(grandTotal);
-		cart=cartDAO.getCartByCustomerId(customer.getCustomerId());
+
 		cart.setCartId(cart.getCartId());
 		cart.setCustomerId(cart.getCustomerId());
 		cart.setNoOfProducts(listOfCartItems.size());
 		cartDAO.saveOrUpdate(cart);
-		Model model = null;
-		model.addAttribute("noOfProducts", listOfCartItems.size());
-		
-		
+
 		return "success";
 	}
 
