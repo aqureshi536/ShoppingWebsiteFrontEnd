@@ -101,6 +101,10 @@
 				<c:if test="${isBillingAddress==true }">
 				<%@include file="./cart/billingAddress.jsp" %>
 				</c:if>
+				<c:if test="${isSearchProducts==true }">
+				<%@include file="search.jsp" %>
+				</c:if>
+				
 			</div>
 			<!--  col-sm-9 ends here -->
 		

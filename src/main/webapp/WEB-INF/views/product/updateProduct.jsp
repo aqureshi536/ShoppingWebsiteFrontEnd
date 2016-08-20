@@ -142,7 +142,7 @@
 							<label for="" class="col-sm-2 control-label">Product
 								Image</label>
 							<div class="col-sm-10">
-								<form:input path="imageUrl" class="form-control" type="file" required="required"></form:input>
+								<form:input path="imageUrl" class="form-control" type="file"></form:input>
 							</div>
 						</div>
 						<center>

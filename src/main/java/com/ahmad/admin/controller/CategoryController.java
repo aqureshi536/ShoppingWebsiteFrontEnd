@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class CategoryController {
 	private Category category;
 	@Autowired
 	private CategoryDAO categoryDAO;
-
+	@Autowired
+	HttpSession httpSession;
 	// Methods to add Category goer here
 	// activates when admin licked Category on sideBar
 
@@ -51,10 +53,10 @@ public class CategoryController {
 			categories.add(categoryModel);
 		}
 		model.addAttribute("categories", categories);
-		
+
 		// Gets the category on the navber
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -65,10 +67,10 @@ public class CategoryController {
 	public ModelAndView addCategory() {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("category", category);
-		// Gets the category on the navber
-				List<Category> categoryList = categoryDAO.listCategory();
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
+		
+
+		
+		// ================================================================
 		mv.addObject("isAddCategoryClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -84,15 +86,14 @@ public class CategoryController {
 	// }
 
 	@RequestMapping(value = "/admin/viewCategory", method = RequestMethod.POST)
-	public ModelAndView addCategory(@ModelAttribute("category")@Valid Category category,BindingResult result, Model model,
-			HttpServletRequest request) {
+	public ModelAndView addCategory(@ModelAttribute("category") @Valid Category category, BindingResult result,
+			Model model, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 
-		if(result.hasErrors())
-		{
+		if (result.hasErrors()) {
 			// Gets the category on the navber
 			List<Category> categoryList = categoryDAO.listCategory();
-			mv.addObject("categoryList", categoryList);
+			httpSession.setAttribute("categoryList", categoryList);
 			// ================================================================
 			mv.addObject("isAddCategoryClicked", "true");
 			mv.addObject("displayLogout", "true");
@@ -137,9 +138,9 @@ public class CategoryController {
 		model.addAttribute("categories", categories);
 
 		// Gets the category on the navber
-				
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
+
+		mv.addObject("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -186,9 +187,9 @@ public class CategoryController {
 		}
 		model.addAttribute("categories", categories);
 		// Gets the category on the navber
-			
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
+
+		httpSession.setAttribute("categoryList", categoryList);
+		// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -204,9 +205,9 @@ public class CategoryController {
 		category = categoryDAO.get(categoryId);
 		mv.addObject("categoryToUpdate", category);
 		// Gets the category on the navber
-				List<Category> categoryList = categoryDAO.listCategory();
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
+		
+		
+		// ================================================================
 		mv.addObject("isClickedAdminUpdateCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
@@ -214,14 +215,14 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/admin/viewCategory/updated", method = RequestMethod.POST)
-	public ModelAndView updateCategory(@ModelAttribute("category") @Valid Category category,BindingResult result, Model model,
-			HttpServletRequest request) {
+	public ModelAndView updateCategory(@ModelAttribute("category") @Valid Category category, BindingResult result,
+			Model model, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
-		if(result.hasErrors()){
-			
+		if (result.hasErrors()) {
+
 			// Gets the category on the navber
 			List<Category> categoryList = categoryDAO.listCategory();
-			mv.addObject("categoryList", categoryList);
+			
 			// ================================================================
 			mv.addObject("categoryToUpdate", category);
 			mv.addObject("isClickedAdminUpdateCategory", "true");
@@ -229,33 +230,30 @@ public class CategoryController {
 			mv.addObject("displayAdminAction", "true");
 			return mv;
 		}
-		
-		
+
 		MultipartFile categoryImage = category.getCategoryImage();
-		
+
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		if (categoryImage != null && !categoryImage.isEmpty()) {
-			try{
+			try {
 				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
 					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\category\\"));
 				}
-				categoryImage.transferTo(new File(Paths.get(rootDirectory + "\\resources\\images\\category\\" + category.getCategoryId() + ".png")
-						.toString()));
-			}
-			catch(Exception e){
+				categoryImage.transferTo(new File(
+						Paths.get(rootDirectory + "\\resources\\images\\category\\" + category.getCategoryId() + ".png")
+								.toString()));
+			} catch (Exception e) {
 				e.printStackTrace();
-				throw new RuntimeException("Category Image updating failed",e);
+				throw new RuntimeException("Category Image updating failed", e);
 			}
-			
+
 		}
-		
-//		Gets the name before and after updating the product
-		
+
+		// Gets the name before and after updating the product
+
 		categoryDAO.saveOrUpdate(category);
-		
-	
-		
+
 		List<Category> categoryList = categoryDAO.listCategory();
 		CategoryModel categoryModel = null;
 		List<CategoryModel> categories = new ArrayList<CategoryModel>();
@@ -268,18 +266,18 @@ public class CategoryController {
 			categories.add(categoryModel);
 		}
 		model.addAttribute("categories", categories);
-		
-		String categoryNameAfterUpdate= category.getCategoryName();
+
+		String categoryNameAfterUpdate = category.getCategoryName();
 		mv.addObject("categoryNameAfterUpdate", categoryNameAfterUpdate);
 		// Gets the category on the navber
-			
-				mv.addObject("categoryList", categoryList);
-				// ================================================================
-		 mv.addObject("categoryUpdateMessage", "true");
+
+		httpSession.setAttribute("categoryList", categoryList);
+		// ================================================================
+		mv.addObject("categoryUpdateMessage", "true");
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
 		mv.addObject("displayAdminAction", "true");
-		
+
 		return mv;
 	}
 	// ------------------------------ end of category ----------------

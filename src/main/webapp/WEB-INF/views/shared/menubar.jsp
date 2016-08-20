@@ -2,25 +2,36 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row">
-	<div class="col-sm-6">
+	<div class="col-sm-7">
 		<img src="${images}/My Furniture Logo.png" class="img-responsive">
 	</div>
-	<div class="col-sm-6">
-		<div class="input-group" style="padding-top: 50px;">
-			<input type="search" class="form-control" placeholder="Search"
-				ng-model="searchProduct"> <span class="input-group-addon"><div
-					class="glyphicon glyphicon-search"></div></span>
-		</div>
-	</div>
+	<div class="col-sm-4">
+		<div style="padding-top: 50px;">
+			<form:form action="${contextPath}/search/" method="get">
+				<input type="search" class="form-control" placeholder="Search"
+					ng-model="searchProduct" name="keyword"></div></div>
+				<div class="col-sm-1"  style="padding-top: 50px;">
+					<input type="submit" value="search"
+						class="btn btn-md btn-info">
+				</div>
+			</form:form>
 
-
-
-	<button type="button" class="navbar-toggle" data-toggle="collapse"
-		data-target="#homeNavbar" id="homenavbarToggle">
-		<span><b>Categories</b></span> <span class="icon-bar"></span> <span
-			class="icon-bar"></span> <span class="icon-bar"></span>
-	</button>
+		
+	
 </div>
+
+
+
+
+
+
+
+<button type="button" class="navbar-toggle" data-toggle="collapse"
+	data-target="#homeNavbar" id="homenavbarToggle">
+	<span><b>Categories</b></span> <span class="icon-bar"></span> <span
+		class="icon-bar"></span> <span class="icon-bar"></span>
+</button>
+
 
 <div class="navbar navbar-inverse collapse navbar-collapse"
 	id="homeNavbar" data-spy="affix" data-offset-top="124">
@@ -37,7 +48,7 @@
 		</a>
 			<ul class="dropdown-menu dropdownhover-bottom" role="menu">
 				<c:forEach items="${categoryList}" var="category">
-					<li><a style="font-size:20px;"
+					<li><a style="font-size: 20px;"
 						href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li>
 				</c:forEach>
 			</ul></li>
@@ -45,8 +56,8 @@
 
 
 	</ul>
-	<ul class="nav navbar-nav navbar-right"  
-	data-hover="dropdown" data-animations="jello fadeInRight fadeInUp fadeInLeft">
+	<ul class="nav navbar-nav navbar-right" data-hover="dropdown"
+		data-animations="jello fadeInRight fadeInUp fadeInLeft">
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<c:if test="${displayCart == true }">
 				<li id="viewCart"><a id="A_viewCart"
@@ -54,25 +65,29 @@
 						Cart <span class="badge">${noOfProducts}</span></a></li>
 			</c:if>
 		</sec:authorize>
-		
-		
-		
+
+
+
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<c:if test="${pageContext.request.userPrincipal.name != null }">
-				<li class="dropdown" id="adminHoverMenu"><a class="dropdown-toggle" href="#"
-			 data-toggle="dropdown" role="button"	aria-expanded="false">
-			 <span class="glyphicon glyphicon-user"></span>
+				<li class="dropdown" id="adminHoverMenu"><a
+					class="dropdown-toggle" href="#" data-toggle="dropdown"
+					role="button" aria-expanded="false"> <span
+						class="glyphicon glyphicon-user"></span>
 						${pageContext.request.userPrincipal.name} <span class="caret"></span></a>
 					<ul class="dropdown-menu dropdownhover-bottom" role="menu">
-						<li><a style="font-size:20px;" href="${contextPath}/admin/viewProducts">Product</a></li>
-						<li><a style="font-size:20px;" href="${contextPath}/admin/viewCategory">Category</a></li>
-						<li><a style="font-size:20px;" href="${contextPath}/admin/viewSupplier">Supplier</a></li>
+						<li><a style="font-size: 20px;"
+							href="${contextPath}/admin/viewProducts">Product</a></li>
+						<li><a style="font-size: 20px;"
+							href="${contextPath}/admin/viewCategory">Category</a></li>
+						<li><a style="font-size: 20px;"
+							href="${contextPath}/admin/viewSupplier">Supplier</a></li>
 					</ul></li>
 			</c:if>
 		</sec:authorize>
-		
-		
-		
+
+
+
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<c:if test="${ pageContext.request.userPrincipal.name != null }">
 				<li><a href="javascript:void(0)"><span

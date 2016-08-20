@@ -1,6 +1,8 @@
 <%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <div class="productMainDiv">
-
+<c:if test="${not empty addToCartAllProducts }">
+<div class="alert alert-success">${addToCartAllProducts}</div>
+</c:if>
 	<div class="row">
 		<c:forEach items="${products}" var="product">
 
@@ -14,7 +16,7 @@
 					</p>
 					<sec:authorize access="!hasRole('ROLE_ADMIN')">
 					<div class="btn-group-vertical" id="actionButtons">
-						<a class="btn btn-warning btn-md">Add to Cart</a>
+						<a href="${contextPath}/user/allProducts/addToCart/${product.productId}" class="btn btn-warning btn-md">Add to Cart</a>
 						
 					</div>
 					</sec:authorize>

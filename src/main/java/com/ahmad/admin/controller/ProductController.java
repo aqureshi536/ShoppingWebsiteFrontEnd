@@ -84,10 +84,8 @@ public class ProductController {
 		}
 
 		mv.addObject("supplierName", supplierName);
-		// Gets the category on the navber
-		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
+		
+		//model.addAttribute("showProductDetail", "notEmpty");
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
@@ -151,10 +149,7 @@ public class ProductController {
 		 * categoryName=category.getCategoryName(); listName=new ArrayList<>();
 		 * listName.add(categoryName); }
 		 */
-		// Gets the category on the navbar
-		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
+		
 		List<ProductModel> products = new ArrayList<>();
 		// Calling a method
 		products = getNameSuppAndCat(products);
@@ -182,9 +177,7 @@ public class ProductController {
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 
-		// Gets the category on the navbar
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
+	
 		mv.addObject("isAddProductClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -204,10 +197,7 @@ public class ProductController {
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
 			model.addAttribute("suppliers", supplierList);
-			// Gets the category on the navbar
-
-			mv.addObject("categoryList", categoryList);
-			// ================================================================
+		
 			mv.addObject("isAddProductClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
@@ -260,10 +250,7 @@ public class ProductController {
 		model.addAttribute("suppliers", supplierList);
 		// ---------------------------------------------------------
 
-		// Gets the category on the navbar
-		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
+	
 		mv.addObject("isClickedAdminViewProducts", "true");
 		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
@@ -307,11 +294,7 @@ public class ProductController {
 			supplier.setSupplierName("Not Available");
 			supplierName = supplier.getSupplierName();
 		}
-		// Gets the category on the navbar
-
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
-
+		
 		mv.addObject("categoryName", categoryName);
 		mv.addObject("supplierName", supplierName);
 
@@ -357,10 +340,7 @@ public class ProductController {
 				supplierName = supplier.getSupplierName();
 			}
 
-			// Gets the category on the navbar
-
-			mv.addObject("categoryList", categoryList);
-			// ================================================================
+		
 			mv.addObject("categoryName", categoryName);
 			mv.addObject("supplierName", supplierName);
 			mv.addObject("isUpdateProductClicked", "true");
@@ -457,10 +437,7 @@ public class ProductController {
 		products = getNameSuppAndCat(products);
 		model.addAttribute("products", products);
 
-		// Gets the category on the navbar
-		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
+		
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);

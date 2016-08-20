@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ahmad.dao.CartDAO;
+import com.ahmad.dao.CartItemDAO;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.ProductDAO;
 import com.ahmad.dao.UserAuthoritiesDAO;
 import com.ahmad.dao.UsersDAO;
 import com.ahmad.model.Cart;
+import com.ahmad.model.CartItem;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
 import com.ahmad.model.Product;
@@ -30,10 +32,14 @@ import com.ahmad.model.Users;
 
 @Controller
 public class PageController {
-
+	@Autowired
+	Product product;
+	@Autowired
+	CartItem cartItem;
 	@Autowired
 	private ProductDAO productDAO;
-
+	@Autowired
+	CartItemDAO cartItemDAO;
 	@Autowired
 	private CategoryDAO categoryDAO;
 	@Autowired
@@ -59,11 +65,46 @@ public class PageController {
 	// Activates When Home Page Is accessed
 
 	@RequestMapping(value = { "/", "/index" })
-	public ModelAndView home(Principal username) {
+	public ModelAndView home(Principal username, Model model) {
 		ModelAndView mv = new ModelAndView("index");
+		List<Product> productList = productDAO.listProductByStock();
+		int size = productList.size();
+		Product[] productArray = new Product[3];
+		if (size != 0) {
+			int size1 = productList.size();
+			for (int i = 0; i <= 2; i++) {
+				productArray[i] = productList.get(size1 - 1);
+				model.addAttribute("productArray", productArray);
+				size1--;
+			}
+		}
+
+		if (size >= 9) {
+			Product[] productArray1 = new Product[3];
+			Product[] productArray2 = new Product[3];
+			Product[] productArray3 = new Product[3];
+			for (int i = 0; i <= 2; i++) {
+				productArray1[i] = productList.get(size - 1);
+				size--;
+			}
+			for (int i = 0; i <= 2; i++) {
+				productArray2[i] = productList.get(size - 1);
+				size--;
+			}
+			for (int i = 0; i <= 2; i++) {
+				productArray3[i] = productList.get(size - 1);
+				size--;
+			}
+			model.addAttribute("productArray1", productArray1);
+			model.addAttribute("productArray2", productArray2);
+			model.addAttribute("productArray3", productArray3);
+		} else {
+			model.addAttribute("noProducts", "noProducts");
+		}
+
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
+		httpSession.setAttribute("categoryList", categoryList);
 		// ================================================================
 		mv.addObject("isHomeClicked", "true");
 		mv.addObject("activeNavMenu", "home");
@@ -128,15 +169,15 @@ public class PageController {
 	public String registerCustomer(@ModelAttribute("customer") Customer customer) {
 		this.customer = customer;
 		// save to the customer table
-		customerDAO.saveOrUpdate(customer);	
-		
+		customerDAO.saveOrUpdate(customer);
+
 		// After saving to customer table save to users table
 		users.setCustomerId(customer.getCustomerId());
 		users.setEnabled(true);
 		users.setUsername(customer.getUsername());
 		users.setPassword(customer.getPassword());
 		usersDAO.saveOrUpdate(users);
-		
+
 		// After saving users table now save to user authorities table
 		userAuthorities.setCustomerId(customer.getCustomerId());
 		userAuthorities.setUsername(customer.getUsername());
@@ -173,36 +214,33 @@ public class PageController {
 	}
 
 	// Customer after registered
-
-	@RequestMapping(value = "/customer/home", method = RequestMethod.POST)
-	public ModelAndView register(@ModelAttribute("customer") Customer customer) {
-		ModelAndView mv = new ModelAndView("index");
-
-		customerDAO.saveOrUpdate(customer);
-		mv.addObject("isHomeClicked", "true");
-		mv.addObject("active", "home");
-		mv.addObject("displayLogin", "true");
-		mv.addObject("displayCart", "true");
-
-		// Optional
-		mv.addObject("pageBeforeAdminAction", "true");
-		// Gets the category on the navber
-		List<Category> categoryList = categoryDAO.listCategory();
-		mv.addObject("categoryList", categoryList);
-		// ================================================================
-		return mv;
-	}
+	/*
+	 * @RequestMapping(value = "/customer/home", method = RequestMethod.POST)
+	 * public ModelAndView register(@ModelAttribute("customer") Customer
+	 * customer) { ModelAndView mv = new ModelAndView("index");
+	 * 
+	 * customerDAO.saveOrUpdate(customer); mv.addObject("isHomeClicked",
+	 * "true"); mv.addObject("active", "home"); mv.addObject("displayLogin",
+	 * "true"); mv.addObject("displayCart", "true");
+	 * 
+	 * // Optional mv.addObject("pageBeforeAdminAction", "true"); // Gets the
+	 * category on the navber List<Category> categoryList =
+	 * categoryDAO.listCategory(); mv.addObject("categoryList", categoryList);
+	 * // ================================================================
+	 * return mv; }
+	 */
 
 	// To get the products according to category
 	@RequestMapping("/allProducts/{categoryId}")
-	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId,Model model) {
+	public ModelAndView categoryProducts(@PathVariable("categoryId") String categoryId, Model model) {
 		ModelAndView mv = new ModelAndView("index");
 
 		List<Product> productList = categoryDAO.selectedCategoryProductList(categoryId);
 		if (!productList.isEmpty()) {
 			mv.addObject("productList", productList);
 		} else {
-			model.addAttribute("productNotPresent", "Sorry, No products present in "+categoryDAO.get(categoryId).getCategoryName()+" category");
+			model.addAttribute("productNotPresent",
+					"Sorry, No products present in " + categoryDAO.get(categoryId).getCategoryName() + " category");
 		}
 		mv.addObject("isViewProductByCategory", "true");
 
@@ -211,6 +249,145 @@ public class PageController {
 		mv.addObject("categoryList", categoryList);
 		// ================================================================
 		return mv;
+	}
+
+	@RequestMapping(value = "/search/", method = RequestMethod.GET)
+	public ModelAndView productSearch(@RequestParam("keyword") String keyword, Model model) {
+		ModelAndView mv = new ModelAndView("index");
+		List<Product> listOfsearchedProducts = productDAO.searchProduct(keyword);
+		if (!listOfsearchedProducts.isEmpty()) {
+			mv.addObject("listOfsearchedProducts", listOfsearchedProducts);
+		} else {
+			model.addAttribute("noResultsFound", "Sorry, No results found for keyword " + keyword);
+		}
+		mv.addObject("isSearchProducts", "true");
+		return mv;
+
+	}
+
+	// Add a product to cart on all products page
+
+	@RequestMapping("/user/allProducts/addToCart/{productId}")
+	public String addToCart(@PathVariable("productId") String productId, Model model, Principal userName) {
+
+		// System.out.println(name);
+
+		// 1.Get the customer id by its user name
+		String customerName = userName.getName();
+		customer = customerDAO.getCustomerByUserName(customerName);
+		String customerId = customer.getCustomerId();
+
+		// 2.Check whether his cart is present in the cart table
+		// If cart is not present then make a cart for him
+
+		if (cartDAO.getCartByCustomerId(customerId) == null) {
+			cart = new Cart();
+			cart.setCustomerId(customerId);
+			cartDAO.saveOrUpdate(cart);
+
+			// cartItem.setCartId(cart.getCartId());
+		}
+
+		// This statement changes the cart if cart is present and due to
+		// unpresence of this there where errors
+		else {
+			cart = cartDAO.getCartByCustomerId(customerId);
+		}
+
+		String cartId = cart.getCartId();
+
+		// 3.get the product price
+
+		product = productDAO.get(productId);
+
+		// If cart is present then go into the cartItem table and search for
+		// product
+		// this customer selected whether it exists or it is a new product.
+		// -------------
+		// passing the customerId and productId to a method name returnCartItem
+		// through a method
+
+		// if we get null means the product is not present
+
+		if (addCartItem(customerId, productId, cartId, model) == null) {
+			cartItem = new CartItem();
+			cartItem.setCartId(cartId);
+			cartItem.setCustomerId(customerId);
+			cartItem.setProductId(product.getProductId());
+			cartItem.setQuantity(1);
+			cartItem.setTotalPrice(product.getPrice());
+			cartItemDAO.saveOrUpdate(cartItem);
+			System.out.println("Insertion of cartItem");
+			updateCartAgain(cartId, customerId);
+
+		}
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
+		// Now navigate to the same page
+		return "redirect:/allProducts?addToCartAllProducts";
+	}
+
+	public int updateCartAgain(String cartId, String customerId) {
+
+		List<CartItem> listOfSelectedCartItems;
+		// Now after getting the cartItem change grandTotal and No of Products
+		listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+		double grandTotal = 0;
+		for (CartItem item : listOfSelectedCartItems) {
+			grandTotal = grandTotal + item.getTotalPrice();
+		}
+		cart.setGrandTotal(grandTotal);
+
+		int noOfProducts = listOfSelectedCartItems.size();
+
+		cart.setCartId(cartId);
+		cart.setCustomerId(customerId);
+		cart.setNoOfProducts(noOfProducts);
+		cartDAO.saveOrUpdate(cart); // This method updates the cart
+
+		return noOfProducts;
+		// =========== Completed Adding the item to cart =====
+
+	}
+
+	// This is the method which perform all the operations related to addition
+	// of product cartItem
+	public String addCartItem(String customerId, String productId, String cartId, Model model) {
+		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+		Product product = productDAO.get(productId);
+		for (CartItem item : listOfSelectedCartItems) {
+			String itemProductId = item.getProductId();
+			System.out.println(itemProductId);
+			if (itemProductId.equals(product.getProductId())) {
+				System.out.println(item.getCartItemId());
+				item.setCartItemId(item.getCartItemId());
+
+				System.out.println(item.getQuantity());
+				item.setQuantity(item.getQuantity() + 1);
+
+				System.out.println(item.getTotalPrice());
+				item.setTotalPrice(item.getTotalPrice() + product.getPrice());
+
+				System.out.println(item.toString());
+				cartItemDAO.saveOrUpdate(item);
+				updateCartAgain(cartId, customerId);
+
+				return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+
+			}
+
+		}
+
+		return null;
+	}
+
+	public int returnNoOfProducts(Principal username) {
+		if (username != null) {
+			int noOfProduct = cartDAO
+					.getCartByCustomerId(customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
+					.getNoOfProducts();
+			return noOfProduct;
+		}
+		return 0;
 	}
 
 }
