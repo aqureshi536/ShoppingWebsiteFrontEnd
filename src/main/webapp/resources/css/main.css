@@ -147,7 +147,7 @@ body {
 	margin-right: 30px;
 	transition: box-shadow 0.3s;
 	transition: background-color 0.3;
-	
+	cursor:pointer;
 	margin-left: 10px;
 	margin-top: 25px;
 
@@ -218,11 +218,13 @@ position:inherit;
 .table-cart {
 	padding: 35px;
 	box-shadow: 2px;
+	border:2px solid;
 }
 
 .table-cart>thead>tr>th {
 	text-align: center;
 	vertical-align: middle;
+	border:2px solid black;
 }
 
 .table-cart>tbody>tr>td {

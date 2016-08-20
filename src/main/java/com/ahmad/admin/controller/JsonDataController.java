@@ -23,6 +23,7 @@ import com.ahmad.model.Cart;
 import com.ahmad.model.CartItem;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
+import com.ahmad.model.OrderedItems;
 import com.ahmad.model.Product;
 import com.ahmad.model.Supplier;
 import com.ahmad.viewmodel.CartItemModel;
@@ -30,7 +31,6 @@ import com.ahmad.viewmodel.ProductModel;
 
 @RestController
 public class JsonDataController {
-	
 
 	@Autowired
 	Product product;
@@ -63,7 +63,7 @@ public class JsonDataController {
 	CartItemDAO cartItemDAO;
 
 	// -----To Display all products-------
-	@RequestMapping(value="/product/all",method=RequestMethod.GET)
+	@RequestMapping(value = "/product/all", method = RequestMethod.GET)
 	public @ResponseBody List<ProductModel> returnAllProductsModel(
 			@RequestParam(value = "addToCartAllProducts", required = false) String addToCartAllProducts, Model model) {
 		if (addToCartAllProducts != null) {
@@ -99,20 +99,18 @@ public class JsonDataController {
 		return products;
 	}
 
-	//-------To display specific product  ---------
-	@RequestMapping(value="/product/productDetail/{productId}",method=RequestMethod.GET)
-	public Product productDetail(@PathVariable("productId")String productId,Model model)
-	{
+	// -------To display specific product ---------
+	@RequestMapping(value = "/product/productDetail/{productId}", method = RequestMethod.GET)
+	public Product productDetail(@PathVariable("productId") String productId, Model model) {
 		model.addAttribute("showProductDetail", "notEmpty");
 		product = productDAO.get(productId);
 		model.addAttribute("supplierName", supplierDAO.get(product.getSupplierId()));
 		return product;
-		
+
 	}
-	
-	
+
 	// ------To display data category wise----------
-	@RequestMapping(value="/product/{categoryId}",method=RequestMethod.GET)
+	@RequestMapping(value = "/product/{categoryId}", method = RequestMethod.GET)
 	public @ResponseBody List<Product> productByCategory(@PathVariable("categoryId") String categoryId, Model model) {
 		List<Product> listProductByCategory = categoryDAO.selectedCategoryProductList(categoryId);
 		model.addAttribute("showProductByCategory", "notEmpty");
@@ -125,20 +123,17 @@ public class JsonDataController {
 		return null;
 	}
 
-	@RequestMapping(value="/dummy",method=RequestMethod.GET)
-	public @ResponseBody List<Product> checkDummy()
-	{
-		
+	@RequestMapping(value = "/dummy", method = RequestMethod.GET)
+	public @ResponseBody List<Product> checkDummy() {
+
 		return productDAO.listProduct();
 	}
-	
-	
-	
-//	To view Cart
-	
+
+	// To view Cart
+
 	@RequestMapping("/view/cart/")
-	public @ResponseBody List<CartItemModel> viewCart(Principal principal){
-	customer=customerDAO.getCustomerByUserName(principal.getName());
+	public @ResponseBody List<CartItemModel> viewCart(Principal principal) {
+		customer = customerDAO.getCustomerByUserName(principal.getName());
 		List<CartItem> cartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 
 		List<CartItemModel> cartItemModelList = new ArrayList<>();
@@ -158,7 +153,16 @@ public class JsonDataController {
 		}
 		return cartItemModelList;
 	}
-	
-	
-	
+
+	@RequestMapping(value="/view/orderedItems",method=RequestMethod.GET)
+	public List<OrderedItems> listOfOrderedItems(Principal principal){
+		List<OrderedItems> listofOrderedItems = cartDAO.listOrderedItems(customerDAO.getCustomerByUserName
+												(principal.getName()).getCustomerId());
+		if(listofOrderedItems!=null&&!listofOrderedItems.isEmpty())
+		{
+			return listofOrderedItems;
+		}
+		return null;
+	}
+
 }

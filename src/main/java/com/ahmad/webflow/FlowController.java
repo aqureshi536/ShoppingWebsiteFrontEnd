@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 import com.ahmad.dao.BillingAddressDAO;
 import com.ahmad.dao.CardDetailDAO;
@@ -16,6 +15,7 @@ import com.ahmad.dao.CartItemDAO;
 import com.ahmad.dao.CustomerDAO;
 import com.ahmad.dao.OrderDetailDAO;
 import com.ahmad.dao.OrderedItemsDAO;
+import com.ahmad.dao.ProductDAO;
 import com.ahmad.dao.ShippingAddressDAO;
 import com.ahmad.model.BillingAddress;
 import com.ahmad.model.CardDetail;
@@ -29,7 +29,8 @@ import com.ahmad.temp.CheckoutTemp;
 
 @Component
 public class FlowController {
-
+@Autowired
+private ProductDAO productDAO;
 	@Autowired
 	private ShippingAddress shippingAddress;
 
@@ -124,8 +125,11 @@ public class FlowController {
 		cardDetailDAO.saveOrUpdate(cardDetail);
 
 		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
+		System.out.println(listOfCartItems);
 		for (CartItem item : listOfCartItems) {
+			orderedItems=new OrderedItems();
 			orderedItems.setCustomerId(item.getCustomerId());
+			orderedItems.setProductName(productDAO.get(item.getProductId()).getProductName());
 			orderedItems.setProductId(item.getProductId());
 			orderedItems.setQuantity(item.getQuantity());
 			orderedItems.setTotalPrice(item.getTotalPrice());
@@ -146,6 +150,7 @@ public class FlowController {
 		cart.setCustomerId(cart.getCustomerId());
 		cart.setNoOfProducts(listOfCartItems.size());
 		cartDAO.saveOrUpdate(cart);
+		httpSession.setAttribute("noOfProducts", cart.getNoOfProducts());
 
 		return "success";
 	}

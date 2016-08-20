@@ -29,5 +29,12 @@
 					$scope.cartItems = data;
 				});
 			} ]);
+	
+	myApp.controller('orderedItemsCtrl',function($scope, $http) {
+		$http.get('/ShoppingWebsite/view/orderedItems')
+				.success(function(data) {
+					$scope.orderedItems = data;
+				});
+	});
 
 }());

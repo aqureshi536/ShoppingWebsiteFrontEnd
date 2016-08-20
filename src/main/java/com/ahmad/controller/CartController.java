@@ -283,6 +283,7 @@ public class CartController {
 		else{
 			model.addAttribute("noProductsinHistory","No products ordered till now");
 		}
+		mv.addObject("activeNavMenu", "viewCart");
 		return mv;
 
 	}

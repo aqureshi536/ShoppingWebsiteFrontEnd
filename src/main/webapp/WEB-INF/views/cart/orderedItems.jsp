@@ -1,6 +1,15 @@
-<c:choose>
-		<c:when test="${not empty cartEmpty}">
-			<h2 style="margin: auto;text-align:center;">No products in cart</h2>
+<div class="table-outer productMainDiv" ng-controller="orderedItemsCtrl">
+<p style="font-size:35px;font-weight:bold;text-align:center;text-decoration:underline;">Products delivered</p>
+<div class="btn-group-vertical">
+
+								<a
+									href="${contextPath}/user/cart/"
+									class="btn btn-lg btn-primary"><span
+									class="glyphicon glyphicon-remove-sign"></span> Back</a>
+							</div><br><br>
+	<c:choose>
+		<c:when test="${not empty noProductsinHistory}">
+			<h2 style="margin: auto; text-align: center;">${noProductsinHistory}</h2>
 		</c:when>
 		<c:otherwise>
 			<table class="table table-hover table-reponsive table-cart">
@@ -11,12 +20,12 @@
 					%> --%>
 					<tr class="table-primary">
 
-					<%-- 	<c:forEach items="${cartItems}" var="cartItem">
+						<%-- 	<c:forEach items="${cartItems}" var="cartItem">
 							<%
 								j++;
 							%>
 						</c:forEach> --%>
-						
+
 						<%-- <th>Sr.No <span>( <%
 							out.println(j);
 						%> )
@@ -26,39 +35,36 @@
 						<th>Product Name</th>
 						<th>Product Quantity</th>
 						<th>Total Price</th>
-						<th>Action</th>
+						
 					</tr>
 				</thead>
 				<tbody>
 
-				<%-- 	<c:forEach items="${cartItems}" var="c"> --%>
+					<%-- 	<c:forEach items="${cartItems}" var="c"> --%>
 
 
-						<tr ng-repeat="c in cartItems|filter:searchProduct">
-							<%-- <td>
+					<tr ng-repeat="item in orderedItems|filter:searchProduct">
+						<%-- <td>
 								<%
 									out.println(i);
 								%>
 							</td> --%>
-							<td><img src="${images}/product/{{c.cartItem.productId}}.png"
-								class="cart-Image"></td>
-							<td>{{c.productName}}</td>
-							<td>{{c.cartItem.quantity}}</td>
-							<td>{{c.cartItem.totalPrice}}</td>
-							<td>
-								<div class="btn-group-vertical">
-
-									<a href="${contextPath}/user/cart/remove/{{c.cartItem.cartItemId}}"
-										class="btn btn-md btn-danger"><span
-										class="glyphicon glyphicon-remove-sign"></span> Remove</a>
-								</div>
-							</td>
-						</tr>
+						<td><img src="${images}/product/{{item.productId}}.png"
+							class="cart-Image img-thumbnail"></td>
+						<td>{{item.productName}}</td>
+						<td>{{item.quantity}}</td>
+						<td><span class="fa fa-inr"></span> {{item.totalPrice}}</td>
+						
+							
+						
+					</tr>
 					<%-- 	<%
 							i++;
 						%> --%>
 					<%-- </c:forEach> --%>
 				</tbody>
 			</table>
-</c:otherwise>
-</c:choose>
+			
+		</c:otherwise>
+	</c:choose>
+</div>

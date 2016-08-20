@@ -28,8 +28,7 @@ else{
 				document.getElementById("logoutForm").submit();
 			}
 </script>
-<script src="${js}/angular.js"></script>
-<script src="${js}/app.js"></script>
+
 <script src="${js}/jquery-1.12.4.js"></script>
 <script src="${js}/bootstrap.js"></script>
 <script src="${js}/bootstrap-dropdownhover.js"></script>
