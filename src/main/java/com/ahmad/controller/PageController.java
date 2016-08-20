@@ -77,6 +77,8 @@ public class PageController {
 				model.addAttribute("productArray", productArray);
 				size1--;
 			}
+		} else {
+			model.addAttribute("noLatestProducts", " noLatestProducts");
 		}
 
 		if (size >= 9) {
@@ -142,7 +144,8 @@ public class PageController {
 	@RequestMapping(value = { "/login" })
 	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model,
-			@RequestParam(value = "registrationSuccessfull", required = false) String registered) {
+			@RequestParam(value = "registrationSuccessfull", required = false) String registered,
+			@RequestParam(value = "userExists", required = false) String userExists) {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("customer", new Customer());
 		if (error != null) {
@@ -153,6 +156,9 @@ public class PageController {
 		}
 		if (registered != null) {
 			model.addAttribute("registered", "Registration Successfull, Please login again");
+		}
+		if (userExists != null) {
+			model.addAttribute("userExists", "Oops! Try diffrent username or email");
 		}
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -168,22 +174,26 @@ public class PageController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String registerCustomer(@ModelAttribute("customer") Customer customer) {
 		this.customer = customer;
-		// save to the customer table
-		customerDAO.saveOrUpdate(customer);
+		Customer customerToCheck = customerDAO.getCustomerByUserName(customer.getUsername());
+		if (customerToCheck == null) {
+			// save to the customer table
+			customerDAO.saveOrUpdate(customer);
 
-		// After saving to customer table save to users table
-		users.setCustomerId(customer.getCustomerId());
-		users.setEnabled(true);
-		users.setUsername(customer.getUsername());
-		users.setPassword(customer.getPassword());
-		usersDAO.saveOrUpdate(users);
+			// After saving to customer table save to users table
+			users.setCustomerId(customer.getCustomerId());
+			users.setEnabled(true);
+			users.setUsername(customer.getUsername());
+			users.setPassword(customer.getPassword());
+			usersDAO.saveOrUpdate(users);
 
-		// After saving users table now save to user authorities table
-		userAuthorities.setCustomerId(customer.getCustomerId());
-		userAuthorities.setUsername(customer.getUsername());
-		userAuthorities.setAuthority("ROLE_USER");
-		userAuthoritiesDAO.saveOrUpdate(userAuthorities);
-		return "redirect:/login?registrationSuccessfull";
+			// After saving users table now save to user authorities table
+			userAuthorities.setCustomerId(customer.getCustomerId());
+			userAuthorities.setUsername(customer.getUsername());
+			userAuthorities.setAuthority("ROLE_USER");
+			userAuthoritiesDAO.saveOrUpdate(userAuthorities);
+			return "redirect:/login?registrationSuccessfull";
+		}
+		return "redirect:/login?userExists";
 	}
 
 	// activates when clicked View All Products on NavBar
@@ -390,4 +400,11 @@ public class PageController {
 		return 0;
 	}
 
+	
+	@RequestMapping("/dummy/all")
+	public String dummy(){
+		return "dummy";
+	}
+	
+	
 }

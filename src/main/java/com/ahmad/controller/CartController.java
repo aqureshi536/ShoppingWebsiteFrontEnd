@@ -24,6 +24,7 @@ import com.ahmad.model.Cart;
 import com.ahmad.model.CartItem;
 import com.ahmad.model.Category;
 import com.ahmad.model.Customer;
+import com.ahmad.model.OrderedItems;
 import com.ahmad.model.Product;
 import com.ahmad.model.Supplier;
 import com.ahmad.viewmodel.CartItemModel;
@@ -61,6 +62,7 @@ public class CartController {
 	CartDAO cartDAO;
 	@Autowired
 	CartItemDAO cartItemDAO;
+
 	@Autowired
 	HttpSession httpSession;
 
@@ -87,8 +89,6 @@ public class CartController {
 			mv.addObject("cartItems", cartItems);
 			double grandTotal = cartDAO.getCartByCustomerId(customerId).getGrandTotal();
 			mv.addObject("grandTotal", grandTotal);
-
-		
 
 		}
 		// When there are no products in cart
@@ -175,7 +175,7 @@ public class CartController {
 
 		// if we get null means the product is not present
 
-		if (addCartItem(customerId, productId,cartId, model) == null) {
+		if (addCartItem(customerId, productId, cartId, model) == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);
@@ -184,10 +184,10 @@ public class CartController {
 			cartItem.setTotalPrice(product.getPrice());
 			cartItemDAO.saveOrUpdate(cartItem);
 			System.out.println("Insertion of cartItem");
-			 updateCartAgain(cartId, customerId);
-			
+			updateCartAgain(cartId, customerId);
+
 		}
-		httpSession.setAttribute("noOfProducts",returnNoOfProducts(userName));
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
 		// Now navigate to the same page
 		return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
 	}
@@ -210,7 +210,7 @@ public class CartController {
 		cart.setCustomerId(customerId);
 		cart.setNoOfProducts(noOfProducts);
 		cartDAO.saveOrUpdate(cart); // This method updates the cart
-		
+
 		return noOfProducts;
 		// =========== Completed Adding the item to cart =====
 
@@ -236,8 +236,8 @@ public class CartController {
 
 				System.out.println(item.toString());
 				cartItemDAO.saveOrUpdate(item);
-				 updateCartAgain(cartId, customerId);
-				
+				updateCartAgain(cartId, customerId);
+
 				return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
 
 			}
@@ -248,18 +248,18 @@ public class CartController {
 	}
 
 	@RequestMapping("/remove/{cartItemId}")
-	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model,Principal username) {
+	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model, Principal username) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
 		String customerId = cartItem.getCustomerId();
 		String cartId = cartItem.getCartId();
 		cartItemDAO.delete(cartItemId);
 		int noOfProducts = updateCartAgain(cartId, customerId);
 		model.addAttribute("noOfProducts", noOfProducts);
-		httpSession.setAttribute("noOfProducts",returnNoOfProducts(username));
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(username));
 		return "redirect:/user/cart/?cartItemRemoved";
 	}
 
-	public int returnNoOfProducts(Principal username){
+	public int returnNoOfProducts(Principal username) {
 		if (username != null) {
 			int noOfProduct = cartDAO
 					.getCartByCustomerId(customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
@@ -267,5 +267,23 @@ public class CartController {
 			return noOfProduct;
 		}
 		return 0;
+	}
+
+	// To get the listOfordered items
+	@RequestMapping("/history")
+	public ModelAndView listOrderedItems(Principal principal, Model model) {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("isViewHistoryclicked", "true");
+		customer = customerDAO.getCustomerByUserName(principal.getName());
+
+		List<OrderedItems> listofOrderedItems = cartDAO.listOrderedItems(customer.getCustomerId());
+		if (listofOrderedItems != null && !listofOrderedItems.isEmpty()) {
+			model.addAttribute("listOfOrderedItems", listofOrderedItems);
+		}
+		else{
+			model.addAttribute("noProductsinHistory","No products ordered till now");
+		}
+		return mv;
+
 	}
 }

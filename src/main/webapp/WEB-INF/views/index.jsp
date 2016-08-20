@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"  %>
 <!-- Css -->
 <spring:url value="/resources/css" var="css" />
 <spring:url value="/resources/images" var="images" />
@@ -13,7 +14,7 @@
 <!DOCTYPE html>
 <html>
 <%@include file="./shared/header.jsp" %>
-<body>
+<body ng-app="angularModule">
 	<div class="container-fluid">
 		<!-- 	Navbar goes here -->
 		<%@include file="./shared/menubar.jsp"%>
@@ -103,6 +104,9 @@
 				</c:if>
 				<c:if test="${isSearchProducts==true }">
 				<%@include file="search.jsp" %>
+				</c:if>
+				<c:if test="${isViewHistoryclicked==true }">
+				<%@include file="./cart/orderedItems.jsp" %>
 				</c:if>
 				
 			</div>

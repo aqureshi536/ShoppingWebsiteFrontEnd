@@ -121,7 +121,7 @@ body {
 	min-width: 456px;
 }
 
-#productMainTitle {
+.productMainTitle {
 	padding: 7px;
 	border-left: 6px #3bb300 solid;
 }
@@ -147,7 +147,7 @@ body {
 	margin-right: 30px;
 	transition: box-shadow 0.3s;
 	transition: background-color 0.3;
-	cursor: pointer;
+	
 	margin-left: 10px;
 	margin-top: 25px;
 
@@ -172,6 +172,10 @@ position:inherit;
 	display: inline;
 	font-size: 20px;
 	margin-left: 5px;
+}
+.pricePara{
+	font-size:15px;
+	font-weight:bold;
 }
 
 #actionButtons {

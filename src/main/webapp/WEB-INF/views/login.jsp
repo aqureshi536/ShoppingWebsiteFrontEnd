@@ -75,6 +75,9 @@
 	<!--  Panel for Sign Up form ---->
 
 	<div class="col-sm-6 ">
+	<c:if test="${not empty userExists}">
+	<div class="alert alert-danger"><strong>${userExists}</strong></div>
+	</c:if>
 		<div class="panel panel-success" id="panelSignUp">
 			<div class="panel-heading" id="panel-headingSignUp">Sign Up</div>
 			<div class="panel-body">

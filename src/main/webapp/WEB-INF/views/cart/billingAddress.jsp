@@ -63,10 +63,11 @@
 								<form:input path="zipCode" type="text" class="form-control" />
 							</div>
 						</div>
+						<div class="col-md-offset-3">
 						<input type="submit" name="_eventId_submitBillingAddress"
 							class="btn btn-md btn-success" value="Save">
 						<input type="submit" name="_eventId_cancel"
-							class="btn btn-md btn-danger" value="Cancel">
+							class="btn btn-md btn-danger" value="Cancel"></div>
 					</form:form>
 				</div>
 			</div>

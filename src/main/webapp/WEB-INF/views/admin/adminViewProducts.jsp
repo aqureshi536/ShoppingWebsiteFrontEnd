@@ -62,7 +62,7 @@
 				<c:forEach items="${products}" var="p">
 
 
-					<tr>
+					<tr onclick="myhref('${contextPath}/productDetail/${p.product.productId}')">
 						<td>
 							<%
 								out.println(i);

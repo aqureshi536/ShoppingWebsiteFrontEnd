@@ -47,7 +47,7 @@
 
 				<c:forEach items="${categories}" var="c">
 
-					<tr>
+					<tr onclick="myhref('${contextPath}/allProducts/${c.category.categoryId}')">
 
 						<td>
 							<%

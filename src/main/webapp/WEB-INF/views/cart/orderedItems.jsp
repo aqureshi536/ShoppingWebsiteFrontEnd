@@ -1,17 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="table-outer productMainDiv" ng-controller="cartController">
-	<c:if test="${not empty cartItemRemoved }">
-		<div id="cartItemRemoved" class="alert alert-danger">${cartItemRemoved}</div>
-	</c:if><div class="row"></div>
-	<div class="col-sm-3"><a href="${contextPath}/allProducts" class="btn btn-lg btn-info ">Continue
-		Shopping <span class="glyphicon glyphicon-new-window"></span>
-	</a></div>
-	<div class="col-sm-offset-5">
-	<a href="" class="btn btn-lg btn-warning col-sm-offset-9">View History</a></div>  <br> <br>
-
-
-
-	<c:choose>
+<c:choose>
 		<c:when test="${not empty cartEmpty}">
 			<h2 style="margin: auto;text-align:center;">No products in cart</h2>
 		</c:when>
@@ -73,14 +60,5 @@
 					<%-- </c:forEach> --%>
 				</tbody>
 			</table>
-
-
-			<a class="col-xs-offset-5 btn btn-lg btn-success" href="${contextPath}/checkout">Checkout
-				&nbsp;&nbsp;<span class="fa fa-inr"></span> ${grandTotal}
-			</a>
-		</c:otherwise>
-		
-	</c:choose>
-	
-	
-</div>
+</c:otherwise>
+</c:choose>
