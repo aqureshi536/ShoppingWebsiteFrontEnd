@@ -16,7 +16,7 @@
 					<div class="col-sm-10">
 						<form:errors path="supplierName" class="error" />
 						<form:input type="text" path="supplierName" name="supplierName"
-							placeholder="Enter supplier name" class="form-control"
+							placeholder="Enter supplier name" autofocus class="form-control"
 							required="required" />
 					</div>
 				</div>

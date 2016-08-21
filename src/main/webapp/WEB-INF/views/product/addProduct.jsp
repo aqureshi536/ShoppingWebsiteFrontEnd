@@ -15,7 +15,7 @@
 						Name</label>
 					<div class="col-sm-10">
 					<form:errors path="productName" class="error"/>
-						<form:input type="text" path="productName" class="form-control"
+						<form:input type="text" path="productName" autofocus class="form-control"
 							placeholder="Enter product name"  required="required"/>
 					</div>
 				</div>

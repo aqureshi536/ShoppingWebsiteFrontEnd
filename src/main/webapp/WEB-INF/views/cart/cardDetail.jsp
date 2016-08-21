@@ -26,7 +26,7 @@
 							<label for="" class="control-label col-sm-2">Card Number</label>
 							<div class="col-sm-5">
 							<form:errors path="cardNumber" class="error"/>
-								<form:input path="cardNumber" type="text" class="form-control" />
+								<form:input path="cardNumber" autofocus type="text" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">

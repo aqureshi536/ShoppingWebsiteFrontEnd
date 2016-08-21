@@ -53,7 +53,7 @@
 								Name</label>
 							<div class="col-sm-10">
 								<form:errors path="categoryName" class="error" />
-								<form:input path="categoryName" type="text"
+								<form:input path="categoryName" autofocus type="text"
 									value="${categoryToUpdate.categoryName}" class="form-control"
 									placeholder="Enter new category name" required="required" />
 							</div>

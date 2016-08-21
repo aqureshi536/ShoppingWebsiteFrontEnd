@@ -60,7 +60,7 @@
 						<div class="col-sm-10">
 							<form:errors path="supplierName" class="error" />
 							<form:input path="supplierName" type="text"
-								name="updateSupplierName" value="${supplier.supplierName}"
+								name="updateSupplierName" autofocus value="${supplier.supplierName}"
 								class="form-control" placeholder="Enter supplier's new name"
 								required="required" />
 						</div>

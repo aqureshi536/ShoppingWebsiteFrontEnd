@@ -16,7 +16,7 @@
 						Name</label>
 					<div class="col-sm-10">
 						<form:errors path="categoryName" class="error" />
-						<form:input path="categoryName" type="text" class="form-control"
+						<form:input path="categoryName" autofocus type="text" class="form-control"
 							placeholder="Enter category name" required="required"></form:input>
 					</div>
 				</div>
