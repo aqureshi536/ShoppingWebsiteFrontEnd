@@ -115,6 +115,10 @@ $(function() {
 	});
 });
 
+//to make navbar scroll smoother
+$('#homeNavbar').affix({
+    offset: $('#homeNavbar').position()
+});
 
 
 /*//To confirm delete or not

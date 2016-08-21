@@ -5,10 +5,6 @@
 	int k = 0;
 %>
 <div class="productMainDiv">
-<c:if test="${not empty noProducts }">
-<h2>${noProducts}</h2>
-</c:if>
-
 
 	<c:if test="${deleteProductSuccessMessage==true}">
 		<div class="alert alert-danger" id="message-danger">
@@ -35,78 +31,87 @@
 	<%-- 		row number <strong>${productListSize}</strong>. --%>
 	<a href="${contextPath}/admin/viewProducts/addProduct"
 		class="btn btn-lg btn-success">Add Product</a> <br> <br>
-	<div class="table-outer">
-		<table class="table table-hover" id="viewTable">
-			<thead>
+	<c:choose>
+		<c:when test="${not empty noProducts }">
+			<h2>${noProducts}</h2>
+		</c:when>
+		<c:otherwise>
 
-				<tr class="table-primary">
+			<div class="table-outer">
+				<table class="table table-hover" id="viewTable">
+					<thead>
 
-					<c:forEach items="${products}" var="product">
-						<%
-							j++;
-						%>
-					</c:forEach>
-					<th>Sr.No <span>( <%
-						out.println(j);
-					%> )
-					</span>
-					</th>
-					<th>Product Image</th>
-					<th>Product Name</th>
-					<th>Product Description</th>
-					<th>Product Category</th>
-					<th>Product Supplier</th>
-					<th>Product Quantity</th>
-					<th>Product Price</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
+						<tr class="table-primary">
 
-				<c:forEach items="${products}" var="p">
+							<c:forEach items="${products}" var="product">
+								<%
+									j++;
+								%>
+							</c:forEach>
+							<th>Sr.No <span>( <%
+								out.println(j);
+							%> )
+							</span>
+							</th>
+							<th>Product Image</th>
+							<th>Product Name</th>
+							<th>Product Description</th>
+							<th>Product Category</th>
+							<th>Product Supplier</th>
+							<th>Product Quantity</th>
+							<th>Product Price</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
 
- <%-- onclick="myhref('${contextPath}/productDetail/${p.product.productId}')" --%>
-					<tr>
-						<td>
+						<c:forEach items="${products}" var="p">
+
+							<%-- onclick="myhref('${contextPath}/productDetail/${p.product.productId}')" --%>
+							<tr>
+								<td>
+									<%
+										out.println(i);
+									%>
+								</td>
+								<td><img src="${images}/product/${p.product.productId}.png"
+									id="tableImage"></td>
+								<td>${p.product.productName }</td>
+								<td>${p.product.description }</td>
+								<td>${p.categoryName}</td>
+
+								<td>${p.supplierName}</td>
+								<c:choose>
+									<c:when test="${p.product.isOutOffStock}">
+										<td style="color: red; font-size: 20px;">${p.product.quantity }</td>
+									</c:when>
+									<c:otherwise>
+										<td>${p.product.quantity }</td>
+									</c:otherwise>
+								</c:choose>
+								<td>${p.product.price }</td>
+								<td>
+									<div class="btn-group-vertical">
+										<a href="${contextPath}/productDetail/${p.product.productId}"
+											class="btn btn-sm btn-primary">View</a> <a
+											href="${contextPath}/admin/viewProducts/updateProduct/${p.product.productId}"
+											class="btn btn-sm btn-warning">Update Product</a> <a
+											onclick="return confirm('Do you want to delete ${p.product.productName } product?')"
+											href="${contextPath}/admin/viewProducts/delete/${p.product.productId}"
+											class="btn btn-sm btn-danger" id="confirmDelete">Delete
+											Product</a>
+
+									</div>
+								</td>
+							</tr>
 							<%
-								out.println(i);
+								i++;
 							%>
-						</td>
-						<td><img src="${images}/product/${p.product.productId}.png"
-							id="tableImage"></td>
-						<td>${p.product.productName }</td>
-						<td>${p.product.description }</td>
-						<td>${p.categoryName}</td>
+						</c:forEach>
+					</tbody>
+				</table>
 
-						<td>${p.supplierName}</td>
-						<c:choose> 
-						<c:when test="${p.product.isOutOffStock}">
-						<td style="color:red;font-size:20px;">${p.product.quantity }</td>
-						</c:when>
-						<c:otherwise >
-						<td>${p.product.quantity }</td>
-						</c:otherwise>
-						</c:choose>
-						<td>${p.product.price }</td>
-						<td>
-							<div class="btn-group-vertical">
-								<a href="${contextPath}/productDetail/${p.product.productId}" 
-									class="btn btn-sm btn-primary">View</a>
-								<a href="${contextPath}/admin/viewProducts/updateProduct/${p.product.productId}"
-									class="btn btn-sm btn-warning">Update Product</a> 
-									<a onclick="return confirm('Do you want to delete ${p.product.productName } product?')"									
-									href="${contextPath}/admin/viewProducts/delete/${p.product.productId}"
-									class="btn btn-sm btn-danger" id="confirmDelete">Delete
-									Product</a>
-									
-							</div>
-						</td>
-					</tr>
-					<%
-						i++;
-					%>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
 </div>

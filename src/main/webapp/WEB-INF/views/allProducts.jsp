@@ -1,6 +1,9 @@
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <div class="productMainDiv" ng-controller="allProducts">
+<c:if test="${not empty nothing}">
+<p style="font-size:5em;">${nothing}</p>
+</c:if>
 	<c:if test="${not empty addToCartAllProducts }">
 		<div class="alert alert-success">${addToCartAllProducts}</div>
 	</c:if>

@@ -149,14 +149,15 @@ public class ProductController {
 		 * categoryName=category.getCategoryName(); listName=new ArrayList<>();
 		 * listName.add(categoryName); }
 		 */
-		
+
 		List<ProductModel> products = new ArrayList<>();
 		// Calling a method
 		products = getNameSuppAndCat(products);
-if(products!=null &&!products.isEmpty())
-		model.addAttribute("products", products);
-else
-	model.addAttribute("noProducts","No products present");
+		
+		if (products != null && !products.isEmpty())
+			model.addAttribute("products", products);
+		else
+			model.addAttribute("noProducts", "No products present");
 		// gets supplier List and name should be accessed from the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("supplierName", supplierList);
@@ -244,10 +245,10 @@ else
 
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		if(products!=null &&!products.isEmpty())
+		if (products != null && !products.isEmpty())
 			model.addAttribute("products", products);
-	else
-		model.addAttribute("noProducts","No products present");
+		else
+			model.addAttribute("noProducts", "No products present");
 
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -390,10 +391,10 @@ else
 
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		if(products!=null &&!products.isEmpty())
+		if (products != null && !products.isEmpty())
 			model.addAttribute("products", products);
-	else
-		model.addAttribute("noProducts","No products present");
+		else
+			model.addAttribute("noProducts", "No products present");
 
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -440,10 +441,10 @@ else
 		model.addAttribute("products", productList);
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		if(products!=null &&!products.isEmpty())
+		if (products != null && !products.isEmpty())
 			model.addAttribute("products", products);
-	else
-		model.addAttribute("noProducts","No longer any products exists");
+		else
+			model.addAttribute("noProducts", "No longer any products exists");
 
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();

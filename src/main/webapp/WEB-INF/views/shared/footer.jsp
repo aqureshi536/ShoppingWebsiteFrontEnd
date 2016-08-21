@@ -1,7 +1,7 @@
 <hr />
 <footer>
 	<div>
-		<span>&#169</span> All Rights Reserved
+		<span>&#169;</span> All Rights Reserved
 	</div>
 </footer>
 

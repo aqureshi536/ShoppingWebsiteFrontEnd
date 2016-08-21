@@ -31,7 +31,7 @@ body {
 
 .navbar-toggle {
 	background-color: black;
-	width: 93%;
+	width: 93%;	
 	margin-left: 15px;
 	line-height: 3px;
 	font-size: 30px;
@@ -255,10 +255,8 @@ position:inherit;
 }
 
 footer {
-	margin: 10px;
 	position: relative;
-	width: 100%;
-	top: 10px;
+	bottom:0px
 	background-color: whitesmoke;
 	opacity: 1;
 	text-align: center;
@@ -366,8 +364,15 @@ background-color:black!important;
     background-image: none;
     max-width:30px;
 }
-
-
+.carousel-indicators>li{
+	border:3px solid;
+}
+.carousel-indicators>.active{
+	border:black;
+	background-color:black;
+	height:20px;
+	width:20px;
+}
 
 .item-box{
 	padding:15px;

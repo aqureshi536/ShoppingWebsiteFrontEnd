@@ -40,22 +40,12 @@ public class CategoryController {
 	@RequestMapping("/admin/viewCategory")
 	public ModelAndView adminViewCategory(Model model) {
 		ModelAndView mv = new ModelAndView("index");
-		List<Category> categoryList = categoryDAO.listCategory();
-
-		CategoryModel categoryModel = null;
-		List<CategoryModel> categories = new ArrayList<CategoryModel>();
-		int noOfProduct;
-		for (Category c : categoryList) {
-			categoryModel = new CategoryModel();
-			categoryModel.setCategory(c);
-			noOfProduct = categoryDAO.getProductCountByCategory(c.getCategoryId());
-			categoryModel.setNoOfProducts(noOfProduct);
-			categories.add(categoryModel);
-		}
-		model.addAttribute("categories", categories);
-
-		// Gets the category on the navber
-		mv.addObject("categoryList", categoryList);
+	//  gets from the method at bottom
+			if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
+				model.addAttribute("categories", getCatoryModelList());
+			else
+				model.addAttribute("noCategoryPresent", "No category present");
+		
 		// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
@@ -126,6 +116,7 @@ public class CategoryController {
 		mv.addObject("addedCategoryMessage", "true");
 
 		int noOfProduct;
+		
 		for (Category c : categoryList) {
 			categoryModel = new CategoryModel();
 			categoryModel.setCategory(c);
@@ -133,7 +124,12 @@ public class CategoryController {
 			categoryModel.setNoOfProducts(noOfProduct);
 			categories.add(categoryModel);
 		}
-		model.addAttribute("categories", categories);
+
+			if (categoryList!= null && !categoryList.isEmpty())
+				model.addAttribute("categories", categoryList);
+			else
+				model.addAttribute("noCategoryPresent", "No category present");
+	
 
 		// Gets the category on the navber
 
@@ -172,21 +168,14 @@ public class CategoryController {
 
 		categoryDAO.delete(categoryId);
 
-		List<Category> categoryList = categoryDAO.listCategory();
-		CategoryModel categoryModel = null;
-		List<CategoryModel> categories = new ArrayList<CategoryModel>();
-		int noOfProduct;
-		for (Category c : categoryList) {
-			categoryModel = new CategoryModel();
-			categoryModel.setCategory(c);
-			noOfProduct = categoryDAO.getProductCountByCategory(c.getCategoryId());
-			categoryModel.setNoOfProducts(noOfProduct);
-			categories.add(categoryModel);
-		}
-		model.addAttribute("categories", categories);
+	//  gets from the method at bottom
+			if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
+				model.addAttribute("categories", getCatoryModelList());
+			else
+				model.addAttribute("noCategoryPresent", "No longer any category exists");
 		// Gets the category on the navber
 
-		httpSession.setAttribute("categoryList", categoryList);
+		httpSession.setAttribute("categoryList", categoryDAO.listCategory());
 		// ================================================================
 		mv.addObject("isClickedAdminViewCategory", "true");
 		mv.addObject("active", "adminCategory");
@@ -250,7 +239,34 @@ public class CategoryController {
 		// Gets the name before and after updating the product
 
 		categoryDAO.saveOrUpdate(category);
+		
+//  gets from the method at bottom
+		if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
+			model.addAttribute("categories", getCatoryModelList());
+		else
+			model.addAttribute("noCategoryPresent", "No category present");
 
+		String categoryNameAfterUpdate = category.getCategoryName();
+		mv.addObject("categoryNameAfterUpdate", categoryNameAfterUpdate);
+		// Gets the category on the navber
+
+		httpSession.setAttribute("categoryList", categoryDAO.listCategory());
+		// ================================================================
+		mv.addObject("categoryUpdateMessage", "true");
+		mv.addObject("isClickedAdminViewCategory", "true");
+		mv.addObject("active", "adminCategory");
+		mv.addObject("displayAdminAction", "true");
+
+		return mv;
+	}
+
+	// ------------------------------ end of category ----------------
+	
+	
+	
+//	Method for performing list operation
+	private List<CategoryModel> getCatoryModelList() {
+		List<CategoryModel> list = new ArrayList<>();
 		List<Category> categoryList = categoryDAO.listCategory();
 		CategoryModel categoryModel = null;
 		List<CategoryModel> categories = new ArrayList<CategoryModel>();
@@ -262,21 +278,6 @@ public class CategoryController {
 			categoryModel.setNoOfProducts(noOfProduct);
 			categories.add(categoryModel);
 		}
-		model.addAttribute("categories", categories);
-
-		String categoryNameAfterUpdate = category.getCategoryName();
-		mv.addObject("categoryNameAfterUpdate", categoryNameAfterUpdate);
-		// Gets the category on the navber
-
-		httpSession.setAttribute("categoryList", categoryList);
-		// ================================================================
-		mv.addObject("categoryUpdateMessage", "true");
-		mv.addObject("isClickedAdminViewCategory", "true");
-		mv.addObject("active", "adminCategory");
-		mv.addObject("displayAdminAction", "true");
-
-		return mv;
+		return list;
 	}
-	// ------------------------------ end of category ----------------
-
 }

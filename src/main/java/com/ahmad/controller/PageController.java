@@ -208,7 +208,10 @@ public class PageController {
 
 		// Add products to we page
 		List<Product> productListByStock = productDAO.listProductByStock();
+		if(productListByStock!=null&&!productListByStock.isEmpty())
 		model.addAttribute("products", productListByStock);
+		else
+			model.addAttribute("nothing", "Sorry, currently no products available");
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
@@ -260,11 +263,35 @@ public class PageController {
 		// ================================================================
 		return mv;
 	}
+	
+	// To get the products according to category
+		@RequestMapping("/admin/category/{categoryId}")
+		public ModelAndView categoryAdminProducts(@PathVariable("categoryId") String categoryId, Model model) {
+			ModelAndView mv = new ModelAndView("index");
 
+			List<Product> productList = categoryDAO.selectAllCategoryProducts(categoryId);
+			if (!productList.isEmpty()) {
+				mv.addObject("productList", productList);
+			} else {
+				model.addAttribute("productNotPresent",
+						"Sorry, No products present in " + categoryDAO.get(categoryId).getCategoryName() + " category");
+			}
+			mv.addObject("isViewProductByCategory", "true");
+
+			// Gets the category on the navber
+			List<Category> categoryList = categoryDAO.listCategory();
+			mv.addObject("categoryList", categoryList);
+			// ================================================================
+			return mv;
+		}
+	
+	
+
+	// Method to Search the product on user page or a in public
 	@RequestMapping(value = "/search/", method = RequestMethod.GET)
-	public ModelAndView productSearch(@RequestParam("keyword") String keyword, Model model) {
-		ModelAndView mv = new ModelAndView("index");
-		List<Product> listOfsearchedProducts = productDAO.searchProduct(keyword);
+	public ModelAndView productSearch(@RequestParam(value = "keyword") String keyword, Model model) {
+		ModelAndView mv = new ModelAndView("index"); 
+		 List<Product> listOfsearchedProducts = productDAO.searchProduct(keyword);
 		if (!listOfsearchedProducts.isEmpty()) {
 			mv.addObject("listOfsearchedProducts", listOfsearchedProducts);
 		} else {
@@ -273,6 +300,21 @@ public class PageController {
 		mv.addObject("isSearchProducts", "true");
 		return mv;
 
+	}
+	
+	
+	@RequestMapping(value="/admin/search",method=RequestMethod.GET)
+	public ModelAndView productSeachAdmin(@RequestParam(value="keywordAdmin")String keywordAdmin,Model model)
+	{
+		ModelAndView mv = new ModelAndView("index");
+		 List<Product> listOfsearchedProducts = productDAO.searchProductAdmin(keywordAdmin);
+			if (!listOfsearchedProducts.isEmpty()) {
+				mv.addObject("listOfsearchedProducts", listOfsearchedProducts);
+			} else {
+				model.addAttribute("noResultsFound", "Sorry, No results found for keyword " + keywordAdmin);
+			}
+			mv.addObject("isSearchProducts", "true");
+			return mv;
 	}
 
 	// Add a product to cart on all products page
@@ -400,14 +442,12 @@ public class PageController {
 		return 0;
 	}
 
-	
 	@RequestMapping("/403")
-	public ModelAndView dummy(){
+	public ModelAndView accessDenied() {
 		ModelAndView mv = new ModelAndView("index");
-		
-		mv.addObject("navigate403","true");
+
+		mv.addObject("navigate403", "true");
 		return mv;
 	}
-	
-	
+
 }

@@ -29,12 +29,12 @@
 			<sec:authorize access="!hasRole('ROLE_ADMIN')">
 				<a href="${contextPath}/user/cart/addToCart/${product.productId}"
 					class="btn btn-lg btn-warning">Add to Cart</a>
-				<a class="btn btn-lg btn-success">Buy</a>
+				<%-- <a class="btn btn-lg btn-success">Buy</a> --%>
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<a
 					href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
-					class="btn btn-lg btn-warning">Edit</a>
+					class="btn btn-lg btn-warning">Edit Product</a>
 			</sec:authorize>
 		</div>
 	</div>

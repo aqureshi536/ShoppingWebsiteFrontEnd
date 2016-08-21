@@ -5,29 +5,41 @@
 	<div class="col-sm-7">
 		<img src="${images}/My Furniture Logo.png" class="img-responsive">
 	</div>
-	<div class="col-sm-4 col-xs-9">
-		<div style="padding-top: 50px;">
-			<form:form action="${contextPath}/search/" method="get">
-				<input type="search" class="form-control" placeholder="Search"
-					ng-model="searchProduct" name="keyword">
+	<sec:authorize access="!hasRole('ROLE_ADMIN')">
+		<div class="col-sm-4 col-xs-9">
+			<div style="padding-top: 50px;">
+				<form:form action="${contextPath}/search/" method="get">
+					<input type="search" class="form-control"
+						placeholder="Search product" ng-model="searchProduct"
+						name="keyword">
+			</div>
 		</div>
-	</div>
-	<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
-		<input type="submit" value="search" class="btn btn-md btn-info"
-			ng-model="searchProduct">
-	</div>
-	</form:form>
-
-
-
+		<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
+			<input type="submit" value="search" class="btn btn-md btn-info"
+				ng-model="searchProduct">
+		</div>
+		</form:form>
 </div>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<div class="col-sm-4 col-xs-9">
+			<div style="padding-top: 50px;">
+				<form:form action="${contextPath}/admin/search/" method="get">
+					<input type="search" class="form-control"
+						placeholder="Search product" name="keywordAdmin">
+			</div>
+		</div>
+		<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
+			<input type="submit" value="search" class="btn btn-md btn-info"
+				ng-model="searchProduct">
+		</div>
+	</form:form>
+</div>
+</sec:authorize>
 
 
 
-
-
-
-
+<!--  NAvigation bar starts here -->
 <button type="button" class="navbar-toggle" data-toggle="collapse"
 	data-target="#homeNavbar" id="homenavbarToggle">
 	<span><b>Categories</b></span> <span class="icon-bar"></span> <span

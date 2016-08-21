@@ -43,7 +43,10 @@ public class SupplierController {
 		ModelAndView mv = new ModelAndView("index");
 
 		List<Supplier> supplierList = supplierDAO.listSupplier();
-		model.addAttribute("suppliers", supplierList);
+		if (supplierList != null && !supplierList.isEmpty())
+			model.addAttribute("suppliers", supplierList);
+		else
+			model.addAttribute("noSupplier", "No supplier present");
 		// Gets the category on the navbar
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
@@ -107,7 +110,10 @@ public class SupplierController {
 
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
-		model.addAttribute("suppliers", supplierList);
+		if (supplierList != null && !supplierList.isEmpty())
+			model.addAttribute("suppliers", supplierList);
+		else
+			model.addAttribute("noSupplier", "No supplier present");
 
 		// Get supplier name and supplier row
 		int supplierSize = supplierList.size();
@@ -165,8 +171,10 @@ public class SupplierController {
 		supplierDAO.delete(supplierId);
 
 		List<Supplier> supplierList = supplierDAO.listSupplier();
-		model.addAttribute("suppliers", supplierList);
-
+		if (supplierList != null && !supplierList.isEmpty())
+			model.addAttribute("suppliers", supplierList);
+		else
+			model.addAttribute("noSupplier", "No longer any supplier exists");
 		// Gets the category on the navbar
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
@@ -233,8 +241,10 @@ public class SupplierController {
 		}
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
-		model.addAttribute("suppliers", supplierList);
-
+		if(supplierList!=null&&!supplierList.isEmpty())
+			model.addAttribute("suppliers", supplierList);
+			else
+				model.addAttribute("noSupplier","No supplier present");
 		// Gets the category on the navbar
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);

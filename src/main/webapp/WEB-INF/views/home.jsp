@@ -2,11 +2,11 @@
 <div id="divCarousel">
 	<div id="productCarousel" class="carousel slide" data-ride="carousel">
 		<ol class="carousel-indicators">
-			<li data-target="productCarousel" data-slide-to="0" class="active"></li>
-			<li data-target="productCarousel" data-slide-to="1"></li>
-			<li data-target="productCarousel" data-slide-to="2"></li>
-			<li data-target="productCarousel" data-slide-to="3"></li>
-			<li data-target="productCarousel" data-slide-to="4"></li>
+			<li data-target="#productCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#productCarousel" data-slide-to="1"></li>
+			<li data-target="#productCarousel" data-slide-to="2"></li>
+			<li data-target="#productCarousel" data-slide-to="3"></li>
+			<li data-target="#productCarousel" data-slide-to="4"></li>
 		</ol>
 
 		<div class="carousel-inner" role="listbox">
@@ -75,7 +75,7 @@
 <c:if test="${empty noProducts }">
 	<div class="productMainDiv">
 
-		<h2 style="border-left: 6px #3bb300 solid" class="productMainTitle">Top
+		<h2 style="border-left: 6px #3bb300 solid" class="productMainTitle">Popular
 			Products</h2>
 		<div id="carouselProduct" class="carousel slide carousel-product"
 			data-ride="carousel">
