@@ -15,6 +15,7 @@
 <html>
 <%@include file="./shared/header.jsp" %>
 <body ng-app="angularModule">
+<div id="fakeLoader"></div>
 	<div class="container-fluid">
 		<!-- 	Navbar goes here -->
 		<%@include file="./shared/menubar.jsp"%>
@@ -107,6 +108,9 @@
 				</c:if>
 				<c:if test="${isViewHistoryclicked==true }">
 				<%@include file="./cart/orderedItems.jsp" %>
+				</c:if>
+				<c:if test="${navigate403==true }">
+				<%@include file="./403.jsp" %>
 				</c:if>
 				
 			</div>

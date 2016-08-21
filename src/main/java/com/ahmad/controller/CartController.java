@@ -247,6 +247,9 @@ public class CartController {
 		return null;
 	}
 
+	
+	
+//	To remove the cart items one by one from the cart
 	@RequestMapping("/remove/{cartItemId}")
 	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model, Principal username) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
@@ -269,7 +272,7 @@ public class CartController {
 		return 0;
 	}
 
-	// To get the listOfordered items
+	// To get the listOf ordered items
 	@RequestMapping("/history")
 	public ModelAndView listOrderedItems(Principal principal, Model model) {
 		ModelAndView mv = new ModelAndView("index");

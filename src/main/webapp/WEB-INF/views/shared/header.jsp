@@ -7,8 +7,12 @@
 <link rel="stylesheet" href="${css}/bootstrap-theme.css">
 <link rel="stylesheet" href="${css}/font-awesome.css">
 <link rel="stylesheet" href="${css}/main.css">
+<link rel="stylesheet" href="${css}/fakeLoader.css">
 <script src="${js}/angular.js"></script>
 <script src="${js}/app.js"></script>
+<script src="${js}/jquery-1.12.4.js"></script>
+<script src="${js}/fakeLoader.js"></script>
+
 
 <link rel="icon" href="${images}/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="${css}/animate.css">

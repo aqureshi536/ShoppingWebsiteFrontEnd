@@ -21,8 +21,9 @@
 			<div class="container">
 				<div class="jumbotron">
 					<h1>Order Confirmed,Product will be delivered shortly.</h1>
+					<a href="_eventId_home" class="btn btn-lg btn-info">Home</a>
 				</div>
-<a href="_eventId_home" class="btn btn-lg btn-info">Home</a> 
+
 
 			</div>
 		</div>

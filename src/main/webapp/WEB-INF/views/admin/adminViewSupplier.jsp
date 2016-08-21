@@ -69,7 +69,8 @@
 					<td>
 						<div class="btn-group-vertical">
 							<a href="${contextPath}/admin/viewSupplier/updateSupplier/${supplier.supplierId}"
-								class="btn btn-sm btn-warning">Update Supplier</a> <a
+								class="btn btn-sm btn-warning">Update Supplier</a>
+								 <a onclick="return confirm('Do you want to delete supplier ${supplier.supplierName}  ?')"
 								href="${contextPath}/admin/viewSupplier/deleteSupplier/${supplier.supplierId}"
 								class="btn btn-sm btn-danger"> Delete Supplier </a>
 						</div>

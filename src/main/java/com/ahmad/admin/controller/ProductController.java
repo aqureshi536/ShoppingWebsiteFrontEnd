@@ -84,8 +84,8 @@ public class ProductController {
 		}
 
 		mv.addObject("supplierName", supplierName);
-		
-		//model.addAttribute("showProductDetail", "notEmpty");
+
+		// model.addAttribute("showProductDetail", "notEmpty");
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");
 		mv.addObject("displayCart", "true");
@@ -95,13 +95,13 @@ public class ProductController {
 	// Pass on the similar products
 	public Product[] similarProducts(String productId) {
 		List<Product> similarProductList = productDAO.similarProducts(productId);
-		
+
 		int sizeOfSimilarProducts = similarProductList.size();
-		int size=0;
-		
+		int size = 0;
+
 		switch (sizeOfSimilarProducts) {
 		case 0:
-			size=-1;
+			size = -1;
 			break;
 		case 1:
 			size = 0;
@@ -111,12 +111,12 @@ public class ProductController {
 			size = 1;
 			break;
 
-		default :
+		default:
 			size = 2;
 			break;
-		
+
 		}
-		Product[] productArray = new Product[size+1];
+		Product[] productArray = new Product[size + 1];
 		if (sizeOfSimilarProducts != 0) {
 			for (int i = 0; i <= size; i++) {
 				int randomNumber = (int) (Math.random() * size);
@@ -153,9 +153,10 @@ public class ProductController {
 		List<ProductModel> products = new ArrayList<>();
 		// Calling a method
 		products = getNameSuppAndCat(products);
-
+if(products!=null &&!products.isEmpty())
 		model.addAttribute("products", products);
-
+else
+	model.addAttribute("noProducts","No products present");
 		// gets supplier List and name should be accessed from the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("supplierName", supplierList);
@@ -169,15 +170,15 @@ public class ProductController {
 	// Add the product to database
 
 	@RequestMapping(value = "/admin/viewProducts/addProduct")
-	public ModelAndView addProduct(@ModelAttribute("Product") Product product, Model model) {
+	public ModelAndView addProduct(Model model) {
 		ModelAndView mv = new ModelAndView("/index");
+		model.addAttribute("product", new Product());
 		List<Category> categoryList = categoryDAO.listCategory();
 		model.addAttribute("categories", categoryList);
 
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 
-	
 		mv.addObject("isAddProductClicked", "true");
 		mv.addObject("displayLogout", "true");
 		mv.addObject("displayAdminAction", "true");
@@ -197,7 +198,7 @@ public class ProductController {
 			model.addAttribute("categories", categoryList);
 			List<Supplier> supplierList = supplierDAO.listSupplier();
 			model.addAttribute("suppliers", supplierList);
-		
+
 			mv.addObject("isAddProductClicked", "true");
 			mv.addObject("displayLogout", "true");
 			mv.addObject("displayAdminAction", "true");
@@ -243,14 +244,16 @@ public class ProductController {
 
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		model.addAttribute("products", products);
+		if(products!=null &&!products.isEmpty())
+			model.addAttribute("products", products);
+	else
+		model.addAttribute("noProducts","No products present");
 
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
 		// ---------------------------------------------------------
 
-	
 		mv.addObject("isClickedAdminViewProducts", "true");
 		mv.addObject("active", "adminProducts");
 		mv.addObject("displayAdminAction", "true");
@@ -294,7 +297,7 @@ public class ProductController {
 			supplier.setSupplierName("Not Available");
 			supplierName = supplier.getSupplierName();
 		}
-		
+
 		mv.addObject("categoryName", categoryName);
 		mv.addObject("supplierName", supplierName);
 
@@ -340,7 +343,6 @@ public class ProductController {
 				supplierName = supplier.getSupplierName();
 			}
 
-		
 			mv.addObject("categoryName", categoryName);
 			mv.addObject("supplierName", supplierName);
 			mv.addObject("isUpdateProductClicked", "true");
@@ -388,7 +390,10 @@ public class ProductController {
 
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		model.addAttribute("products", products);
+		if(products!=null &&!products.isEmpty())
+			model.addAttribute("products", products);
+	else
+		model.addAttribute("noProducts","No products present");
 
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -435,9 +440,11 @@ public class ProductController {
 		model.addAttribute("products", productList);
 		List<ProductModel> products = new ArrayList<>();
 		products = getNameSuppAndCat(products);
-		model.addAttribute("products", products);
+		if(products!=null &&!products.isEmpty())
+			model.addAttribute("products", products);
+	else
+		model.addAttribute("noProducts","No longer any products exists");
 
-		
 		// gets supplier List and name should be accessed form the front end
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);

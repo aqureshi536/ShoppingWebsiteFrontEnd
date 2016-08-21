@@ -66,10 +66,8 @@ public class CategoryController {
 	@RequestMapping(value = "/admin/viewCategory/addCategory")
 	public ModelAndView addCategory() {
 		ModelAndView mv = new ModelAndView("/index");
-		mv.addObject("category", category);
-		
+		mv.addObject("category", new Category());
 
-		
 		// ================================================================
 		mv.addObject("isAddCategoryClicked", "true");
 		mv.addObject("displayLogout", "true");
@@ -205,8 +203,7 @@ public class CategoryController {
 		category = categoryDAO.get(categoryId);
 		mv.addObject("categoryToUpdate", category);
 		// Gets the category on the navber
-		
-		
+
 		// ================================================================
 		mv.addObject("isClickedAdminUpdateCategory", "true");
 		mv.addObject("active", "adminCategory");
@@ -222,7 +219,7 @@ public class CategoryController {
 
 			// Gets the category on the navber
 			List<Category> categoryList = categoryDAO.listCategory();
-			
+
 			// ================================================================
 			mv.addObject("categoryToUpdate", category);
 			mv.addObject("isClickedAdminUpdateCategory", "true");

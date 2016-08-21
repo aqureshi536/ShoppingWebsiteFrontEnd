@@ -401,9 +401,12 @@ public class PageController {
 	}
 
 	
-	@RequestMapping("/dummy/all")
-	public String dummy(){
-		return "dummy";
+	@RequestMapping("/403")
+	public ModelAndView dummy(){
+		ModelAndView mv = new ModelAndView("index");
+		
+		mv.addObject("navigate403","true");
+		return mv;
 	}
 	
 	

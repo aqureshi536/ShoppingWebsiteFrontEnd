@@ -148,6 +148,8 @@
 						<center>
 							<input type="submit" value="Update Product"
 								class="btn btn-md btn-warning">
+								<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<span></span> Cancel</a>
 						</center>
 					</form:form>
 				</div>
@@ -159,4 +161,15 @@
 	</div>
 </div>
 
+<script>
+var warning = true;
+window.onbeforeunload = function() { 
+  if (warning) {
+    return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+  }
+}
 
+$('form').submit(function() {
+   window.onbeforeunload = null;
+});
+</script>

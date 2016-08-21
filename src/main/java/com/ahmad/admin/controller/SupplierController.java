@@ -59,7 +59,7 @@ public class SupplierController {
 	@RequestMapping("/admin/viewSupplier/addSupplier")
 	public ModelAndView addSupplier() {
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("supplier", supplier);
+		mv.addObject("supplier", new Supplier());
 		mv.addObject("isAddSupplierClicked", "true");
 		// Gets the category on the navbar
 		List<Category> categoryList = categoryDAO.listCategory();
@@ -234,12 +234,12 @@ public class SupplierController {
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		model.addAttribute("suppliers", supplierList);
-		
+
 		// Gets the category on the navbar
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
 		// ================================================================
-		
+
 		String supplierName = supplier.getSupplierName();
 		mv.addObject("updatedSupplierName", supplierName);
 		mv.addObject("updatedSupplierMessage", "true");

@@ -2,6 +2,8 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="productMainDiv">
+<a onclick= window.history.back() class="btn btn-lg btn-primary">Back</a>
+<br><br>
 	<c:if test="${not empty addToCartSuccessMessage}">
 		<div id="addToCartSuccessMessage" class="alert alert-success">
 			<strong>${addToCartSuccessMessage}</strong>
@@ -28,6 +30,11 @@
 				<a href="${contextPath}/user/cart/addToCart/${product.productId}"
 					class="btn btn-lg btn-warning">Add to Cart</a>
 				<a class="btn btn-lg btn-success">Buy</a>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<a
+					href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+					class="btn btn-lg btn-warning">Edit</a>
 			</sec:authorize>
 		</div>
 	</div>
@@ -60,7 +67,13 @@
 
 							</div>
 						</sec:authorize>
+
 						<h4>${product.productName}</h4>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<a
+								href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+								class="btn btn-warning btn-md edit-button">Edit</a>
+						</sec:authorize>
 						<h5>${product.description}</h5>
 					</div>
 

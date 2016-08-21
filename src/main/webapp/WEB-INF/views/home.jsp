@@ -60,6 +60,11 @@
 						<a href="${contextPath}/user/cart/addToCart/${product.productId}"
 							class="btn btn-md btn-warning">Add to Cart</a>
 					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a
+							href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+							class="btn btn-warning btn-md edit-button">Edit</a>
+					</sec:authorize>
 					<h4>${product.productName }</h4>
 				</div>
 			</c:forEach>
@@ -97,6 +102,11 @@
 										href="${contextPath}/user/cart/addToCart/${product.productId}"
 										class="btn btn-md btn-warning">Add to Cart</a>
 								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a
+										href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+										class="btn btn-warning btn-md edit-button">Edit</a>
+								</sec:authorize>
 								<h4>${product.productName }</h4>
 							</div>
 						</c:forEach>
@@ -118,6 +128,11 @@
 									<a
 										href="${contextPath}/user/cart/addToCart/${product.productId}"
 										class="btn btn-md btn-warning">Add to Cart</a>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a
+										href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+										class="btn btn-warning btn-md edit-button">Edit</a>
 								</sec:authorize>
 								<h4>${product.productName }</h4>
 							</div>
@@ -141,13 +156,18 @@
 										href="${contextPath}/user/cart/addToCart/${product.productId}"
 										class="btn btn-md btn-warning">Add to Cart</a>
 								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a
+										href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+										class="btn btn-warning btn-md edit-button">Edit</a>
+								</sec:authorize>
 								<h4>${product.productName }</h4>
 							</div>
 						</c:forEach>
 					</div>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#carouselProduct"
+			 <a class="left carousel-control" href="#carouselProduct"
 				role="button" data-slide="prev"> <span
 				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				<span class="sr-only">Previous</span>
@@ -155,7 +175,7 @@
 				role="button" data-slide="next"> <span
 				class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
-			</a>
+			</a> 
 		</div>
 
 		<!--div sofa controller  -->

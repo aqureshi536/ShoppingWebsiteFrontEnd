@@ -5,6 +5,10 @@
 	int k = 0;
 %>
 <div class="productMainDiv">
+<c:if test="${not empty noProducts }">
+<h2>${noProducts}</h2>
+</c:if>
+
 
 	<c:if test="${deleteProductSuccessMessage==true}">
 		<div class="alert alert-danger" id="message-danger">
@@ -61,8 +65,8 @@
 
 				<c:forEach items="${products}" var="p">
 
-
-					<tr onclick="myhref('${contextPath}/productDetail/${p.product.productId}')">
+ <%-- onclick="myhref('${contextPath}/productDetail/${p.product.productId}')" --%>
+					<tr>
 						<td>
 							<%
 								out.println(i);
@@ -86,12 +90,15 @@
 						<td>${p.product.price }</td>
 						<td>
 							<div class="btn-group-vertical">
-								<a
-									href="${contextPath}/admin/viewProducts/updateProduct/${p.product.productId}"
-									class="btn btn-sm btn-warning">Update Product</a> <a
+								<a href="${contextPath}/productDetail/${p.product.productId}" 
+									class="btn btn-sm btn-primary">View</a>
+								<a href="${contextPath}/admin/viewProducts/updateProduct/${p.product.productId}"
+									class="btn btn-sm btn-warning">Update Product</a> 
+									<a onclick="return confirm('Do you want to delete ${p.product.productName } product?')"									
 									href="${contextPath}/admin/viewProducts/delete/${p.product.productId}"
 									class="btn btn-sm btn-danger" id="confirmDelete">Delete
 									Product</a>
+									
 							</div>
 						</td>
 					</tr>

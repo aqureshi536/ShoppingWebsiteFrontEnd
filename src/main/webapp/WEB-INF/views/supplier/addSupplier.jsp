@@ -25,8 +25,8 @@
 						Contact No</label>
 					<div class="col-sm-10">
 						<form:errors path="supplierContact" class="error" />
-						<form:input path="supplierContact" type="text"
-							pattern="^[0-9]{10}" class="form-control" required="true" />
+						<form:input path="supplierContact" type="text" placeholder="Enter supplier contact no"
+							pattern="^[0-9]{10}" class="form-control" required="true"  title="Enter a 10 digit mobile no."/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -35,7 +35,7 @@
 					<div class="col-sm-10">
 						<form:errors path="supplierEmail" class="error" />
 						<form:input path="supplierEmail" type="email" name="supplierEmail"
-							class="form-control" required="required" />
+							class="form-control" required="required" placeholder="Enter supplier email address" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -44,7 +44,7 @@
 					<div class="col-sm-10">
 						<form:errors path="supplierAddress" class="error" />
 						<form:textarea path="supplierAddress" name="supplierAddress"
-							rows="7" class="form-control" required="required" />
+							rows="7" class="form-control" required="required" placeholder="Enter supplier address"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -57,8 +57,22 @@
 				</div>
 				<input type="submit" value="Add Supplier"
 					class="col-sm-offset-2 btn btn-success btn-md">
+					<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<span></span> Cancel</a>
 			</form:form>
 		</div>
 	</div>
 </div>
 
+<script>
+var warning = true;
+window.onbeforeunload = function() { 
+  if (warning) {
+    return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+  }
+}
+
+$('form').submit(function() {
+   window.onbeforeunload = null;
+});
+</script>

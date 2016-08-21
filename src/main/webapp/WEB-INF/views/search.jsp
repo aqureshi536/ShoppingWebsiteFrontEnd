@@ -1,4 +1,5 @@
 <div class="productMainDiv">
+	<a onclick=window.history.back() class="btn btn-lg btn-primary">Back</a>
 	<c:choose>
 		<c:when test="${not empty noResultsFound}">
 			<h2>${noResultsFound}</h2>
@@ -24,6 +25,11 @@
 							</div>
 						</sec:authorize>
 						<h4>${product.productName}</h4>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<a
+								href="${contextPath}/admin/viewProducts/updateProduct/${product.productId}"
+								class="btn btn-warning btn-md edit-button">Edit</a>
+						</sec:authorize>
 						<h5>${product.description}</h5>
 
 					</div>

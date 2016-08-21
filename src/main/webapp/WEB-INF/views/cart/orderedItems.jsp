@@ -2,10 +2,9 @@
 <p style="font-size:35px;font-weight:bold;text-align:center;text-decoration:underline;">Products delivered</p>
 <div class="btn-group-vertical">
 
-								<a
-									href="${contextPath}/user/cart/"
-									class="btn btn-lg btn-primary"><span
-									class="glyphicon glyphicon-remove-sign"></span> Back</a>
+								<a	onclick= window.history.back() 
+									class="btn btn-lg btn-primary">
+									<span></span> Back</a>
 							</div><br><br>
 	<c:choose>
 		<c:when test="${not empty noProductsinHistory}">

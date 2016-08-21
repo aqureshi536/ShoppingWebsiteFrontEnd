@@ -46,8 +46,8 @@
 			<tbody>
 
 				<c:forEach items="${categories}" var="c">
-
-					<tr onclick="myhref('${contextPath}/allProducts/${c.category.categoryId}')">
+<%-- onclick="myhref('${contextPath}/allProducts/${c.category.categoryId}')" --%>
+					<tr >
 
 						<td>
 							<%
@@ -63,9 +63,11 @@
 						<td>${c.noOfProducts}</td>
 						<td>
 							<div class="btn-group-vertical">
-								<a
-									href="${contextPath}/admin/viewCategory/update/${c.category.categoryId}"
-									class="btn btn-sm btn-warning">Update Category</a> <a
+								<a href="${contextPath}/allProducts/${c.category.categoryId}" 
+									class="btn btn-sm btn-primary">View</a>
+								<a	href="${contextPath}/admin/viewCategory/update/${c.category.categoryId}"
+									class="btn btn-sm btn-warning">Update Category</a> 
+									<a onclick="return confirm('Do you want to delete ${c.category.categoryName} category ?')"
 									href="${contextPath}/admin/viewCategory/delete/${c.category.categoryId}"
 									class="btn btn-sm btn-danger">Delete Category</a>
 							</div>

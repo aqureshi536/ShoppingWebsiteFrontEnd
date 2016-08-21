@@ -109,7 +109,7 @@ public class JsonDataController {
 
 	}
 
-	// ------To display data category wise----------
+	// ------To display data category wise----------  not implemented
 	@RequestMapping(value = "/product/{categoryId}", method = RequestMethod.GET)
 	public @ResponseBody List<Product> productByCategory(@PathVariable("categoryId") String categoryId, Model model) {
 		List<Product> listProductByCategory = categoryDAO.selectedCategoryProductList(categoryId);
@@ -154,6 +154,8 @@ public class JsonDataController {
 		return cartItemModelList;
 	}
 
+	
+//	to view history of the product bought
 	@RequestMapping(value="/view/orderedItems",method=RequestMethod.GET)
 	public List<OrderedItems> listOfOrderedItems(Principal principal){
 		List<OrderedItems> listofOrderedItems = cartDAO.listOrderedItems(customerDAO.getCustomerByUserName

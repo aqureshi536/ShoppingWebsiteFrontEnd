@@ -200,6 +200,7 @@ position:inherit;
 	text-align: center;
 	vertical-align: middle;
 	background-color: white;
+	cursor:default;
 }
 
 @media ( max-width : 767px) {
@@ -362,7 +363,8 @@ background-color:black!important;
 	
 
 .carousel-control.left, .carousel-control.right {
-    background-image: none
+    background-image: none;
+    max-width:30px;
 }
 
 
@@ -374,3 +376,11 @@ background-color:black!important;
 #carouselProduct{
 	border:0px;
 }
+
+
+
+.edit-button{
+	float:right;
+	
+}
+

@@ -8,7 +8,7 @@
 
 			<form:form
 				action="${contextPath}/admin/viewProducts?${_csrf.parameterName}=${_csrf.token}"
-				class="form-horizontal" commandName="Product"
+				class="form-horizontal" commandName="product"
 				enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="productName" class="control-label col-sm-2">Product
@@ -71,7 +71,7 @@
 						description</label>
 					<div class="col-sm-10">
 					<form:errors path="description" class="error"/>
-						<form:textarea path="description" rows="7" class="form-control" />
+						<form:textarea path="description" rows="7" class="form-control" required="required"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -85,8 +85,22 @@
 				<div class="col-sm-offset-2">
 					<input type="submit" class="btn btn-success btn-md"
 						value="Add Product">
+						<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<span></span> Cancel</a>
 				</div>
 			</form:form>
 		</div>
 	</div>
 </div>
+<script>
+var warning = true;
+window.onbeforeunload = function() { 
+  if (warning) {
+    return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+  }
+}
+
+$('form').submit(function() {
+   window.onbeforeunload = null;
+});
+</script>

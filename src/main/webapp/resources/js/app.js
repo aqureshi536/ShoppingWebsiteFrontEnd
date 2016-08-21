@@ -16,12 +16,16 @@
 		 */
 	});
 
+	
+	
+//	Not implemented
 	myApp.controller('productDetail',function($scope, $http) {
 				$http.get('/ShoppingWebsite/product/productDetail/{productId}')
 						.success(function(data) {
 							$scope.product = data;
 						});
 			});
+//	========================================================
 
 	myApp.controller('cartController', [ '$scope', '$http',
 			function($scope, $http) {
@@ -37,4 +41,4 @@
 				});
 	});
 
-}());
+}()); //self calling function known as closure

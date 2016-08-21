@@ -19,7 +19,7 @@
 							Contact No</label>
 						<div class="col-sm-10">
 							<input type="text" disabled value="${supplier.supplierContact}"
-								class="form-control">
+								 class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -33,7 +33,7 @@
 						<label for="" class="control-label col-sm-2">Supplier
 							address</label>
 						<div class="col-sm-10">
-							<textarea  rows="7" disabled
+							<textarea rows="7" disabled
 								placeholder="${supplier.supplierAddress}" class="form-control"></textarea>
 						</div>
 					</div>
@@ -74,8 +74,8 @@
 							<form:errors path="supplierContact" class="error" />
 							<form:input path="supplierContact" type="text"
 								name="updateSuppierContact" class="form-control"
-								value="${supplier.supplierContact}"
-								placeholder="Enter supplier's new Contact No"
+								value="${supplier.supplierContact}" pattern="^[0-9]{10}"
+								placeholder="Enter supplier's new Contact No" title="Enter a 10 digit mobile no."
 								required="required" />
 						</div>
 					</div>
@@ -91,8 +91,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="updateSupplierEmail" 
-							class="control-label col-sm-2">Supplier Address</label>
+						<label for="updateSupplierEmail" class="control-label col-sm-2">Supplier
+							Address</label>
 						<div class="col-sm-10">
 							<form:errors path="supplierAddress" class="error" />
 							<form:textarea type="text" rows="7" name="updateSupplierAddress"
@@ -112,6 +112,8 @@
 						<center>
 							<input type="submit" value="Update Supplier"
 								class="btn btn-warning btn-md">
+								<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<span></span> Cancel</a>
 						</center>
 					</div>
 				</form:form>
@@ -124,4 +126,15 @@
 	</div>
 </div>
 
+<script>
+	var warning = true;
+	window.onbeforeunload = function() {
+		if (warning) {
+			return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+		}
+	}
 
+	$('form').submit(function() {
+		window.onbeforeunload = null;
+	});
+</script>

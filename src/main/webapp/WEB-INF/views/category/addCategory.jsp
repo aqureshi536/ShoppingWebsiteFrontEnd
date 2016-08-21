@@ -15,7 +15,7 @@
 					<label for="categoryName" class="control-label col-sm-2">Category
 						Name</label>
 					<div class="col-sm-10">
-						<form:errors path="categoryName" class="error"/>
+						<form:errors path="categoryName" class="error" />
 						<form:input path="categoryName" type="text" class="form-control"
 							placeholder="Enter category name" required="required"></form:input>
 					</div>
@@ -25,9 +25,10 @@
 					<label for="" class="control-label col-sm-2">Category
 						Description</label>
 					<div class="col-sm-10">
-						<form:errors path="categoryDescription" class="error"/>
+						<form:errors path="categoryDescription" class="error" />
 						<form:textarea path="categoryDescription" class="form-control"
-							rows="7" cols="10" placeholder="Give a category Description" required="required"></form:textarea>
+							rows="7" cols="10" placeholder="Give a category Description"
+							required="required"></form:textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -38,10 +39,26 @@
 				</div>
 				<div class="col-sm-offset-2">
 					<input type="submit" class="btn btn-success btn-md"
-						value="Add Category">
+						value="Add Category"> 
+						<a onclick=window.history.back()
+						class="btn btn-md btn-danger"> <span></span> Cancel
+					</a>
+					
 				</div>
 			</form:form>
 
 		</div>
 	</div>
 </div>
+<script>
+	var warning = true;
+	window.onbeforeunload = function() {
+		if (warning) {
+			return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+		}
+	}
+
+	$('form').submit(function() {
+		window.onbeforeunload = null;
+	});
+</script>
