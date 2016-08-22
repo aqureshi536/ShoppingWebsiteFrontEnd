@@ -15,9 +15,10 @@
 
 <!-- Submits the  form -->
 <script>function formSubmit() {	document.getElementById("logoutForm").submit();	}</script>
-
+<script src="${js}/jquery.validate.js"></script>
 <script src="${js}/angular.js"></script>
 <script src="${js}/app.js"></script>
 <script src="${js}/bootstrap.js"></script>
 <script src="${js}/bootstrap-dropdownhover.js"></script>
 <script src="${js}/webapp.js"></script>
+<script src="${js}/main.js"></script>

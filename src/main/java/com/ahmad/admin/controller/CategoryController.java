@@ -41,8 +41,8 @@ public class CategoryController {
 	public ModelAndView adminViewCategory(Model model) {
 		ModelAndView mv = new ModelAndView("index");
 	//  gets from the method at bottom
-			if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
-				model.addAttribute("categories", getCatoryModelList());
+			if (getCategoryModelList() != null && !getCategoryModelList().isEmpty())
+				model.addAttribute("categories", getCategoryModelList());
 			else
 				model.addAttribute("noCategoryPresent", "No category present");
 		
@@ -126,7 +126,7 @@ public class CategoryController {
 		}
 
 			if (categoryList!= null && !categoryList.isEmpty())
-				model.addAttribute("categories", categoryList);
+				model.addAttribute("categories", getCategoryModelList());
 			else
 				model.addAttribute("noCategoryPresent", "No category present");
 	
@@ -169,8 +169,8 @@ public class CategoryController {
 		categoryDAO.delete(categoryId);
 
 	//  gets from the method at bottom
-			if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
-				model.addAttribute("categories", getCatoryModelList());
+			if (getCategoryModelList() != null && !getCategoryModelList().isEmpty())
+				model.addAttribute("categories", getCategoryModelList());
 			else
 				model.addAttribute("noCategoryPresent", "No longer any category exists");
 		// Gets the category on the navber
@@ -206,8 +206,7 @@ public class CategoryController {
 		ModelAndView mv = new ModelAndView("index");
 		if (result.hasErrors()) {
 
-			// Gets the category on the navber
-			List<Category> categoryList = categoryDAO.listCategory();
+			
 
 			// ================================================================
 			mv.addObject("categoryToUpdate", category);
@@ -241,8 +240,8 @@ public class CategoryController {
 		categoryDAO.saveOrUpdate(category);
 		
 //  gets from the method at bottom
-		if (getCatoryModelList() != null && !getCatoryModelList().isEmpty())
-			model.addAttribute("categories", getCatoryModelList());
+		if (getCategoryModelList() != null && !getCategoryModelList().isEmpty())
+			model.addAttribute("categories", getCategoryModelList());
 		else
 			model.addAttribute("noCategoryPresent", "No category present");
 
@@ -265,8 +264,8 @@ public class CategoryController {
 	
 	
 //	Method for performing list operation
-	private List<CategoryModel> getCatoryModelList() {
-		List<CategoryModel> list = new ArrayList<>();
+	private List<CategoryModel> getCategoryModelList() {
+		
 		List<Category> categoryList = categoryDAO.listCategory();
 		CategoryModel categoryModel = null;
 		List<CategoryModel> categories = new ArrayList<CategoryModel>();
@@ -278,6 +277,6 @@ public class CategoryController {
 			categoryModel.setNoOfProducts(noOfProduct);
 			categories.add(categoryModel);
 		}
-		return list;
+		return categories;
 	}
 }

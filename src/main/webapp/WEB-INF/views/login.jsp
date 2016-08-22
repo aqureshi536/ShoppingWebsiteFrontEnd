@@ -81,14 +81,14 @@
 		<div class="panel panel-success" id="panelSignUp">
 			<div class="panel-heading" id="panel-headingSignUp">Sign Up</div>
 			<div class="panel-body">
-				<form:form class="form-horizontal" role="form" method="post"
+				<form:form class="form-horizontal" onsubmit="return verifyConfirmPassword()" role="form" method="post"
 					modelAttribute="customer" action="${contextPath}/login?registered">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="reemail">Email</label>
 						<div class="col-sm-10">
 							<form:input path="username" type="email" class="form-control"
 								id="reemail" placeholder="Enter email" required="true"
-								name="reEmail" />
+								name="reEmail"  title="Enter a valid email Id"/>
 						</div>
 					</div>
 					<div class="form-group">

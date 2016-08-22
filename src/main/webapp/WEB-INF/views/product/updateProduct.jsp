@@ -76,7 +76,7 @@
 							<label for="" class="col-sm-2 control-label">Product Name</label>
 							<div class="col-sm-10">
 								<form:errors path="productName" class="error" />
-								<form:input type="text" path="productName" autofocus class="form-control"
+								<form:input type="text" path="productName" autofocus="true" class="form-control"
 									placeholder="Enter new product name" required="required" />
 							</div>
 						</div>
@@ -148,7 +148,7 @@
 						<center>
 							<input type="submit" value="Update Product"
 								class="btn btn-md btn-warning">
-								<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<a href="${contextPath}/admin/viewProducts" class="btn btn-md btn-danger">
 								<span></span> Cancel</a>
 						</center>
 					</form:form>

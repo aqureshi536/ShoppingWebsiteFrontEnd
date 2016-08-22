@@ -24,13 +24,14 @@ import com.ahmad.model.CartItem;
 import com.ahmad.model.Customer;
 import com.ahmad.model.OrderDetail;
 import com.ahmad.model.OrderedItems;
+import com.ahmad.model.Product;
 import com.ahmad.model.ShippingAddress;
 import com.ahmad.temp.CheckoutTemp;
 
 @Component
 public class FlowController {
-@Autowired
-private ProductDAO productDAO;
+	@Autowired
+	private ProductDAO productDAO;
 	@Autowired
 	private ShippingAddress shippingAddress;
 
@@ -71,6 +72,8 @@ private ProductDAO productDAO;
 	CartItemDAO cartItemDAO;
 	@Autowired
 	HttpSession httpSession;
+	@Autowired
+	Product product;
 	CheckoutTemp checkoutTemp = new CheckoutTemp();
 
 	public CheckoutTemp initFlow() {
@@ -127,13 +130,23 @@ private ProductDAO productDAO;
 		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 		System.out.println(listOfCartItems);
 		for (CartItem item : listOfCartItems) {
-			orderedItems=new OrderedItems();
+			orderedItems = new OrderedItems();
 			orderedItems.setCustomerId(item.getCustomerId());
 			orderedItems.setProductName(productDAO.get(item.getProductId()).getProductName());
 			orderedItems.setProductId(item.getProductId());
 			orderedItems.setQuantity(item.getQuantity());
 			orderedItems.setTotalPrice(item.getTotalPrice());
 			orderedItemsDAO.saveOrUpdate(orderedItems);
+			
+//			Now update the product as count will decrease 
+			product = productDAO.get(orderedItems.getProductId());
+			product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
+			if (product.getQuantity() <= 0) {
+				product.setQuantity(0);
+				product.setOutOffStock(true);
+				
+			}
+			productDAO.saveOrUpdate(product);
 			cartItemDAO.delete(item.getCartItemId());
 		}
 
@@ -150,6 +163,7 @@ private ProductDAO productDAO;
 		cart.setCustomerId(cart.getCustomerId());
 		cart.setNoOfProducts(listOfCartItems.size());
 		cartDAO.saveOrUpdate(cart);
+
 		httpSession.setAttribute("noOfProducts", cart.getNoOfProducts());
 
 		return "success";

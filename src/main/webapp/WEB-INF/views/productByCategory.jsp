@@ -2,7 +2,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="productMainDiv">
+<sec:authorize access="!hasRole('ROLE_ADMIN')">
 <a onclick= window.history.back() class="btn btn-lg btn-primary">Back</a>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+<a href="${contextPath}/admin/viewCategory" class="btn btn-lg btn-primary">Back</a>
+</sec:authorize>
 	<c:if test="${not empty productNotPresent}">
 		<h2>${productNotPresent}</h2>
 	</c:if>

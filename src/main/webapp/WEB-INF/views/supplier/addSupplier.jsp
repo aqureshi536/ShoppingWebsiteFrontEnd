@@ -16,7 +16,7 @@
 					<div class="col-sm-10">
 						<form:errors path="supplierName" class="error" />
 						<form:input type="text" path="supplierName" name="supplierName"
-							placeholder="Enter supplier name" autofocus class="form-control"
+							placeholder="Enter supplier name" autofocus="true" class="form-control"
 							required="required" />
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 				</div>
 				<input type="submit" value="Add Supplier"
 					class="col-sm-offset-2 btn btn-success btn-md">
-					<a onclick=window.history.back() class="btn btn-md btn-danger">
+					<a href="${contextPath}/admin/viewSupplier" class="btn btn-md btn-danger">
 								<span></span> Cancel</a>
 			</form:form>
 		</div>

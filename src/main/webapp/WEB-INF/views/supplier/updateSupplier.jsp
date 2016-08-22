@@ -60,7 +60,7 @@
 						<div class="col-sm-10">
 							<form:errors path="supplierName" class="error" />
 							<form:input path="supplierName" type="text"
-								name="updateSupplierName" autofocus value="${supplier.supplierName}"
+								name="updateSupplierName" autofocus="true" value="${supplier.supplierName}"
 								class="form-control" placeholder="Enter supplier's new name"
 								required="required" />
 						</div>
@@ -112,7 +112,7 @@
 						<center>
 							<input type="submit" value="Update Supplier"
 								class="btn btn-warning btn-md">
-								<a onclick=window.history.back() class="btn btn-md btn-danger">
+								<a href="${contextPath}/admin/viewSupplier" class="btn btn-md btn-danger">
 								<span></span> Cancel</a>
 						</center>
 					</div>

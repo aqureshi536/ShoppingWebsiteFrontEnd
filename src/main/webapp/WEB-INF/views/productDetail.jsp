@@ -9,6 +9,12 @@
 			<strong>${addToCartSuccessMessage}</strong>
 		</div>
 	</c:if>
+	<c:if test="${not empty cancelledAddToCart}">
+		<div id="addToCartSuccessMessage" class="alert alert-danger">
+			<strong>${cancelledAddToCart}</strong>
+		</div>
+	</c:if>
+	
 	<div class="row">
 		<div class="col-sm-5" id="productDetail">
 			<img src="${images }/product/${product.productId}.png"

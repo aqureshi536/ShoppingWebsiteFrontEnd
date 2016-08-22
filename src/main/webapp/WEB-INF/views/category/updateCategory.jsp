@@ -53,7 +53,7 @@
 								Name</label>
 							<div class="col-sm-10">
 								<form:errors path="categoryName" class="error" />
-								<form:input path="categoryName" autofocus type="text"
+								<form:input path="categoryName" autofocus="true" type="text"
 									value="${categoryToUpdate.categoryName}" class="form-control"
 									placeholder="Enter new category name" required="required" />
 							</div>
@@ -80,8 +80,8 @@
 						</div>
 						<center>
 							<input type="submit" value="Update Category"
-								class="btn btn-md btn-danger">
-								 <a onclick=window.history.back() class="btn btn-md btn-danger">
+								class="btn btn-md btn-warning">
+								 <a href="${contextPath}/admin/viewCategory" class="btn btn-md btn-danger">
 								<span></span> Cancel</a>
 						</center>
 					</div>

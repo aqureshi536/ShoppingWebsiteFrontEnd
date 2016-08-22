@@ -49,10 +49,15 @@ public class ProductController {
 
 	@RequestMapping("/productDetail/{productId}")
 	public ModelAndView productDetail(@PathVariable String productId, Model model,
-			@RequestParam(value = "addToCartSuccessMessage", required = false) String addToCartSuccessMessage) {
+			@RequestParam(value = "addToCartSuccessMessage", required = false) String addToCartSuccessMessage,
+			@RequestParam(value="cancelledAddToCart",required=false)String cancelledAddToCart) {
 		ModelAndView mv = new ModelAndView("/index");
 		if (addToCartSuccessMessage != null) {
 			model.addAttribute("addToCartSuccessMessage", "Product added to cart successfully");
+		}
+		if(cancelledAddToCart!=null)
+		{
+			model.addAttribute("cancelledAddToCart","You cannot add more products to cart");
 		}
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);

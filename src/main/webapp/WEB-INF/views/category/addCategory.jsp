@@ -16,7 +16,7 @@
 						Name</label>
 					<div class="col-sm-10">
 						<form:errors path="categoryName" class="error" />
-						<form:input path="categoryName" autofocus type="text" class="form-control"
+						<form:input path="categoryName" autofocus="true" type="text" class="form-control"
 							placeholder="Enter category name" required="required"></form:input>
 					</div>
 				</div>
@@ -40,10 +40,10 @@
 				<div class="col-sm-offset-2">
 					<input type="submit" class="btn btn-success btn-md"
 						value="Add Category"> 
-						<a onclick=window.history.back()
+						<a href="${contextPath}/admin/viewCategory"
 						class="btn btn-md btn-danger"> <span></span> Cancel
 					</a>
-					
+					<%-- onclick=window.history.back() --%>
 				</div>
 			</form:form>
 

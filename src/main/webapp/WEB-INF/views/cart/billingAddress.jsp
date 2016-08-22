@@ -25,7 +25,7 @@
 							<label for="" class="control-label col-sm-2">Line 1</label>
 							<div class="col-sm-10">
 							<form:errors path="line1" class="error"/>
-								<form:input path="line1" type="text" autofocus class="form-control" />
+								<form:input path="line1" type="text" autofocus="true" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">

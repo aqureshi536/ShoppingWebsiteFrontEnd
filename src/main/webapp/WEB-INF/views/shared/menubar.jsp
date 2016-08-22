@@ -22,19 +22,19 @@
 </div>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-		<div class="col-sm-4 col-xs-9">
-			<div style="padding-top: 50px;">
-				<form:form action="${contextPath}/admin/search/" method="get">
-					<input type="search" class="form-control"
-						placeholder="Search product" name="keywordAdmin">
-			</div>
+	<div class="col-sm-4 col-xs-9">
+		<div style="padding-top: 50px;">
+			<form:form action="${contextPath}/admin/search/" method="get">
+				<input type="search" class="form-control"
+					placeholder="Search product" name="keywordAdmin">
 		</div>
-		<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
-			<input type="submit" value="search" class="btn btn-md btn-info"
-				ng-model="searchProduct">
-		</div>
+	</div>
+	<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
+		<input type="submit" value="search" class="btn btn-md btn-info"
+			ng-model="searchProduct">
+	</div>
 	</form:form>
-</div>
+	</div>
 </sec:authorize>
 
 
@@ -62,17 +62,15 @@
 				class="dropdown-toggle" data-toggle="dropdown" role="button"
 				aria-expanded="false">Categories <span class="caret"></span>
 			</a>
+
+				<ul class="dropdown-menu dropdownhover-bottom" role="menu">
+					<c:forEach items="${categoryList}" var="category">
+						<li><a style="font-size: 20px;"
+							href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li>
+					</c:forEach>
 		</sec:authorize>
-		<ul class="dropdown-menu dropdownhover-bottom" role="menu">
-			<c:forEach items="${categoryList}" var="category">
-				<li><a style="font-size: 20px;"
-					href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li>
-			</c:forEach>
-		</ul>
-		</li>
-
-
-
+	</ul>
+	</li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right" data-hover="dropdown"
 		data-animations="jello fadeInRight fadeInUp fadeInLeft">

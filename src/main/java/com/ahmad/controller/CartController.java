@@ -85,7 +85,7 @@ public class CartController {
 		// When there are products in cart
 		if (returnProductName(customerId) != null && !returnProductName(customerId).isEmpty()) {
 			cartItems = returnProductName(customerId);
-
+			
 			mv.addObject("cartItems", cartItems);
 			double grandTotal = cartDAO.getCartByCustomerId(customerId).getGrandTotal();
 			mv.addObject("grandTotal", grandTotal);
@@ -229,17 +229,20 @@ public class CartController {
 				item.setCartItemId(item.getCartItemId());
 
 				System.out.println(item.getQuantity());
-				item.setQuantity(item.getQuantity() + 1);
+				if (product.getQuantity() <= item.getQuantity()) {
+					return "redirect:/productDetail/{productId}?cancelledAddToCart";
+				} else {
+					item.setQuantity(item.getQuantity() + 1);
 
-				System.out.println(item.getTotalPrice());
-				item.setTotalPrice(item.getTotalPrice() + product.getPrice());
+					System.out.println(item.getTotalPrice());
+					item.setTotalPrice(item.getTotalPrice() + product.getPrice());
 
-				System.out.println(item.toString());
-				cartItemDAO.saveOrUpdate(item);
-				updateCartAgain(cartId, customerId);
+					System.out.println(item.toString());
+					cartItemDAO.saveOrUpdate(item);
+					updateCartAgain(cartId, customerId);
 
-				return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
-
+					return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+				}
 			}
 
 		}
@@ -247,9 +250,7 @@ public class CartController {
 		return null;
 	}
 
-	
-	
-//	To remove the cart items one by one from the cart
+	// To remove the cart items one by one from the cart
 	@RequestMapping("/remove/{cartItemId}")
 	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model, Principal username) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
@@ -282,9 +283,8 @@ public class CartController {
 		List<OrderedItems> listofOrderedItems = cartDAO.listOrderedItems(customer.getCustomerId());
 		if (listofOrderedItems != null && !listofOrderedItems.isEmpty()) {
 			model.addAttribute("listOfOrderedItems", listofOrderedItems);
-		}
-		else{
-			model.addAttribute("noProductsinHistory","No products ordered till now");
+		} else {
+			model.addAttribute("noProductsinHistory", "No products ordered till now");
 		}
 		mv.addObject("activeNavMenu", "viewCart");
 		return mv;
