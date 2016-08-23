@@ -133,7 +133,8 @@ public class FlowController {
 			// if the product is present but its less than stock or its zero so
 			// don't consider it
 			if (productDAO.get(item.getProductId()).getQuantity() == 0
-					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()||item.getProductId()==null) {
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()
+					|| item.getProductId() == null) {
 
 			} else {
 				orderedItems = new OrderedItems();
@@ -161,6 +162,8 @@ public class FlowController {
 		Cart cart = new Cart();
 		double grandTotal = 0;
 		for (CartItem item : listOfCartItems) {
+			// Check whether the cart item is in stock or it not exists
+			// Also check is there any item which should not be considered
 			if (productDAO.get(item.getProductId()).getQuantity() == 0
 					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity())
 				grandTotal = grandTotal;
@@ -168,7 +171,7 @@ public class FlowController {
 				grandTotal = grandTotal + item.getTotalPrice();
 			}
 		}
-		
+
 		cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
 		cart.setGrandTotal(grandTotal);
 

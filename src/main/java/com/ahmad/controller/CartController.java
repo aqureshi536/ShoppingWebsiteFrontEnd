@@ -86,7 +86,7 @@ public class CartController {
 		if (returnProductName(customerId) != null && !returnProductName(customerId).isEmpty()) {
 			cartItems = returnProductName(customerId);
 			for (CartItemModel item : cartItems) {
-
+//Check whether the cart item is in stock or it not exists
 				if (item.getProductName() == null
 						|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
 
@@ -101,7 +101,7 @@ public class CartController {
 					listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 					double grandTotal = 0;
 					for (CartItem item1 : listOfSelectedCartItems) {
-
+//Also check is there any item which should not be considered 
 						if (productDAO.get(item1.getProductId()).getQuantity() == 0
 								|| item1.getQuantity() > productDAO.get(item1.getProductId()).getQuantity())
 							grandTotal = grandTotal;
