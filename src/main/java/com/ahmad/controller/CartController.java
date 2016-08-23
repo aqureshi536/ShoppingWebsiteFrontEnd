@@ -63,6 +63,8 @@ public class CartController {
 	@Autowired
 	CartItemDAO cartItemDAO;
 
+	
+
 	@Autowired
 	HttpSession httpSession;
 
@@ -86,7 +88,7 @@ public class CartController {
 		if (returnProductName(customerId) != null && !returnProductName(customerId).isEmpty()) {
 			cartItems = returnProductName(customerId);
 			for (CartItemModel item : cartItems) {
-//Check whether the cart item is in stock or it not exists
+				// Check whether the cart item is in stock or it not exists
 				if (item.getProductName() == null
 						|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
 
@@ -101,7 +103,8 @@ public class CartController {
 					listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 					double grandTotal = 0;
 					for (CartItem item1 : listOfSelectedCartItems) {
-//Also check is there any item which should not be considered 
+						// Also check is there any item which should not be
+						// considered
 						if (productDAO.get(item1.getProductId()).getQuantity() == 0
 								|| item1.getQuantity() > productDAO.get(item1.getProductId()).getQuantity())
 							grandTotal = grandTotal;
@@ -222,6 +225,7 @@ public class CartController {
 			System.out.println("Insertion of cartItem");
 			updateCartAgain(cartId, customerId);
 			return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+
 		}
 		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
 		// Now navigate to the same page
@@ -278,7 +282,7 @@ public class CartController {
 					System.out.println(item.toString());
 					cartItemDAO.saveOrUpdate(item);
 					updateCartAgain(cartId, customerId);
-
+					httpSession.setAttribute("noOfProducts", cartDAO.getCartByCustomerId(customerId).getNoOfProducts());
 					return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
 				}
 			}
