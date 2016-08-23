@@ -339,7 +339,7 @@ public class PageController {
 
 	// Add a product to cart on all products page
 
-	@RequestMapping("/user/allProducts/addToCart/{productId}")
+	@RequestMapping("user/allProducts/addToCart/{productId}")
 	public String addToCart(@PathVariable("productId") String productId, Model model, Principal userName) {
 
 		// System.out.println(name);

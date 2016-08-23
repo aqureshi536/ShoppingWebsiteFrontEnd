@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class ProductController {
 	private Supplier supplier;
 	@Autowired
 	private SupplierDAO supplierDAO;
+	
+	@Autowired
+	HttpSession httpSession;
 
 	@RequestMapping("/productDetail/{productId}")
 	public ModelAndView productDetail(@PathVariable String productId, Model model,
@@ -89,7 +93,9 @@ public class ProductController {
 		}
 
 		mv.addObject("supplierName", supplierName);
-
+		
+		List<Category> categoryList = categoryDAO.listCategory();
+		httpSession.setAttribute("categoryList", categoryList);
 		// model.addAttribute("showProductDetail", "notEmpty");
 		mv.addObject("isClickedProductDetail", "true");
 		mv.addObject("active", "login");

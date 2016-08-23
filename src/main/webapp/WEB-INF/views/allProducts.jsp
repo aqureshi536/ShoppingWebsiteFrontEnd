@@ -30,7 +30,7 @@
 				<sec:authorize access="!hasRole('ROLE_ADMIN')">
 					<div class="btn-group-vertical" id="actionButtons">
 						<a
-							href="${contextPath}/user/allProducts/addToCart/{{product.product.productId}}"
+							ng-href="${contextPath}/user/allProducts/addToCart/{{product.product.productId}}"
 							class="btn btn-warning btn-md">Add to Cart</a>
 							 <a	href="${contextPath}/productDetail/{{product.product.productId}}"
 							class="btn btn-success btn-md">View</a>

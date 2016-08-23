@@ -112,12 +112,12 @@
 						${pageContext.request.userPrincipal.name}</a></li>
 			</c:if>
 		</sec:authorize>
-		<c:if test="${showLogin==false}">
+		<%-- <c:if test="${showLogin==false}"> --%>
 			<c:if test="${pageContext.request.userPrincipal.name == null }">
 				<li id="login"><a id="A_login" href="${contextPath}/login"><span
 						class="glyphicon glyphicon-log-in"></span> Login</a></li>
 			</c:if>
-		</c:if>
+		<%-- </c:if> --%>
 
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<li><a href="javascript:formSubmit()"><span

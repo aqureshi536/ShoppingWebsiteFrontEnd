@@ -221,7 +221,7 @@ public class CartController {
 			cartItemDAO.saveOrUpdate(cartItem);
 			System.out.println("Insertion of cartItem");
 			updateCartAgain(cartId, customerId);
-
+			return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
 		}
 		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
 		// Now navigate to the same page

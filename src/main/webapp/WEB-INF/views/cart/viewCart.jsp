@@ -70,7 +70,7 @@
 						<td>
 							<div class="btn-group-vertical">
 
-								<a
+								<a onclick="return confirm('Do you really want to remove ?')"
 									href="${contextPath}/user/cart/remove/{{c.cartItem.cartItemId}}"
 									class="btn btn-md btn-danger"><span
 									class="glyphicon glyphicon-remove-sign"></span> Remove</a>

@@ -25,7 +25,7 @@
 				</p>
 
 				<div class="btn-group-vertical" id="actionButtons">
-					<sec:authorize access="hasRole('ROLE_USER')">
+					<sec:authorize access="!hasRole('ROLE_ADMIN')">
 						<a href="${contextPath}/user/cart/addToCart/${product.productId}"
 							class="btn btn-warning btn-md">Add to Cart</a>
 					</sec:authorize>
