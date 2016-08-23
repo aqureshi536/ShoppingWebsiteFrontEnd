@@ -147,11 +147,15 @@ public class FlowController {
 
 				// Now update the product as count will decrease
 				product = productDAO.get(orderedItems.getProductId());
-				product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
+				
 				if (product.getQuantity() <= 0) {
 					product.setQuantity(0);
 					product.setOutOffStock(true);
 
+				}
+				else
+				{
+					product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
 				}
 				productDAO.saveOrUpdate(product);
 				cartItemDAO.delete(item.getCartItemId());

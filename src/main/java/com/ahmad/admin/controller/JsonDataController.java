@@ -147,14 +147,19 @@ public class JsonDataController {
 				
 			} */
 			cartItemModel.setCartItem(item);
+			
+//			If the item in cart is not deleted
 			if (item.getProductId() != null && !item.getProductId().isEmpty()) {
 				product = productDAO.get(item.getProductId());
-				cartItemModel.setProductName(product.getProductName());
-			} else {
+				cartItemModel.setProductName(product.getProductName()+" ( Available products = " + product.getQuantity()+" )");
+			} //else if deleted
+			else {
 				cartItemModel.setProductName("Currently not avilable");
 			}
+			
+			
 			if ( productDAO.get(item.getProductId()).getQuantity() <= 0){
-				cartItemModel.setProductName("Not in stock");
+				cartItemModel.setProductName(product.getProductName()+" (Sorry, Available  "+product.getQuantity()+" )");
 			}
 			cartItemModelList.add(cartItemModel);
 		}

@@ -30,47 +30,48 @@ import com.ahmad.model.Supplier;
 import com.ahmad.viewmodel.CartItemModel;
 
 @Controller
-@RequestMapping("/user/cart")
+
 public class CartController {
 
 	@Autowired
-	Product product;
+	private Product product;
 	@Autowired
-	ProductDAO productDAO;
+	private ProductDAO productDAO;
 
 	@Autowired
-	Category category;
+	private Category category;
 	@Autowired
-	CategoryDAO categoryDAO;
+	private CategoryDAO categoryDAO;
 
 	@Autowired
-	Supplier supplier;
+	private Supplier supplier;
 	@Autowired
-	SupplierDAO supplierDAO;
+	private SupplierDAO supplierDAO;
 
 	@Autowired
-	Customer customer;
+	private Customer customer;
 	@Autowired
-	CustomerDAO customerDAO;
+	private CustomerDAO customerDAO;
 
 	@Autowired
-	Cart cart;
+	private Cart cart;
 	@Autowired
-	CartItem cartItem;
+	private CartItem cartItem;
 
 	@Autowired
-	CartDAO cartDAO;
+	private CartDAO cartDAO;
 	@Autowired
-	CartItemDAO cartItemDAO;
-
-	
+	private CartItemDAO cartItemDAO;
 
 	@Autowired
 	HttpSession httpSession;
 
-	@RequestMapping("/")
+	@RequestMapping("/user/cart/")
 	public ModelAndView viewCart(Model model, Principal userName,
-			@RequestParam(value = "cartItemRemoved", required = false) String cartItemRemoved)
+			@RequestParam(value = "cartItemRemoved", required = false) String cartItemRemoved,
+			@RequestParam(value = "updateSuccessfull", required = false) String updateSuccessfull,
+			@RequestParam(value = "cancelUpdate", required = false) String cancelUpdate,
+			@RequestParam(value = "maxCartItem", required = false) String maxCartItem)
 
 	{
 		ModelAndView mv = new ModelAndView("index");
@@ -78,7 +79,16 @@ public class CartController {
 		if (cartItemRemoved != null) {
 			model.addAttribute("cartItemRemoved", "Cart item removed successfully");
 		}
-
+		if (updateSuccessfull != null) {
+			model.addAttribute("updateCartSuccessfull", "Quantity updated successfully");
+		}
+		if (cancelUpdate != null) {
+			model.addAttribute("cancelUpdate",
+					"Sorry, Quantity of product you are trying to update is insufficient in our stock");
+		}
+		if (maxCartItem != null) {
+			model.addAttribute("maxCartItem", "Sorry, Quantity should not be more than 5");
+		}
 		customer = customerDAO.getCustomerByUserName(customerName);
 		String customerId = customer.getCustomerId();
 
@@ -170,7 +180,7 @@ public class CartController {
 		return cartItemModelList;
 	}
 
-	@RequestMapping("/addToCart/{productId}")
+	@RequestMapping("/user/cart/addToCart/{productId}")
 	public String addToCart(@PathVariable("productId") String productId, Model model, Principal userName) {
 
 		// System.out.println(name);
@@ -213,8 +223,10 @@ public class CartController {
 		// if we get null means the product is not present
 		// String
 		// redirectPage="redirect:/productDetail/{productId}?addToCartSuccessMessage";
-		String redirectPage = addCartItem(customerId, productId, cartId, model);
-		if (redirectPage == null) {
+		String redirectPage = null;
+		int codeRecieved = addCartItem(customerId, productId, cartId);
+		switch (codeRecieved) {
+		case 0: {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);
@@ -224,10 +236,16 @@ public class CartController {
 			cartItemDAO.saveOrUpdate(cartItem);
 			System.out.println("Insertion of cartItem");
 			updateCartAgain(cartId, customerId);
-			return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
-
+			redirectPage = "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+			break;
 		}
-		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
+		case 1:
+			redirectPage = "redirect:/productDetail/{productId}?cancelledAddToCart";
+			break;
+		case 2:
+			redirectPage = "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+		}
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(customerId));
 		// Now navigate to the same page
 		return redirectPage;
 	}
@@ -258,7 +276,8 @@ public class CartController {
 
 	// This is the method which perform all the operations related to addition
 	// of product cartItem
-	public String addCartItem(String customerId, String productId, String cartId, Model model) {
+	public int addCartItem(String customerId, String productId, String cartId) {
+
 		List<CartItem> listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
 		Product product = productDAO.get(productId);
 		for (CartItem item : listOfSelectedCartItems) {
@@ -269,10 +288,15 @@ public class CartController {
 				item.setCartItemId(item.getCartItemId());
 
 				System.out.println(item.getQuantity());
-				// Check the whether the user is adding the item to cart more
+				// Check the whether the user is adding the item to cart
+				// more
 				// than its quantity
 				if (item.getQuantity() >= product.getQuantity()) {
-					return "redirect:/productDetail/{productId}?cancelledAddToCart";
+					return 1; // This is a code which denotes product is
+								// not enough to added to his cart as its
+								// present
+
+					/* "redirect:/productDetail/{productId}?cancelledAddToCart"; */
 				} else {
 					item.setQuantity(item.getQuantity() + 1);
 
@@ -282,18 +306,20 @@ public class CartController {
 					System.out.println(item.toString());
 					cartItemDAO.saveOrUpdate(item);
 					updateCartAgain(cartId, customerId);
-					httpSession.setAttribute("noOfProducts", cartDAO.getCartByCustomerId(customerId).getNoOfProducts());
-					return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
-				}
-			}
-
-		}
-
-		return null;
+					return 2; // This is a code which denotes product added
+								// to
+								// cart successfully
+					/* "redirect:/productDetail/{productId}?addToCartSuccessMessage"; */
+				} // ---else ends
+			} // ----- outer if ends -----
+		} // ----- for loop ends
+			// ------- If ends
+		return 0; // Product is not present in cart we need to generate a new
+					// one
 	}
 
 	// To remove the cart items one by one from the cart
-	@RequestMapping("/remove/{cartItemId}")
+	@RequestMapping("/user/cart/remove/{cartItemId}")
 	public String removeCartItems(@PathVariable("cartItemId") String cartItemId, Model model, Principal username) {
 		cartItem = cartItemDAO.getCartItem(cartItemId);
 		String customerId = cartItem.getCustomerId();
@@ -301,22 +327,21 @@ public class CartController {
 		cartItemDAO.delete(cartItemId);
 		int noOfProducts = updateCartAgain(cartId, customerId);
 		model.addAttribute("noOfProducts", noOfProducts);
-		httpSession.setAttribute("noOfProducts", returnNoOfProducts(username));
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(customerId));
 		return "redirect:/user/cart/?cartItemRemoved";
 	}
 
-	public int returnNoOfProducts(Principal username) {
-		if (username != null) {
-			int noOfProduct = cartDAO
-					.getCartByCustomerId(customerDAO.getCustomerByUserName(username.getName()).getCustomerId())
-					.getNoOfProducts();
+	// This is the method to count cart items
+	public int returnNoOfProducts(String customerId) {
+		if (customerId != null) {
+			int noOfProduct = cartDAO.getCartByCustomerId(customerId).getNoOfProducts();
 			return noOfProduct;
 		}
 		return 0;
 	}
 
 	// To get the listOf ordered items
-	@RequestMapping("/history")
+	@RequestMapping("/user/cart/history")
 	public ModelAndView listOrderedItems(Principal principal, Model model) {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("isViewHistoryclicked", "true");
@@ -331,6 +356,101 @@ public class CartController {
 		mv.addObject("activeNavMenu", "viewCart");
 		return mv;
 
+	}
+
+	// Add a product to cart on all products page
+	@RequestMapping("/user/allProducts/addToCart/{productId}")
+	public String addToCartForAllProducts(@PathVariable("productId") String productId, Model model,
+			Principal userName) {
+
+		// System.out.println(name);
+
+		// 1.Get the customer id by its user name
+		String customerName = userName.getName();
+		customer = customerDAO.getCustomerByUserName(customerName);
+		String customerId = customer.getCustomerId();
+
+		// 2.Check whether his cart is present in the cart table
+		// If cart is not present then make a cart for him
+
+		if (cartDAO.getCartByCustomerId(customerId) == null) {
+			cart = new Cart();
+			cart.setCustomerId(customerId);
+			cartDAO.saveOrUpdate(cart);
+
+			// cartItem.setCartId(cart.getCartId());
+		}
+
+		// This statement changes the cart if cart is present and due to
+		// unpresence of this there where errors
+		else {
+			cart = cartDAO.getCartByCustomerId(customerId);
+		}
+
+		String cartId = cart.getCartId();
+
+		// 3.get the product price
+
+		product = productDAO.get(productId);
+
+		// If cart is present then go into the cartItem table and search for
+		// product
+		// this customer selected whether it exists or it is a new product.
+		// -------------
+		// passing the customerId and productId to a method name returnCartItem
+		// through a method
+
+		// if we get null means the product is not present
+
+		String redirect = null;
+		int codeRecieved = addCartItem(customerId, productId, cartId);
+		switch (codeRecieved) {
+		case 0: {
+			cartItem = new CartItem();
+			cartItem.setCartId(cartId);
+			cartItem.setCustomerId(customerId);
+			cartItem.setProductId(product.getProductId());
+			cartItem.setQuantity(1);
+			cartItem.setTotalPrice(product.getPrice());
+			cartItemDAO.saveOrUpdate(cartItem);
+			System.out.println("Insertion of cartItem");
+			updateCartAgain(cartId, customerId);
+			redirect = "redirect:/allProducts?addToCartAllProducts";
+			break;
+		}
+		case 1:
+			redirect = "redirect:/allProducts?cancelledAddToCart";
+			break;
+		case 2:
+			redirect = "redirect:/allProducts?addToCartAllProducts";
+
+		}
+		httpSession.setAttribute("noOfProducts", returnNoOfProducts(customerId));
+		// Now navigate to the same page
+		return redirect;
+	}
+
+	// To update the cart quantity
+	@RequestMapping("/user/cart/update")
+	public String updateCartItemQuantity(@RequestParam(value = "cartItemId") String cartItemId,
+			@RequestParam(value = "cartQuantity") int quantity) {
+		String redirect = null;
+		cartItem = cartItemDAO.getCartItem(cartItemId);
+		product = productDAO.get(cartItem.getProductId());
+		int productQuantity=product.getQuantity();
+		// Check whether the cartItem quantity is more or enough
+		if (quantity > product.getQuantity()) {
+			redirect = "redirect:/user/cart/?cancelUpdate";
+		} /*else if (quantity > 5) {
+			redirect = "redirect:/user/cart/?maxCartItem";
+		}*/ else {
+			cartItem.setQuantity(quantity);
+			cartItem.setTotalPrice(quantity * product.getPrice());
+			cartItemDAO.saveOrUpdate(cartItem);
+			updateCartAgain(cartItem.getCartId(), cartItem.getCustomerId());
+			redirect = "redirect:/user/cart/?updateSuccessfull";
+		}
+		return redirect;
 	}
 
 }

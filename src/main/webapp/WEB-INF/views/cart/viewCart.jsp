@@ -5,6 +5,15 @@
 	<c:if test="${not empty cartItemRemoved }">
 		<div id="cartItemRemoved" class="alert alert-danger">${cartItemRemoved}</div>
 	</c:if>
+	<c:if test="${not empty updateCartSuccessfull }">
+		<div id="updateCartSuccessfull" class="alert alert-success">${updateCartSuccessfull}</div>
+	</c:if>
+	<c:if test="${not empty cancelUpdate }">
+		<div id="cancelUpdate" class="alert alert-danger">${cancelUpdate}</div>
+	</c:if>
+	<c:if test="${not empty maxCartItem }">
+		<div id="maxCartItem" class="alert alert-danger">${maxCartItem}</div>
+	</c:if>
 	<div class="row">
 		<div class="col-md-3 col-xs-6">
 			<a href="${contextPath}/allProducts" class="btn btn-lg btn-info ">Continue
@@ -65,7 +74,12 @@
 						<td><img src="${images}/product/{{c.cartItem.productId}}.png"
 							class="cart-Image img-thumbnail"></td>
 						<td>{{c.productName}}</td>
-						<td>{{c.cartItem.quantity}}</td>
+						<td><form action="${contextPath}/user/cart/update">
+						<input type="hidden" value="{{c.cartItem.cartItemId}}" name="cartItemId">
+						<input type="text" value="{{c.cartItem.quantity}}" name="cartQuantity" pattern="^[0-9]*$" required class="form-control"/>
+						<br>
+						<input type="submit" class="btn btn-md btn-warning" value="Update Quantity"/></form>
+						</td>
 						<td><span class="fa fa-inr"></span> {{c.cartItem.totalPrice}}</td>
 						<td>
 							<div class="btn-group-vertical">

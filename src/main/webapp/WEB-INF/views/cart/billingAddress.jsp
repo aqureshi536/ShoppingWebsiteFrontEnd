@@ -25,7 +25,7 @@
 							<label for="" class="control-label col-sm-2">Line 1</label>
 							<div class="col-sm-10">
 							<form:errors path="line1" class="error"/>
-								<form:input path="line1" type="text" autofocus="true" class="form-control" />
+								<form:input path="line1" type="text" autofocus="true" class="form-control" required="true"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -39,28 +39,28 @@
 							<label for="" class="control-label col-sm-2">City</label>
 							<div class="col-sm-10">
 							<form:errors path="city" class="error"/>
-								<form:input path="city" type="text" class="form-control" />
+								<form:input path="city" type="text" class="form-control" required="true"/>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">State</label>
 							<div class="col-sm-10">
 							<form:errors path="state" class="error"/>
-								<form:input path="state" type="text" class="form-control" />
+								<form:input path="state" type="text" class="form-control" required="true"/>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">Country</label>
 							<div class="col-sm-10">
 							<form:errors path="country" class="error"/>
-								<form:input path="country" type="text" class="form-control" />
+								<form:input path="country" type="text" class="form-control" required="true"/>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">Zip code</label>
 							<div class="col-sm-10">
 							<form:errors path="zipCode" class="error"/>
-								<form:input path="zipCode" type="text" class="form-control" />
+								<form:input path="zipCode" type="text" pattern="^[1-9][0-9]{5}$" title="Enter a 6 digit pincode" required="true" class="form-control" />
 							</div>
 						</div>
 						<div class="col-md-offset-3">

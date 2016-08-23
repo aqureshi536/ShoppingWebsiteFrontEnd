@@ -26,7 +26,7 @@
 							<label for="" class="control-label col-sm-2">Card Number</label>
 							<div class="col-sm-5">
 							<form:errors path="cardNumber" class="error"/>
-								<form:input path="cardNumber" autofocus="true" type="text" class="form-control" />
+								<form:input path="cardNumber" autofocus="true" type="text" pattern="^[0-9]+$" title="Enter a valid card no" required="true" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -76,7 +76,7 @@
 							<label for="" class="control-label col-sm-2">CVV Number</label>
 							<div class="col-sm-5">
 							<form:errors path="cvNumber" class="error"/>
-								<form:input path="cvNumber" type="text" class="form-control" />
+								<form:input path="cvNumber" type="text" pattern="^[0-9]{4}$" tilte="Enter a 4 digit ccv" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">

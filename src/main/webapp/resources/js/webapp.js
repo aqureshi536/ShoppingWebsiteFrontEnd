@@ -114,6 +114,22 @@ $(function() {
 		$("#success-alert").alert('close');
 	});
 });
+$(function() {
+	$("#updateCartSuccessfull").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+$(function() {
+	$("#cancelUpdate").fadeTo(10000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+$(function() {
+	$("#maxCartItems").fadeTo(4000, 500).slideUp(500, function() {
+		$("#success-alert").alert('close');
+	});
+});
+
 
 //to make navbar scroll smoother
 $('#homeNavbar').affix({

@@ -20,7 +20,7 @@
 						</p>
 						<sec:authorize access="!hasRole('ROLE_ADMIN')">
 							<div class="btn-group-vertical" id="actionButtons">
-								<a href="${contextPath}/user/addToCart/${product.productId}" class="btn btn-warning btn-md">Add to Cart</a>
+								<a href="${contextPath}/user/cart/addToCart/${product.productId}" class="btn btn-warning btn-md">Add to Cart</a>
 
 							</div>
 						</sec:authorize>

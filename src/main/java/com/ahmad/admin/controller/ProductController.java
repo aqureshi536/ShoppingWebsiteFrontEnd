@@ -61,7 +61,7 @@ public class ProductController {
 		}
 		if(cancelledAddToCart!=null)
 		{
-			model.addAttribute("cancelledAddToCart","You cannot add more products to cart");
+			model.addAttribute("cancelledAddToCart","You cannot add this product to cart any more");
 		}
 		product = productDAO.get(productId);
 		model.addAttribute("product", product);
