@@ -142,12 +142,19 @@ public class JsonDataController {
 
 		for (CartItem item : cartItems) {
 			cartItemModel = new CartItemModel();
+			
+			/*if (item.getQuantity() >= product.getQuantity()) {
+				
+			} */
 			cartItemModel.setCartItem(item);
 			if (item.getProductId() != null && !item.getProductId().isEmpty()) {
 				product = productDAO.get(item.getProductId());
 				cartItemModel.setProductName(product.getProductName());
 			} else {
 				cartItemModel.setProductName("Currently not avilable");
+			}
+			if ( productDAO.get(item.getProductId()).getQuantity() <= 0){
+				cartItemModel.setProductName("Not in stock");
 			}
 			cartItemModelList.add(cartItemModel);
 		}

@@ -19,23 +19,24 @@
 				ng-model="searchProduct">
 		</div>
 		</form:form>
-</div>
-</sec:authorize>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<div class="col-sm-4 col-xs-9">
-		<div style="padding-top: 50px;">
-			<form:form action="${contextPath}/admin/search/" method="get">
-				<input type="search" class="form-control"
-					placeholder="Search product" name="keywordAdmin">
+
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<div class="col-sm-4 col-xs-9">
+			<div style="padding-top: 50px;">
+				<form:form action="${contextPath}/admin/search/" method="get">
+					<input type="search" class="form-control"
+						placeholder="Search product" name="keywordAdmin">
+			</div>
 		</div>
-	</div>
-	<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
-		<input type="submit" value="search" class="btn btn-md btn-info"
-			ng-model="searchProduct">
-	</div>
-	</form:form>
-	</div>
-</sec:authorize>
+		<div class="col-sm-1 col-xs-2" style="padding-top: 50px;">
+			<input type="submit" value="search" class="btn btn-md btn-info"
+				ng-model="searchProduct">
+		</div>
+		</form:form>
+
+	</sec:authorize>
+</div>
 
 
 
@@ -111,9 +112,11 @@
 						${pageContext.request.userPrincipal.name}</a></li>
 			</c:if>
 		</sec:authorize>
-		<c:if test="${pageContext.request.userPrincipal.name == null }">
-			<li id="login"><a id="A_login" href="${contextPath}/login"><span
-					class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		<c:if test="${showLogin==false}">
+			<c:if test="${pageContext.request.userPrincipal.name == null }">
+				<li id="login"><a id="A_login" href="${contextPath}/login"><span
+						class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			</c:if>
 		</c:if>
 
 		<c:if test="${pageContext.request.userPrincipal.name != null}">

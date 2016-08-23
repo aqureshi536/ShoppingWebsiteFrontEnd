@@ -124,7 +124,7 @@ public class ProductController {
 		Product[] productArray = new Product[size + 1];
 		if (sizeOfSimilarProducts != 0) {
 			for (int i = 0; i <= size; i++) {
-				int randomNumber = (int) (Math.random() * size);
+				//int randomNumber = (int) (Math.random() * size);
 				productArray[i] = similarProductList.get(i);
 			}
 			return productArray;

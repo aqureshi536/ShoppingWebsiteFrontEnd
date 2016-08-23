@@ -115,11 +115,11 @@ $(function() {
 	});
 });
 
-/*//to make navbar scroll smoother
+//to make navbar scroll smoother
 $('#homeNavbar').affix({
     offset: $('#homeNavbar').position()
 });
-*/
+
 
 
 

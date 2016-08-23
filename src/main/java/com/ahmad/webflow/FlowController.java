@@ -130,32 +130,45 @@ public class FlowController {
 		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 		System.out.println(listOfCartItems);
 		for (CartItem item : listOfCartItems) {
-			orderedItems = new OrderedItems();
-			orderedItems.setCustomerId(item.getCustomerId());
-			orderedItems.setProductName(productDAO.get(item.getProductId()).getProductName());
-			orderedItems.setProductId(item.getProductId());
-			orderedItems.setQuantity(item.getQuantity());
-			orderedItems.setTotalPrice(item.getTotalPrice());
-			orderedItemsDAO.saveOrUpdate(orderedItems);
-			
-//			Now update the product as count will decrease 
-			product = productDAO.get(orderedItems.getProductId());
-			product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
-			if (product.getQuantity() <= 0) {
-				product.setQuantity(0);
-				product.setOutOffStock(true);
-				
+			// if the product is present but its less than stock or its zero so
+			// don't consider it
+			if (productDAO.get(item.getProductId()).getQuantity() == 0
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()||item.getProductId()==null) {
+
+			} else {
+				orderedItems = new OrderedItems();
+				orderedItems.setCustomerId(item.getCustomerId());
+				orderedItems.setProductName(productDAO.get(item.getProductId()).getProductName());
+				orderedItems.setProductId(item.getProductId());
+				orderedItems.setQuantity(item.getQuantity());
+				orderedItems.setTotalPrice(item.getTotalPrice());
+				orderedItemsDAO.saveOrUpdate(orderedItems);
+
+				// Now update the product as count will decrease
+				product = productDAO.get(orderedItems.getProductId());
+				product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
+				if (product.getQuantity() <= 0) {
+					product.setQuantity(0);
+					product.setOutOffStock(true);
+
+				}
+				productDAO.saveOrUpdate(product);
+				cartItemDAO.delete(item.getCartItemId());
 			}
-			productDAO.saveOrUpdate(product);
-			cartItemDAO.delete(item.getCartItemId());
 		}
 
 		listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 		Cart cart = new Cart();
 		double grandTotal = 0;
 		for (CartItem item : listOfCartItems) {
-			grandTotal = grandTotal + item.getTotalPrice();
+			if (productDAO.get(item.getProductId()).getQuantity() == 0
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity())
+				grandTotal = grandTotal;
+			else {
+				grandTotal = grandTotal + item.getTotalPrice();
+			}
 		}
+		
 		cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
 		cart.setGrandTotal(grandTotal);
 

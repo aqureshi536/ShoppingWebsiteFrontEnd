@@ -81,15 +81,49 @@ public class CartController {
 		String customerId = customer.getCustomerId();
 
 		List<CartItemModel> cartItems = null;
-
+		Cart cart = cartDAO.getCartByCustomerId(customerId);
 		// When there are products in cart
 		if (returnProductName(customerId) != null && !returnProductName(customerId).isEmpty()) {
 			cartItems = returnProductName(customerId);
-			
+			for (CartItemModel item : cartItems) {
+
+				if (item.getProductName() == null
+						|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
+
+					cart.setGrandTotal(cart.getGrandTotal() - item.getCartItem().getTotalPrice());
+					cartDAO.saveOrUpdate(cart);
+				}
+
+				else {
+					List<CartItem> listOfSelectedCartItems;
+					// Now after getting the cartItem change grandTotal and No
+					// of Products
+					listOfSelectedCartItems = cartItemDAO.getCartItemsByCustomerId(customerId);
+					double grandTotal = 0;
+					for (CartItem item1 : listOfSelectedCartItems) {
+
+						if (productDAO.get(item1.getProductId()).getQuantity() == 0
+								|| item1.getQuantity() > productDAO.get(item1.getProductId()).getQuantity())
+							grandTotal = grandTotal;
+						else {
+							grandTotal = grandTotal + item1.getTotalPrice();
+						}
+					}
+					cart.setGrandTotal(grandTotal);
+
+					int noOfProducts = listOfSelectedCartItems.size();
+
+					cart.setNoOfProducts(noOfProducts);
+					cartDAO.saveOrUpdate(cart);
+				}
+			}
+
 			mv.addObject("cartItems", cartItems);
 			double grandTotal = cartDAO.getCartByCustomerId(customerId).getGrandTotal();
-			mv.addObject("grandTotal", grandTotal);
-
+			if (grandTotal > 0)
+				mv.addObject("grandTotal", grandTotal);
+			else
+				model.addAttribute("zeroGrandTotal", "Product not present");
 		}
 		// When there are no products in cart
 		else {
@@ -174,8 +208,10 @@ public class CartController {
 		// through a method
 
 		// if we get null means the product is not present
-
-		if (addCartItem(customerId, productId, cartId, model) == null) {
+		// String
+		// redirectPage="redirect:/productDetail/{productId}?addToCartSuccessMessage";
+		String redirectPage = addCartItem(customerId, productId, cartId, model);
+		if (redirectPage == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);
@@ -189,7 +225,7 @@ public class CartController {
 		}
 		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
 		// Now navigate to the same page
-		return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
+		return redirectPage;
 	}
 
 	// This function will update the cart
@@ -229,7 +265,9 @@ public class CartController {
 				item.setCartItemId(item.getCartItemId());
 
 				System.out.println(item.getQuantity());
-				if (product.getQuantity() <= item.getQuantity()) {
+				// Check the whether the user is adding the item to cart more
+				// than its quantity
+				if (item.getQuantity() >= product.getQuantity()) {
 					return "redirect:/productDetail/{productId}?cancelledAddToCart";
 				} else {
 					item.setQuantity(item.getQuantity() + 1);
@@ -290,4 +328,5 @@ public class CartController {
 		return mv;
 
 	}
+
 }

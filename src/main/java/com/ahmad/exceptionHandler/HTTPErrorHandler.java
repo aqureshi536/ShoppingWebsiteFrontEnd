@@ -7,14 +7,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HTTPErrorHandler {
 
-	@RequestMapping("/400")
+	@RequestMapping(value={"/400","/500","/404","/410"})
 	public ModelAndView error400(){
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("navigate403", "true");		
+		mv.addObject("navigate403", "true");	
+		mv.addObject("showLogin", true);
 		return mv;
 	}
 	
-	@RequestMapping("/500")
+	/*@RequestMapping("/500")
 	public ModelAndView error500(){
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("navigate403", "true");		
@@ -35,5 +36,5 @@ public class HTTPErrorHandler {
 		mv.addObject("navigate403", "true");
 		
 		return mv;
-	}
+	}*/
 }

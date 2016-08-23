@@ -7,6 +7,10 @@
 	<c:if test="${not empty addToCartAllProducts }">
 		<div class="alert alert-success">${addToCartAllProducts}</div>
 	</c:if>
+	<c:if test="${not empty cancelledAddToCart }">
+		<div class="alert alert-danger">${cancelledAddToCart}</div>
+	</c:if>
+	
 	<div class="row">
 
 		<div

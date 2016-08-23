@@ -214,9 +214,14 @@ public class PageController {
 
 	@RequestMapping("/allProducts")
 	public ModelAndView allProducts(Model model,
-			@RequestParam(value = "addToCartAllProducts", required = false) String addToCartAllProducts) {
+			@RequestParam(value = "addToCartAllProducts", required = false) String addToCartAllProducts,
+			@RequestParam(value="cancelledAddToCart",required=false)String cancelledAddToCart) {
 		if (addToCartAllProducts != null) {
 			model.addAttribute("addToCartAllProducts", "Product added to cart Successfully");
+		}
+		if(cancelledAddToCart!=null)
+		{
+			model.addAttribute("cancelledAddToCart","This product cannot be added to cart no more");
 		}
 		ModelAndView mv = new ModelAndView("index");
 
@@ -326,6 +331,11 @@ public class PageController {
 		mv.addObject("isSearchProducts", "true");
 		return mv;
 	}
+	
+	
+	
+	
+	
 
 	// Add a product to cart on all products page
 
@@ -370,8 +380,9 @@ public class PageController {
 		// through a method
 
 		// if we get null means the product is not present
-
-		if (addCartItem(customerId, productId, cartId, model) == null) {
+//String redirect = "redirect:/user/allProducts/?addToCartSuccessMessage";
+		String redirect=addCartItem(customerId, productId, cartId, model);
+		if (redirect == null) {
 			cartItem = new CartItem();
 			cartItem.setCartId(cartId);
 			cartItem.setCustomerId(customerId);
@@ -385,7 +396,7 @@ public class PageController {
 		}
 		httpSession.setAttribute("noOfProducts", returnNoOfProducts(userName));
 		// Now navigate to the same page
-		return "redirect:/allProducts?addToCartAllProducts";
+		return redirect;
 	}
 
 	public int updateCartAgain(String cartId, String customerId) {
@@ -424,17 +435,22 @@ public class PageController {
 				item.setCartItemId(item.getCartItemId());
 
 				System.out.println(item.getQuantity());
-				item.setQuantity(item.getQuantity() + 1);
+				// Check the whether the user is adding the item to cart more
+				// than its quantity
+				if (item.getQuantity() >= product.getQuantity()) {
+					return "redirect:/allProducts?cancelledAddToCart";
+				} else {
+					item.setQuantity(item.getQuantity() + 1);
 
-				System.out.println(item.getTotalPrice());
-				item.setTotalPrice(item.getTotalPrice() + product.getPrice());
+					System.out.println(item.getTotalPrice());
+					item.setTotalPrice(item.getTotalPrice() + product.getPrice());
 
-				System.out.println(item.toString());
-				cartItemDAO.saveOrUpdate(item);
-				updateCartAgain(cartId, customerId);
+					System.out.println(item.toString());
+					cartItemDAO.saveOrUpdate(item);
+					updateCartAgain(cartId, customerId);
 
-				return "redirect:/productDetail/{productId}?addToCartSuccessMessage";
-
+					return "redirect:/allProducts?addToCartAllProducts";
+				}
 			}
 
 		}
