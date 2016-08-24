@@ -48,14 +48,19 @@
 	</action-state>
 
 
+	<view-state id="orderConfirm" view="cart/orderConfirmed">
+		<transition on="finalHome" to="toHome" />
+	</view-state>
 
-	<end-state id="orderConfirm" view="cart/orderConfirmed"/>	
+
+<!-- 
+	<end-state id="orderConfirm" view="cart/orderConfirmed"/> -->	
 	<end-state id="toCartView" view="externalRedirect:contextRelative:/user/cart/" />
-	<end-state id="toHome" view="externalRedirect:contextRelative:/" />
+	<end-state id="toHome" view="externalRedirect:contextRelative:/index" />
 
 	<global-transitions>
 		<transition on="cancel" to="toCartView" />
-		<transition on="home" to="toHome" />
+		<!-- <transition on="finalHome" to="toHome" /> -->
 	</global-transitions>
 
 </flow>	

@@ -4,10 +4,12 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -157,9 +159,7 @@ public class PageController {
 
 	@RequestMapping(value = { "/login" })
 	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, Model model,
-			@RequestParam(value = "registrationSuccessfull", required = false) String registered,
-			@RequestParam(value = "userExists", required = false) String userExists) {
+			@RequestParam(value = "logout", required = false) String logout, Model model) {
 		ModelAndView mv = new ModelAndView("/index");
 		mv.addObject("customer", new Customer());
 		if (error != null) {
@@ -168,12 +168,7 @@ public class PageController {
 		if (logout != null) {
 			model.addAttribute("msg", "Thank You, You're successfully logged out");
 		}
-		if (registered != null) {
-			model.addAttribute("registered", "Registration Successfull, Please login again");
-		}
-		if (userExists != null) {
-			model.addAttribute("userExists", "Oops! Try diffrent username or email");
-		}
+		
 		// Gets the category on the navber
 		List<Category> categoryList = categoryDAO.listCategory();
 		mv.addObject("categoryList", categoryList);
@@ -185,8 +180,9 @@ public class PageController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String registerCustomer(@ModelAttribute("customer") Customer customer) {
+	
+	public String registerCustomer(@ModelAttribute("customer")@Valid Customer customer,BindingResult result) {
+		
 		this.customer = customer;
 		Customer customerToCheck = customerDAO.getCustomerByUserName(customer.getUsername());
 		if (customerToCheck == null) {
@@ -208,6 +204,51 @@ public class PageController {
 			return "redirect:/login?registrationSuccessfull";
 		}
 		return "redirect:/login?userExists";
+	}
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView registerError(@ModelAttribute("customer")@Valid Customer customer,BindingResult result){
+		ModelAndView mv =new ModelAndView("index");
+		
+		if(result.hasErrors())
+		{
+			mv.addObject("isLoginClicked", "true");
+			mv.addObject("displayLogin", "true");
+			mv.addObject("activeNavMenu", "login");
+			mv.addObject("displayCart", "true");
+			return mv;
+		}
+		mv.addObject("customer",new Customer());
+		Customer customerToCheck = customerDAO.getCustomerByUserName(customer.getUsername());
+		if (customerToCheck == null) {
+			// save to the customer table
+			customerDAO.saveOrUpdate(customer);
+
+			// After saving to customer table save to users table
+			users.setCustomerId(customer.getCustomerId());
+			users.setEnabled(true);
+			users.setUsername(customer.getUsername());
+			users.setPassword(customer.getPassword());
+			usersDAO.saveOrUpdate(users);
+
+			// After saving users table now save to user authorities table
+			userAuthorities.setCustomerId(customer.getCustomerId());
+			userAuthorities.setUsername(customer.getUsername());
+			userAuthorities.setAuthority("ROLE_USER");
+			userAuthoritiesDAO.saveOrUpdate(userAuthorities);
+			mv.addObject("registrationSuccessfull", "true");
+		}
+		else{
+			mv.addObject("userExists","true");
+		}
+		mv.addObject("isLoginClicked", "true");
+		mv.addObject("displayLogin", "true");
+		mv.addObject("activeNavMenu", "login");
+		mv.addObject("displayCart", "true");
+		return mv;
+		
+		
 	}
 
 	// activates when clicked View All Products on NavBar

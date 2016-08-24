@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class AnyExceptionController {
 
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)*/
 	public ModelAndView handleException(HttpServletRequest request,Exception exception,Model model){
 		ModelAndView mv = new ModelAndView("index");
 		model.addAttribute("error", exception);

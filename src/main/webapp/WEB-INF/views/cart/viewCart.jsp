@@ -103,7 +103,7 @@
 				&nbsp;&nbsp;<span class="fa fa-inr"></span> 0
 			</a></c:when>
 			<c:otherwise>
-			<a class="col-xs-offset-5 btn btn-lg btn-success" href="${contextPath}/user/cart/checkout">Checkout
+			<a class="col-xs-offset-5 btn btn-lg btn-success" href="${contextPath}/cart_checkout">Checkout
 				&nbsp;&nbsp;<span class="fa fa-inr"></span> ${grandTotal}
 			</a>
 			</c:otherwise>

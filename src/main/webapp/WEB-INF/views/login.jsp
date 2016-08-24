@@ -17,9 +17,9 @@
 				<b>${error}</b>
 			</div>
 		</c:if>
-		<c:if test="${not empty registered }">
+		<c:if test="${registrationSuccessfull == true }">
 			<div class="alert alert-success">
-				<b>${registered}</b>
+				<b>Registration successful, Please login again</b>
 			</div>
 		</c:if>
 
@@ -75,8 +75,8 @@
 	<!--  Panel for Sign Up form ---->
 
 	<div class="col-sm-6 ">
-	<c:if test="${not empty userExists}">
-	<div class="alert alert-danger"><strong>${userExists}</strong></div>
+	<c:if test="${userExists==true}">
+	<div class="alert alert-danger"><strong>Oops! Try different email or username </strong></div>
 	</c:if>
 		<div class="panel panel-success" id="panelSignUp">
 			<div class="panel-heading" id="panel-headingSignUp">Sign Up</div>
@@ -86,6 +86,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="reemail">Email</label>
 						<div class="col-sm-10">
+						<form:errors path="username" class="error"/>
 							<form:input path="username" type="email" class="form-control"
 								id="reemail" placeholder="Enter email" required="true"
 								name="reEmail"  title="Enter a valid email Id"/>
@@ -95,6 +96,7 @@
 						<label class="control-label col-sm-2" for="rephone">Phone
 							No</label>
 						<div class="col-sm-10">
+						<form:errors path="phoneNo" class="error"/>
 							<form:input path="phoneNo" type="text" class="form-control"
 								pattern="^\d{10}$" title="Enter 10 digit mobile number"
 								id="rephone" name="rePhone" placeholder="Enter Contact Number" 
@@ -102,6 +104,7 @@
 						</div>
 					</div>
 					<div class="form-group ">
+					<form:errors path="gender" class="error"/>
 						<label for="gender" class="control-label col-sm-2">Gender</label>
 						<div class="col-sm-offset-1 col-sm-9">
 							<label for="maleGender" class="radio-inline  label-control"><form:radiobutton
@@ -115,9 +118,11 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="repwd">Password</label>
 						<div class="col-sm-10">
+						<form:errors path="password" class="error"/>
 							<form:input path="password" type="password" class="form-control"
-								id="repwd" placeholder="Enter password" required="true" 
+								id="repwd" placeholder="Enter password" pattern="[0-9a-zA-Z]{8,}" title="Password should have minimum 8 charcters" required="true" 
 								name="rePass" />
+<!-- 								 -->
 						</div>
 					</div>
 

@@ -156,6 +156,10 @@ public class FlowController {
 				else
 				{
 					product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
+					if(product.getQuantity() <= 0){
+						product.setQuantity(0);
+						product.setOutOffStock(true);
+					}
 				}
 				productDAO.saveOrUpdate(product);
 				cartItemDAO.delete(item.getCartItemId());

@@ -21,7 +21,9 @@
 			<div class="container">
 				<div class="jumbotron">
 					<h1>Order Confirmed,Product will be delivered shortly.</h1>
-					<a href="_eventId_home" class="btn btn-lg btn-info">Home</a>
+					<form:form><input type="submit" name="_eventId_finalHome"  value="Home" class="btn btn-lg btn-info"></form:form>
+					
+				
 				</div>
 
 

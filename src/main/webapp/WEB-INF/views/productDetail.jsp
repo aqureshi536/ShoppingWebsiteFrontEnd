@@ -30,7 +30,9 @@
 			<h4>
 				Description:
 				<p>${product.description }</p>
-			</h4>
+			</h4><p style="font-size:15px;color:green;font-weight:bold;">Status : <br>
+			 ${product.quantity} Available
+			</p>
 			<br>
 			<sec:authorize access="!hasRole('ROLE_ADMIN')">
 				<a href="${contextPath}/user/cart/addToCart/${product.productId}"

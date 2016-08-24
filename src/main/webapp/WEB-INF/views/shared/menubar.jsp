@@ -43,7 +43,7 @@
 <!--  NAvigation bar starts here -->
 <button type="button" class="navbar-toggle" data-toggle="collapse"
 	data-target="#homeNavbar" id="homenavbarToggle">
-	<span><b>Categories</b></span> <span class="icon-bar"></span> <span
+	<span><b>Menu</b></span> <span class="icon-bar"></span> <span
 		class="icon-bar"></span> <span class="icon-bar"></span>
 </button>
 
@@ -69,8 +69,9 @@
 						<li><a style="font-size: 20px;"
 							href="${contextPath}/allProducts/${category.categoryId}">${category.categoryName}</a></li>
 					</c:forEach>
+					</ul>
 		</sec:authorize>
-	</ul>
+	
 	</li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right" data-hover="dropdown"

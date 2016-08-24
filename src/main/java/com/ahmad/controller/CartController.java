@@ -437,13 +437,14 @@ public class CartController {
 		String redirect = null;
 		cartItem = cartItemDAO.getCartItem(cartItemId);
 		product = productDAO.get(cartItem.getProductId());
-		int productQuantity=product.getQuantity();
+		int productQuantity = product.getQuantity();
 		// Check whether the cartItem quantity is more or enough
 		if (quantity > product.getQuantity()) {
 			redirect = "redirect:/user/cart/?cancelUpdate";
-		} /*else if (quantity > 5) {
-			redirect = "redirect:/user/cart/?maxCartItem";
-		}*/ else {
+		} /*
+			 * else if (quantity > 5) { redirect =
+			 * "redirect:/user/cart/?maxCartItem"; }
+			 */ else {
 			cartItem.setQuantity(quantity);
 			cartItem.setTotalPrice(quantity * product.getPrice());
 			cartItemDAO.saveOrUpdate(cartItem);
