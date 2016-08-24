@@ -132,7 +132,7 @@ public class JsonDataController {
 	// To view Cart
 
 	@RequestMapping("/view/cart/")
-	public @ResponseBody List<CartItemModel> viewCart(Principal principal) {
+	public @ResponseBody List<CartItemModel> viewCart(Principal principal,Model model) {
 		customer = customerDAO.getCustomerByUserName(principal.getName());
 		List<CartItem> cartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 
@@ -154,13 +154,15 @@ public class JsonDataController {
 				cartItemModel.setProductName(product.getProductName()+" ( Available products = " + product.getQuantity()+" )");
 			} //else if deleted
 			else {
-				cartItemModel.setProductName("Currently not avilable");
+				/*cartItemModel.setProductName("Currently not available");*/
+				
+					cartItemModel.setProductName(" (Sorry, This product doesn't exist anymore )");
+					model.addAttribute("notInStock", "notInStock");
+				
 			}
 			
 			
-			if ( productDAO.get(item.getProductId()).getQuantity() <= 0){
-				cartItemModel.setProductName(product.getProductName()+" (Sorry, Available  "+product.getQuantity()+" )");
-			}
+		
 			cartItemModelList.add(cartItemModel);
 		}
 		return cartItemModelList;

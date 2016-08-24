@@ -71,7 +71,7 @@ public class CartController {
 			@RequestParam(value = "cartItemRemoved", required = false) String cartItemRemoved,
 			@RequestParam(value = "updateSuccessfull", required = false) String updateSuccessfull,
 			@RequestParam(value = "cancelUpdate", required = false) String cancelUpdate,
-			@RequestParam(value = "maxCartItem", required = false) String maxCartItem)
+			@RequestParam(value = "cannotUpdate", required = false) String cannotUpdate)
 
 	{
 		ModelAndView mv = new ModelAndView("index");
@@ -86,8 +86,8 @@ public class CartController {
 			model.addAttribute("cancelUpdate",
 					"Sorry, Quantity of product you are trying to update is insufficient in our stock");
 		}
-		if (maxCartItem != null) {
-			model.addAttribute("maxCartItem", "Sorry, Quantity should not be more than 5");
+		if (cannotUpdate != null) {
+			model.addAttribute("cannotUpdate", "Sorry, The product you are trying to update is not available");
 		}
 		customer = customerDAO.getCustomerByUserName(customerName);
 		String customerId = customer.getCustomerId();
@@ -99,10 +99,11 @@ public class CartController {
 			cartItems = returnProductName(customerId);
 			for (CartItemModel item : cartItems) {
 				// Check whether the cart item is in stock or it not exists
-				if (item.getProductName() == null
+				if (item.getCartItem().getProductId() == null
 						|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
 
 					cart.setGrandTotal(cart.getGrandTotal() - item.getCartItem().getTotalPrice());
+					model.addAttribute("notInStock", "Not in stock");
 					cartDAO.saveOrUpdate(cart);
 				}
 
@@ -115,11 +116,15 @@ public class CartController {
 					for (CartItem item1 : listOfSelectedCartItems) {
 						// Also check is there any item which should not be
 						// considered
-						if (productDAO.get(item1.getProductId()).getQuantity() == 0
-								|| item1.getQuantity() > productDAO.get(item1.getProductId()).getQuantity())
-							grandTotal = grandTotal;
-						else {
-							grandTotal = grandTotal + item1.getTotalPrice();
+						String productId = item1.getProductId();
+//						check whether the product is present or not in database
+						if (productId != null) {
+							if (productDAO.get(productId).getQuantity() == 0
+									|| item1.getQuantity() > productDAO.get(item1.getProductId()).getQuantity())
+								grandTotal = grandTotal;
+							else {
+								grandTotal = grandTotal + item1.getTotalPrice();
+							}
 						}
 					}
 					cart.setGrandTotal(grandTotal);
@@ -283,35 +288,37 @@ public class CartController {
 		for (CartItem item : listOfSelectedCartItems) {
 			String itemProductId = item.getProductId();
 			System.out.println(itemProductId);
-			if (itemProductId.equals(product.getProductId())) {
-				System.out.println(item.getCartItemId());
-				item.setCartItemId(item.getCartItemId());
+			if (itemProductId != null) {
+				if (itemProductId.equals(product.getProductId())) {
+					System.out.println(item.getCartItemId());
+					item.setCartItemId(item.getCartItemId());
 
-				System.out.println(item.getQuantity());
-				// Check the whether the user is adding the item to cart
-				// more
-				// than its quantity
-				if (item.getQuantity() >= product.getQuantity()) {
-					return 1; // This is a code which denotes product is
-								// not enough to added to his cart as its
-								// present
+					System.out.println(item.getQuantity());
+					// Check the whether the user is adding the item to cart
+					// more
+					// than its quantity
+					if (item.getQuantity() >= product.getQuantity()) {
+						return 1; // This is a code which denotes product is
+									// not enough to added to his cart as its
+									// present
 
-					/* "redirect:/productDetail/{productId}?cancelledAddToCart"; */
-				} else {
-					item.setQuantity(item.getQuantity() + 1);
+						/* "redirect:/productDetail/{productId}?cancelledAddToCart"; */
+					} else {
+						item.setQuantity(item.getQuantity() + 1);
 
-					System.out.println(item.getTotalPrice());
-					item.setTotalPrice(item.getTotalPrice() + product.getPrice());
+						System.out.println(item.getTotalPrice());
+						item.setTotalPrice(item.getTotalPrice() + product.getPrice());
 
-					System.out.println(item.toString());
-					cartItemDAO.saveOrUpdate(item);
-					updateCartAgain(cartId, customerId);
-					return 2; // This is a code which denotes product added
-								// to
-								// cart successfully
-					/* "redirect:/productDetail/{productId}?addToCartSuccessMessage"; */
-				} // ---else ends
-			} // ----- outer if ends -----
+						System.out.println(item.toString());
+						cartItemDAO.saveOrUpdate(item);
+						updateCartAgain(cartId, customerId);
+						return 2; // This is a code which denotes product added
+									// to
+									// cart successfully
+						/* "redirect:/productDetail/{productId}?addToCartSuccessMessage"; */
+					} // ---else ends
+				} // ----- outer if ends -----
+			} // --- if to manage whether the product exist or not
 		} // ----- for loop ends
 			// ------- If ends
 		return 0; // Product is not present in cart we need to generate a new
@@ -436,20 +443,28 @@ public class CartController {
 			@RequestParam(value = "cartQuantity") int quantity) {
 		String redirect = null;
 		cartItem = cartItemDAO.getCartItem(cartItemId);
-		product = productDAO.get(cartItem.getProductId());
-		int productQuantity = product.getQuantity();
-		// Check whether the cartItem quantity is more or enough
-		if (quantity > product.getQuantity()) {
-			redirect = "redirect:/user/cart/?cancelUpdate";
-		} /*
-			 * else if (quantity > 5) { redirect =
-			 * "redirect:/user/cart/?maxCartItem"; }
-			 */ else {
-			cartItem.setQuantity(quantity);
-			cartItem.setTotalPrice(quantity * product.getPrice());
-			cartItemDAO.saveOrUpdate(cartItem);
-			updateCartAgain(cartItem.getCartId(), cartItem.getCustomerId());
-			redirect = "redirect:/user/cart/?updateSuccessfull";
+
+		String productId = cartItem.getProductId();
+//		check whether the product is present or not in database
+		if (productId != null) {
+			product = productDAO.get(cartItem.getProductId());
+			int productQuantity = product.getQuantity();
+			// Check whether the cartItem quantity is more or enough
+			if (quantity > product.getQuantity()) {
+				redirect = "redirect:/user/cart/?cancelUpdate";
+			} /*
+				 * else if (quantity > 5) { redirect =
+				 * "redirect:/user/cart/?maxCartItem"; }
+				 */ else {
+				cartItem.setQuantity(quantity);
+				cartItem.setTotalPrice(quantity * product.getPrice());
+				cartItemDAO.saveOrUpdate(cartItem);
+				updateCartAgain(cartItem.getCartId(), cartItem.getCustomerId());
+				redirect = "redirect:/user/cart/?updateSuccessfull";
+			}
+		}
+		else{
+			 redirect = "redirect:/user/cart/?cannotUpdate";
 		}
 		return redirect;
 	}

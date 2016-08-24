@@ -11,8 +11,8 @@
 	<c:if test="${not empty cancelUpdate }">
 		<div id="cancelUpdate" class="alert alert-danger">${cancelUpdate}</div>
 	</c:if>
-	<c:if test="${not empty maxCartItem }">
-		<div id="maxCartItem" class="alert alert-danger">${maxCartItem}</div>
+	<c:if test="${not empty cannotUpdate }">
+		<div id="maxCartItem" class="alert alert-danger">${cannotUpdate}</div>
 	</c:if>
 	<div class="row">
 		<div class="col-md-3 col-xs-6">
@@ -73,12 +73,17 @@
 							</td> --%>
 						<td><img src="${images}/product/{{c.cartItem.productId}}.png"
 							class="cart-Image img-thumbnail"></td>
+
 						<td>{{c.productName}}</td>
-						<td><form action="${contextPath}/user/cart/update">
-						<input type="hidden" value="{{c.cartItem.cartItemId}}" name="cartItemId">
-						<input type="text" value="{{c.cartItem.quantity}}" name="cartQuantity" pattern="^[0-9]*$" required class="form-control"/>
-						<br>
-						<input type="submit" class="btn btn-md btn-warning" value="Update Quantity"/></form>
+						<td>
+							<form action="${contextPath}/user/cart/update">
+								<input type="hidden" value="{{c.cartItem.cartItemId}}"
+									name="cartItemId"> <input type="text"
+									value="{{c.cartItem.quantity}}" name="cartQuantity"
+									pattern="^[0-9]*$" required class="form-control" /> <br> <input
+									type="submit" class="btn btn-md btn-warning"
+									value="Update Quantity" />
+							</form>
 						</td>
 						<td><span class="fa fa-inr"></span> {{c.cartItem.totalPrice}}</td>
 						<td>
@@ -99,17 +104,20 @@
 			</table>
 			<c:choose>
 				<c:when test="${not empty zeroGrandTotal }">
-					<a class="col-xs-offset-5 btn btn-lg btn-success"  disabled="true">Checkout
-				&nbsp;&nbsp;<span class="fa fa-inr"></span> 0
-			</a></c:when>
-			<c:otherwise>
-			<a class="col-xs-offset-5 btn btn-lg btn-success" href="${contextPath}/cart_checkout">Checkout
-				&nbsp;&nbsp;<span class="fa fa-inr"></span> ${grandTotal}
-			</a>
-			</c:otherwise>
+					<a class="col-xs-offset-5 btn btn-lg btn-success" disabled="true">Checkout
+						&nbsp;&nbsp;<span class="fa fa-inr"></span> 0
+					</a>
+				</c:when>
+				<c:otherwise>
+					<a class="col-xs-offset-5 btn btn-lg btn-success"
+						href="${contextPath}/cart_checkout">Checkout &nbsp;&nbsp;<span
+						class="fa fa-inr"></span> ${grandTotal}
+					</a>
+				</c:otherwise>
 			</c:choose>
 
-		</c:otherwise> <%-- ----- for no product proesent --%>
+		</c:otherwise>
+		<%-- ----- for no product proesent --%>
 
 	</c:choose>
 
