@@ -93,43 +93,57 @@ public class CartController {
 		String customerId = customer.getCustomerId();
 
 		List<CartItemModel> cartItems = null;
+//		Check whether the customer cart exist in database or not
+		if (cartDAO.getCartByCustomerId(customerId) != null) {
+			updateCartAgain(cartDAO.getCartByCustomerId(customerId).getCartId(), customerId);
+			Cart selectedCart = cartDAO.getCartByCustomerId(customerId);
+			// To save from null pointer exception we will check whether there
+			// are
+			// products or not
+		
+			if (returnCartItemModelList(customerId) != null || !returnCartItemModelList(customerId).isEmpty()) {
+				// if present then add to the list
+				cartItems = returnCartItemModelList(customerId);
+				mv.addObject("noOfProducts", cartItems.size());
+				
+				for (CartItemModel item : cartItems) {
+					double grandTotal = 0;
+					// This is to check whether the productId is null as it was
+					// deleted from database or quantity of
+					// the item i zero then deduct its price from the cart grand
+					// total
+					if (item.getCartItem().getProductId() == null || item.getCartItem().getQuantity() < 1
+							|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
+						grandTotal=selectedCart.getGrandTotal() - item.getCartItem().getTotalPrice();
+						selectedCart.setGrandTotal(grandTotal);
 
-		updateCartAgain(cartDAO.getCartByCustomerId(customerId).getCartId(), customerId);
-		Cart selectedCart = cartDAO.getCartByCustomerId(customerId);
-		// To save from null pointer exception we will check whether there are
-		// products or not
-		double grandTotal = 0;
-		if (returnCartItemModelList(customerId) != null || !returnCartItemModelList(customerId).isEmpty()) {
-			// if present then add to the list
-			cartItems = returnCartItemModelList(customerId);
-			mv.addObject("noOfProducts", cartItems.size());
-			for (CartItemModel item : cartItems) {
+					}
+					// if the product exist in database and also it doesn't have
+					// any
+					// items with quantity zero the consider their cost and
+					// update
+					// cart
+					else {
 
-				// This is to check whether the productId is null as it was
-				// deleted from database or quantity of
-				// the item i zero then deduct its price from the cart grand
-				// total
-				if (item.getCartItem().getProductId() == null || item.getCartItem().getQuantity() < 1
-						|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
-					selectedCart.setGrandTotal(selectedCart.getGrandTotal() - item.getCartItem().getTotalPrice());
-
+						grandTotal = grandTotal + item.getCartItem().getTotalPrice();
+						selectedCart.setGrandTotal(grandTotal);
+						
+					}
 				}
-				// if the product exist in database and also it doesn't have any
-				// items with quantity zero the consider their cost and update
-				// cart
-				else {
-
-					grandTotal = grandTotal + item.getCartItem().getTotalPrice();
-					selectedCart.setGrandTotal(grandTotal);
+				
+				cartDAO.saveOrUpdate(selectedCart);
+				// pass a model saying that the grand total is zero
+				if (selectedCart.getGrandTotal() <= 0) {
+					model.addAttribute("zeroGrandTotal", "Product not present");
+				} else {
+					model.addAttribute("grandTotal", selectedCart.getGrandTotal());
 				}
-			}
-			// pass a model saying that the grand total is zero
-			if (selectedCart.getGrandTotal() <= 0) {
-				model.addAttribute("zeroGrandTotal", "Product not present");
+				
 			} else {
-				model.addAttribute("grandTotal", grandTotal);
+				model.addAttribute("cartEmpty", "No items present in the cart");
+				mv.addObject("noOfProducts", 0);
 			}
-			cartDAO.saveOrUpdate(selectedCart);
+			
 		} else {
 			model.addAttribute("cartEmpty", "No items present in the cart");
 			mv.addObject("noOfProducts", 0);

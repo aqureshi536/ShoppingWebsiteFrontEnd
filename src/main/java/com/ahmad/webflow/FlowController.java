@@ -132,9 +132,9 @@ public class FlowController {
 		for (CartItem item : listOfCartItems) {
 			// if the product is present but its less than stock or its zero or
 			// id is null so don't consider it
-			if (productDAO.get(item.getProductId()).getQuantity() == 0
+			if (item.getProductId() == null||productDAO.get(item.getProductId()).getQuantity() == 0
 					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()
-					|| item.getProductId() == null) {
+					 ) {
 
 			} else {
 				orderedItems = new OrderedItems();
@@ -166,6 +166,7 @@ public class FlowController {
 
 		listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 		Cart cart = new Cart();
+		cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
 		double grandTotal = 0;
 		for (CartItem item : listOfCartItems) {
 			// Check whether the cart item is in stock or it not exists
@@ -173,19 +174,23 @@ public class FlowController {
 			if (item.getProductId()==null||productDAO.get(item.getProductId()).getQuantity() == 0
 					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()){
 				
+				
+				cart.setNoOfProducts(listOfCartItems.size());
+				
 			}
 			/*	grandTotal = grandTotal;*/
 			else {
 //				So all of the above condition is false do this
 				grandTotal = grandTotal + item.getTotalPrice();
-				cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
+				
 				cart.setGrandTotal(grandTotal);
 
 				cart.setCartId(cart.getCartId());
 				cart.setCustomerId(cart.getCustomerId());
 				cart.setNoOfProducts(listOfCartItems.size());
-				cartDAO.saveOrUpdate(cart);
+				
 			}
+			cartDAO.saveOrUpdate(cart);
 		}	
 
 		httpSession.setAttribute("noOfProducts", cart.getNoOfProducts());
