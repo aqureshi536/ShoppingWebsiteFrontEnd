@@ -130,8 +130,8 @@ public class FlowController {
 		List<CartItem> listOfCartItems = cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId());
 		System.out.println(listOfCartItems);
 		for (CartItem item : listOfCartItems) {
-			// if the product is present but its less than stock or its zero so
-			// don't consider it
+			// if the product is present but its less than stock or its zero or
+			// id is null so don't consider it
 			if (productDAO.get(item.getProductId()).getQuantity() == 0
 					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()
 					|| item.getProductId() == null) {
@@ -145,18 +145,16 @@ public class FlowController {
 				orderedItems.setTotalPrice(item.getTotalPrice());
 				orderedItemsDAO.saveOrUpdate(orderedItems);
 
-				// Now update the product as count will decrease
+				// Now update the product as customer buys the product it will decrease
 				product = productDAO.get(orderedItems.getProductId());
-				
+
 				if (product.getQuantity() <= 0) {
 					product.setQuantity(0);
 					product.setOutOffStock(true);
 
-				}
-				else
-				{
+				} else {
 					product.setQuantity(product.getQuantity() - orderedItems.getQuantity());
-					if(product.getQuantity() <= 0){
+					if (product.getQuantity() <= 0) {
 						product.setQuantity(0);
 						product.setOutOffStock(true);
 					}
@@ -172,21 +170,23 @@ public class FlowController {
 		for (CartItem item : listOfCartItems) {
 			// Check whether the cart item is in stock or it not exists
 			// Also check is there any item which should not be considered
-			if (productDAO.get(item.getProductId()).getQuantity() == 0
-					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity())
-				grandTotal = grandTotal;
-			else {
-				grandTotal = grandTotal + item.getTotalPrice();
+			if (item.getProductId()==null||productDAO.get(item.getProductId()).getQuantity() == 0
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()){
+				
 			}
-		}
+			/*	grandTotal = grandTotal;*/
+			else {
+//				So all of the above condition is false do this
+				grandTotal = grandTotal + item.getTotalPrice();
+				cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
+				cart.setGrandTotal(grandTotal);
 
-		cart = cartDAO.getCartByCustomerId(customer.getCustomerId());
-		cart.setGrandTotal(grandTotal);
-
-		cart.setCartId(cart.getCartId());
-		cart.setCustomerId(cart.getCustomerId());
-		cart.setNoOfProducts(listOfCartItems.size());
-		cartDAO.saveOrUpdate(cart);
+				cart.setCartId(cart.getCartId());
+				cart.setCustomerId(cart.getCustomerId());
+				cart.setNoOfProducts(listOfCartItems.size());
+				cartDAO.saveOrUpdate(cart);
+			}
+		}	
 
 		httpSession.setAttribute("noOfProducts", cart.getNoOfProducts());
 
