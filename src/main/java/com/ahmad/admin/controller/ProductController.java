@@ -199,7 +199,7 @@ public class ProductController {
 
 	// This get after admin clicks add Product on the form
 	@RequestMapping(value = "/admin/viewProducts", method = RequestMethod.POST)
-	public ModelAndView addProduct(@ModelAttribute("Product") @Valid Product product, BindingResult result,
+	public ModelAndView addProduct(@ModelAttribute("product") @Valid Product product, BindingResult result,
 			HttpServletRequest request, Model model) {
 		ModelAndView mv = new ModelAndView("index");
 

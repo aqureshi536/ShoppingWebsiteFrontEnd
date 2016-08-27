@@ -71,7 +71,7 @@
 									out.println(i);
 								%>
 							</td> --%>
-						<td><img src="${images}/product/{{c.cartItem.productId}}.png"
+						<td><img ng-src="${images}/product/{{c.cartItem.productId}}.png"
 							class="cart-Image img-thumbnail"></td>
 
 						<td>{{c.productName}}</td>

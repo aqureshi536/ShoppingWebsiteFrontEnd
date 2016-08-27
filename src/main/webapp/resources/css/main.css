@@ -19,8 +19,8 @@ body {
 	width: 97.8%;
 }
 
-.affix+#homeNavbar {
-	padding-top: 100px;
+.affix+.content {
+	padding-top: 55px;
 }
 
 #homenavbarToggle {

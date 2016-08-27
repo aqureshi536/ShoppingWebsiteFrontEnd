@@ -1,7 +1,7 @@
 //SideBar
 $(function() {
 	switch (activeMenu) {
-	
+
 	case 'logout':
 		$('#logout').addClass('sidebar-active')
 		// alert(activeMenu);
@@ -19,9 +19,9 @@ $(function() {
 		// alert(activeMenu);
 		break;
 	case 'viewCart':
-	$('#viewCart').addClass('sidebar-active');
-	break;
-	
+		$('#viewCart').addClass('sidebar-active');
+		break;
+
 	}
 });
 
@@ -45,7 +45,7 @@ $(function() {
 		break;
 	default:
 		$('#home').addClass('nav-active');
-	$('#A_home').css("color", "black");
+		$('#A_home').css("color", "black");
 		// alert(activeMenu);
 		break;
 	}
@@ -64,7 +64,7 @@ $(function() {
 		$("#success-alert").alert('close');
 	});
 });
-//To disappear the update message on addition
+// To disappear the update message on addition
 $(function() {
 	$("#ProductUpdated-warning").fadeTo(4000, 500).slideUp(500, function() {
 		$("#success-alert").alert('close');
@@ -131,23 +131,11 @@ $(function() {
 });
 
 
-//to make navbar scroll smoother
-$('#homeNavbar').affix({
-    offset: $('#homeNavbar').position()
-});
-
-
-
-
-
-/*//To confirm delete or not
-document.getElementById("confirmDelete").addEventListener("click",
-		function(e) { // e => event
-			if (!confirm("Do you really want to do this?")) {
-				e.preventDefault(); // ! => don't want to do this
-			} else {
-				// want to do this! => maybe do something about it?
-				window.location.href = "http://www.google.co.in";
-			}
-		});
-*/
+/*
+ * //To confirm delete or not
+ * document.getElementById("confirmDelete").addEventListener("click",
+ * function(e) { // e => event if (!confirm("Do you really want to do this?")) {
+ * e.preventDefault(); // ! => don't want to do this } else { // want to do
+ * this! => maybe do something about it? window.location.href =
+ * "http://www.google.co.in"; } });
+ */

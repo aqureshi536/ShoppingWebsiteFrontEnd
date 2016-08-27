@@ -25,7 +25,8 @@
 							<label for="" class="control-label col-sm-2">Line 1</label>
 							<div class="col-sm-10">
 								<form:errors path="line1" class="error" />
-								<form:input path="line1" type="text" autofocus="true" class="form-control" required="true"/>
+								<form:input path="line1" type="text" autofocus="true"
+									class="form-control"  />
 							</div>
 						</div>
 						<div class="form-group">
@@ -39,35 +40,42 @@
 							<label for="" class="control-label col-sm-2">City</label>
 							<div class="col-sm-10">
 								<form:errors path="city" class="error" />
-								<form:input path="city" type="text"  class="form-control" required="true"/>
+								<form:input path="city" type="text" class="form-control"
+									 />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">State</label>
 							<div class="col-sm-10">
 								<form:errors path="state" class="error" />
-								<form:input type="text" path="state" class="form-control" required="true"/>
+								<form:input type="text" path="state" class="form-control"
+									 />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">Country</label>
 							<div class="col-sm-10">
 								<form:errors path="country" class="error" />
-								<form:input type="text" path="country" class="form-control" required="true"/>
+								<form:input type="text" path="country" class="form-control"
+									 />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label col-sm-2">Zip code</label>
 							<div class="col-sm-10">
 								<form:errors path="zipCode" class="error" />
-								<form:input type="text" path="zipCode" pattern="^[1-9][0-9]{5}$" title="Enter a 6 digit pincode" class="form-control" required="true"/>
+								<form:input type="text" path="zipCode" 
+									title="Enter a 6 digit pincode" class="form-control"
+									/>
 							</div>
 						</div>
 						<div class="col-md-offset-3">
 							<input type="submit" name="_eventId_submitShippingAddress"
-								class="btn btn-md btn-success" value="Save"> <input
-								type="submit" name="_eventId_cancel"
-								class="btn btn-md btn-danger" value="Cancel">
+								class="btn btn-md btn-success" value="Save">
+							<form:form>
+								<input type="submit" name="_eventId_cancel"
+									class="btn btn-md btn-danger" value="Cancel">
+							</form:form>
 						</div>
 					</form:form>
 				</div>

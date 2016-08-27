@@ -7,15 +7,13 @@
 <link rel="stylesheet" href="${css}/bootstrap-theme.css">
 <link rel="stylesheet" href="${css}/font-awesome.css">
 <link rel="stylesheet" href="${css}/main.css">
-<script src="${js}/angular.js"></script>
-<script src="${js}/app.js"></script>
-
 <link rel="stylesheet" href="${css}/fakeLoader.css">
 <link rel="stylesheet" href="${css}/jquery-confirm.css">
+<script src="${js}/angular.js"></script>
+<script src="${js}/app.js"></script>
 <script src="${js}/jquery-1.12.4.js"></script>
 <script src="${js}/fakeLoader.js"></script>
-<script src="${js}/jquery-confirm.js"></script>
-<script src="${js}/webapp.js"></script>
+
 <link rel="icon" href="${images}/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="${css}/animate.css">
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->

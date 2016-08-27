@@ -132,9 +132,8 @@ public class FlowController {
 		for (CartItem item : listOfCartItems) {
 			// if the product is present but its less than stock or its zero or
 			// id is null so don't consider it
-			if (item.getProductId() == null||productDAO.get(item.getProductId()).getQuantity() == 0
-					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()
-					 ) {
+			if (item.getProductId() == null || productDAO.get(item.getProductId()).getQuantity() == 0
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()) {
 
 			} else {
 				orderedItems = new OrderedItems();
@@ -145,7 +144,8 @@ public class FlowController {
 				orderedItems.setTotalPrice(item.getTotalPrice());
 				orderedItemsDAO.saveOrUpdate(orderedItems);
 
-				// Now update the product as customer buys the product it will decrease
+				// Now update the product as customer buys the product it will
+				// decrease
 				product = productDAO.get(orderedItems.getProductId());
 
 				if (product.getQuantity() <= 0) {
@@ -171,29 +171,25 @@ public class FlowController {
 		for (CartItem item : listOfCartItems) {
 			// Check whether the cart item is in stock or it not exists
 			// Also check is there any item which should not be considered
-			if (item.getProductId()==null||productDAO.get(item.getProductId()).getQuantity() == 0
-					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()){
-				
-				
-				cart.setNoOfProducts(listOfCartItems.size());
-				
+			if (item.getProductId() == null || productDAO.get(item.getProductId()).getQuantity() == 0
+					|| item.getQuantity() > productDAO.get(item.getProductId()).getQuantity()) {
 			}
-			/*	grandTotal = grandTotal;*/
+
+			/* grandTotal = grandTotal; */
 			else {
-//				So all of the above condition is false do this
+				// So all of the above condition is false do this
 				grandTotal = grandTotal + item.getTotalPrice();
-				
+
 				cart.setGrandTotal(grandTotal);
 
 				cart.setCartId(cart.getCartId());
 				cart.setCustomerId(cart.getCustomerId());
 				cart.setNoOfProducts(listOfCartItems.size());
-				
+
 			}
 			cartDAO.saveOrUpdate(cart);
-		}	
-
-		httpSession.setAttribute("noOfProducts", cart.getNoOfProducts());
+		}
+		httpSession.setAttribute("noOfProducts", cartItemDAO.getCartItemsByCustomerId(customer.getCustomerId()).size());
 
 		return "success";
 	}

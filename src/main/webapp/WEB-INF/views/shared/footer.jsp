@@ -5,8 +5,22 @@
 	</div>
 </footer>
 
-<!-- <script type="text/javascript">$("#fakeLoader").fakeLoader();</script> -->
-<script src="${js}/fakeLoaderOptional.js"></script>
+<!-- <script type="text/javascript"> -->
+<!-- // 	(function($) {
+// 		$("#fakeLoader").fakeLoader();
+// 	}(jQuery)); -->
+<!-- </script> -->
+<script>
+(function ($) {
+$("#fakeLoader").fakeLoader({ 
+timeToHide:1200, 
+zIndex:9999, 
+spinner:"spinner6", 
+bgColor:"#a01414" 
+});
+}(jQuery));
+</script>
+<%-- <script src="${js}/fakeLoaderOptional.js"></script> --%>
 <script>
 	window.activeMenu = '${active}';
 </script>
@@ -27,8 +41,10 @@
 		document.getElementById("logoutForm").submit();
 	}
 </script>
-<script src="${js}/jquery.validate.js"></script>
 
+<script src="${js}/jquery-confirm.js"></script>
+<script src="${js}/jquery.validate.js"></script>
+<script src="${js}/webapp.js"></script>
 <script src="${js}/bootstrap.js"></script>
 <script src="${js}/bootstrap-dropdownhover.js"></script>
 
