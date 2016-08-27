@@ -105,9 +105,9 @@ public class CartController {
 				// if present then add to the list
 				cartItems = returnCartItemModelList(customerId);
 				mv.addObject("noOfProducts", cartItems.size());
-
+				double grandTotal = selectedCart.getGrandTotal();
 				for (CartItemModel item : cartItems) {
-					double grandTotal = 0;
+
 					// This is to check whether the productId is null as it was
 					// deleted from database or quantity of
 					// the item i zero then deduct its price from the cart grand
@@ -116,42 +116,50 @@ public class CartController {
 							|| productDAO.get(item.getCartItem().getProductId()).getQuantity() <= 0) {
 						grandTotal = selectedCart.getGrandTotal() - item.getCartItem().getTotalPrice();
 						selectedCart.setGrandTotal(grandTotal);
-
-					}
-					// if the product exist in database and also it doesn't have
-					// any
-					// items with quantity zero the consider their cost and
-					// update
-					// cart
-					else {
-
-						grandTotal = grandTotal + item.getCartItem().getTotalPrice();
-						selectedCart.setGrandTotal(grandTotal);
+						cartDAO.saveOrUpdate(selectedCart);
 
 					}
 				}
-
-				cartDAO.saveOrUpdate(selectedCart);
+				// ============= unnecessary coding========
+				// if the product exist in database and also it doesn't have
+				// any
+				// items with quantity zero the consider their cost and
+				// update
+				// cart
+				/*
+				 * else {
+				 * 
+				 * grandTotal = grandTotal + item.getCartItem().getTotalPrice();
+				 * selectedCart.setGrandTotal(grandTotal);
+				 * 
+				 * }
+				 */
+				// ================================================
 				// pass a model saying that the grand total is zero
-				if (selectedCart.getGrandTotal() <= 0) {
+				// If the grand total is zero than set no of products to zero
+				if (cartDAO.getCartByCustomerId(customerId).getGrandTotal() <= 0) {
 					model.addAttribute("zeroGrandTotal", "Product not present");
 
 					mv.addObject("noOfProducts", 0);
-				} else {
+				} // Else set the real grand total
+				else {
 					model.addAttribute("grandTotal", selectedCart.getGrandTotal());
 
 				}
 
-			} else {
+			}//If list of cart items is empty then execute this 
+			else {
 				model.addAttribute("cartEmpty", "No items present in the cart");
 				mv.addObject("noOfProducts", 0);
 			}
 
-		} else {
+		}//If cart doesn't exist execute this 
+		else {
 			model.addAttribute("cartEmpty", "No items present in the cart");
 			mv.addObject("noOfProducts", 0);
 		}
-		if (cartItems.size() < 1) {
+
+		if (cartItems==null||cartItems.size() < 1) {
 			model.addAttribute("cartEmpty", "No items present in the cart");
 			mv.addObject("noOfProducts", 0);
 		}
@@ -160,6 +168,7 @@ public class CartController {
 		mv.addObject("categoryList", categoryList);
 		// ================================================================
 
+		httpSession.setAttribute("noOfProducts", cartItemDAO.getCartItemsByCustomerId(customerId).size());
 		mv.addObject("isClickedViewCart", true);
 		mv.addObject("displayCart", "true");
 		mv.addObject("activeNavMenu", "viewCart");

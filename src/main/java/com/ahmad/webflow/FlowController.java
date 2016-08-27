@@ -118,6 +118,7 @@ public class FlowController {
 	}
 
 	public String addCardDetails(CheckoutTemp checkoutTemp, CardDetail cardDetail) {
+		
 		System.out.println(checkoutTemp);
 		customer = customerDAO.getCustomerByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		shippingAddressDAO.saveOrUpdate(checkoutTemp.getShippingAddress());
