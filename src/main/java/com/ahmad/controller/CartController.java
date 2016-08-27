@@ -95,7 +95,8 @@ public class CartController {
 		List<CartItemModel> cartItems = null;
 		// Check whether the customer cart exist in database or not
 		if (cartDAO.getCartByCustomerId(customerId) != null) {
-			updateCartAgain(cartDAO.getCartByCustomerId(customerId).getCartId(), customerId);
+			int noOfProducts=updateCartAgain(cartDAO.getCartByCustomerId(customerId).getCartId(), customerId);
+			httpSession.setAttribute("noOfProducts",noOfProducts);
 			Cart selectedCart = cartDAO.getCartByCustomerId(customerId);
 			// To save from null pointer exception we will check whether there
 			// are
@@ -120,27 +121,12 @@ public class CartController {
 
 					}
 				}
-				// ============= unnecessary coding========
-				// if the product exist in database and also it doesn't have
-				// any
-				// items with quantity zero the consider their cost and
-				// update
-				// cart
-				/*
-				 * else {
-				 * 
-				 * grandTotal = grandTotal + item.getCartItem().getTotalPrice();
-				 * selectedCart.setGrandTotal(grandTotal);
-				 * 
-				 * }
-				 */
-				// ================================================
+			
 				// pass a model saying that the grand total is zero
 				// If the grand total is zero than set no of products to zero
 				if (cartDAO.getCartByCustomerId(customerId).getGrandTotal() <= 0) {
 					model.addAttribute("zeroGrandTotal", "Product not present");
 
-					mv.addObject("noOfProducts", 0);
 				} // Else set the real grand total
 				else {
 					model.addAttribute("grandTotal", selectedCart.getGrandTotal());
@@ -150,7 +136,7 @@ public class CartController {
 			}//If list of cart items is empty then execute this 
 			else {
 				model.addAttribute("cartEmpty", "No items present in the cart");
-				mv.addObject("noOfProducts", 0);
+//				mv.addObject("noOfProducts", 0);
 			}
 
 		}//If cart doesn't exist execute this 
@@ -159,7 +145,7 @@ public class CartController {
 			mv.addObject("noOfProducts", 0);
 		}
 
-		if (cartItems==null||cartItems.size() < 1) {
+	if (cartItems.size() < 1||cartItems==null) {
 			model.addAttribute("cartEmpty", "No items present in the cart");
 			mv.addObject("noOfProducts", 0);
 		}
@@ -168,7 +154,7 @@ public class CartController {
 		mv.addObject("categoryList", categoryList);
 		// ================================================================
 
-		httpSession.setAttribute("noOfProducts", cartItemDAO.getCartItemsByCustomerId(customerId).size());
+		
 		mv.addObject("isClickedViewCart", true);
 		mv.addObject("displayCart", "true");
 		mv.addObject("activeNavMenu", "viewCart");
