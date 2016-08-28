@@ -88,16 +88,6 @@ public class FlowController {
 
 		shippingAddress.setCustomerId(customer.getCustomerId());
 		checkoutTemp.setShippingAddress(shippingAddress);
-		/*
-		 * this.shippingAddress.setCustomerId(customer.getCustomerId());
-		 * this.shippingAddress.setLine1(shippingAddress.getLine1());
-		 * this.shippingAddress.setLine2(shippingAddress.getLine2());
-		 * this.shippingAddress.setCity(shippingAddress.getCity());
-		 * this.shippingAddress.setState(shippingAddress.getState());
-		 * this.shippingAddress.setCountry(shippingAddress.getCountry());
-		 * this.shippingAddress.setZipCode(shippingAddress.getZipCode());
-		 */
-
 		return "success";
 	}
 
@@ -105,15 +95,7 @@ public class FlowController {
 		customer = customerDAO.getCustomerByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		billingAddress.setCustomerId(customer.getCustomerId());
 		checkoutTemp.setBillingAddress(billingAddress);
-		/*
-		 * this.billingAddress.setCustomerId(customer.getCustomerId());
-		 * this.billingAddress.setLine1(billingAddress.getLine1());
-		 * this.billingAddress.setLine2(billingAddress.getLine2());
-		 * this.billingAddress.setCity(billingAddress.getCity());
-		 * this.billingAddress.setState(billingAddress.getState());
-		 * this.billingAddress.setCountry(billingAddress.getCountry());
-		 * this.billingAddress.setZipCode(billingAddress.getZipCode());
-		 */
+	
 		return "success";
 	}
 
@@ -196,3 +178,24 @@ public class FlowController {
 	}
 
 }
+
+/*
+ * this.shippingAddress.setCustomerId(customer.getCustomerId());
+ * this.shippingAddress.setLine1(shippingAddress.getLine1());
+ * this.shippingAddress.setLine2(shippingAddress.getLine2());
+ * this.shippingAddress.setCity(shippingAddress.getCity());
+ * this.shippingAddress.setState(shippingAddress.getState());
+ * this.shippingAddress.setCountry(shippingAddress.getCountry());
+ * this.shippingAddress.setZipCode(shippingAddress.getZipCode());
+ */
+
+
+/*
+ * this.billingAddress.setCustomerId(customer.getCustomerId());
+ * this.billingAddress.setLine1(billingAddress.getLine1());
+ * this.billingAddress.setLine2(billingAddress.getLine2());
+ * this.billingAddress.setCity(billingAddress.getCity());
+ * this.billingAddress.setState(billingAddress.getState());
+ * this.billingAddress.setCountry(billingAddress.getCountry());
+ * this.billingAddress.setZipCode(billingAddress.getZipCode());
+ */
