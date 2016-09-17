@@ -19,7 +19,8 @@
 			<%-- 	<c:forEach items="${products}" var="product"> --%>
 			<%-- onclick="myhref('${contextPath}/productDetail/{{product.product.productId}}')" --%>
 			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv">
-				<img ng-src="${images}/product/{{product.product.productId}}.png"
+			
+				<img ng-src="${contextPath}/images/products/{{product.product.productId}}.png"
 					class="img-rounded img-thumbnail"
 					alt="{{product.product.productName}}"
 					title="{{product.product.productName }}"

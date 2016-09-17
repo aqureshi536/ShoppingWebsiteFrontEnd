@@ -16,7 +16,7 @@
 
 			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv"
 				onclick="myhref('${contextPath}/productDetail/${product.productId}')">
-				<img src="${images}/product/${product.productId}.png"
+				<img src="${contextPath}/images/products/${product.productId}.png"
 					class="img-rounded img-thumbnail" alt="${product.productName }"
 					title="${product.productName }"
 					style="height: 120px; width: 170px;" />

@@ -49,7 +49,7 @@
 			<c:forEach items="${productArray}" var="product">
 				<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv"
 					onclick="myhref('${contextPath}/productDetail/${product.productId}')">
-					<img src="${images}/product/${product.productId}.png"
+					<img src="${contextPath}/images/products/${product.productId}.png"
 						class="img-rounded img-thumbnail" alt=""
 						style="height: 150px; width: 200px;" />
 					<p class="pricePara">
@@ -90,7 +90,7 @@
 						<c:forEach items="${productArray1}" var="product">
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv"
 								onclick="myhref('${contextPath}/productDetail/${product.productId}')">
-								<img src="${images}/product/${product.productId}.png"
+								<img src="${contextPath}/images/products/${product.productId}.png"
 									class="img-thumbnail" alt=""
 									style="height: 150px; width: 200px;" />
 								<p class="pricePara">
@@ -117,7 +117,7 @@
 						<c:forEach items="${productArray2}" var="product">
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv"
 								onclick="myhref('${contextPath}/productDetail/${product.productId}')">
-								<img src="${images}/product/${product.productId}.png"
+								<img src="${contextPath}/images/products/${product.productId}.png"
 									class="img-thumbnail" alt=""
 									style="height: 150px; width: 200px;" />
 								<p class="pricePara">
@@ -144,7 +144,7 @@
 						<c:forEach items="${productArray3}" var="product">
 							<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 productDiv"
 								onclick="myhref('${contextPath}/productDetail/${product.productId}')">
-								<img src="${images}/product/${product.productId}.png"
+								<img src="${contextPath}/images/products/${product.productId}.png"
 									class="img-thumbnail" alt=""
 									style="height: 150px; width: 200px;" />
 								<p class="pricePara">
