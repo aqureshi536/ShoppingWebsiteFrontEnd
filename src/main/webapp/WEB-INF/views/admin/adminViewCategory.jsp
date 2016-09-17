@@ -61,7 +61,7 @@
 								</td>
 
 								<td><img
-									src="${images}/category/${c.category.categoryId}.png"
+									src="${contextPath}/images/categories/${c.category.categoryId}.png"
 									id="tableImage"></td>
 								<td>${c.category.categoryName}</td>
 								<td>${c.category.categoryDescription}</td>

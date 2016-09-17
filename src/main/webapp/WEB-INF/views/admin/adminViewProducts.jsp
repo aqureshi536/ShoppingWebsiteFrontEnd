@@ -74,7 +74,7 @@
 										out.println(i);
 									%>
 								</td>
-								<td><img src="${images}/product/${p.product.productId}.png"
+								<td><img src="${contextPath}/images/products/${p.product.productId}.png"
 									id="tableImage"></td>
 								<td>${p.product.productName }</td>
 								<td>${p.product.description }</td>
@@ -115,3 +115,4 @@
 		</c:otherwise>
 	</c:choose>
 </div>
+"

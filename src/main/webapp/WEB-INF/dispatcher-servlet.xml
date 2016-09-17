@@ -74,5 +74,6 @@
 
 
 	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<mvc:resources location="file:///E:/ShoppingCart/" mapping="/images/**"/>
 
 </beans>

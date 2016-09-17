@@ -67,7 +67,7 @@
 									%>
 								</td>
 								<td><img
-									src="${images}/supplier/${supplier.supplierId}.png"
+									src="${contextPath}/images/suppliers/${supplier.supplierId}.png"
 									id="tableImage"></td>
 								<td>${supplier.supplierName}</td>
 								<td>${supplier.supplierContact}</td>

@@ -8,6 +8,8 @@
 <!-- Css -->
 <spring:url value="/resources/css" var="css" />
 <spring:url value="/resources/images" var="images" />
+
+
 <!-- JavaScript -->
 <spring:url value="/resources/js" var="js" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -16,6 +18,7 @@
 <html>
 <%@include file="./shared/header.jsp"%>
 <body ng-app="angularModule">
+
 	<sec:authorize access="!hasRole('ROLE_ADMIN')">
 		<div id="fakeLoader"></div>
 	</sec:authorize>

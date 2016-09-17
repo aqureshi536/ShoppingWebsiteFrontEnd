@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.config.FileUtil;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.SupplierDAO;
 import com.ahmad.model.Category;
@@ -34,7 +35,7 @@ public class SupplierController {
 	private SupplierDAO supplierDAO;
 	@Autowired
 	private CategoryDAO categoryDAO;
-
+	private String path=   "E:\\ShoppingCart\\suppliers\\";
 	// Supplier methods goes
 	// here=============================================================
 
@@ -93,20 +94,15 @@ public class SupplierController {
 
 		MultipartFile supplierImage = supplier.getSupplierImage();
 
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		if (supplierImage != null && !supplierImage.isEmpty()) {
-			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
-				}
-				supplierImage.transferTo(new File(
-						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
-								.toString()));
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Supplier Image Saving Failed", e);
+		if(!Files.exists(Paths.get(path))){
+			try{
+			Files.createDirectories(Paths.get(path));
+			}
+			catch(IOException io){
+				io.printStackTrace();
 			}
 		}
+			FileUtil.upload(path, supplierImage, supplier.getSupplierId()+".png");
 
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
@@ -150,16 +146,16 @@ public class SupplierController {
 
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
-		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
-		if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
+		System.out.println(Paths.get(path + supplierId + ".png"));
+		if (!Files.exists(Paths.get(path))) {
 			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
+				if (!Files.exists(Paths.get(path))) {
+					Files.createDirectories(Paths.get(path));
 
 				}
-				if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"))) {
+				if (Files.exists(Paths.get(path + supplierId + ".png"))) {
 
-					Files.delete(Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplierId + ".png"));
+					Files.delete(Paths.get(path + supplierId + ".png"));
 
 				}
 			} catch (Exception e) {
@@ -222,23 +218,17 @@ public class SupplierController {
 		}
 
 		MultipartFile supplierImage = supplier.getSupplierImage();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
-		if (supplierImage != null && !supplierImage.isEmpty()) {
-			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"))) {
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\supplier\\"));
-				}
-				supplierImage.transferTo(new File(
-						Paths.get(rootDirectory + "\\resources\\images\\supplier\\" + supplier.getSupplierId() + ".png")
-								.toString()));
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Supplier Image updating failed", e);
+		if(!Files.exists(Paths.get(path))){
+			try{
+			Files.createDirectories(Paths.get(path));
 			}
-
+			catch(IOException io){
+				io.printStackTrace();
+			}
 		}
+			FileUtil.upload(path, supplierImage, supplier.getSupplierId()+".png");
+			
 		supplierDAO.saveOrUpdate(supplier);
 		List<Supplier> supplierList = supplierDAO.listSupplier();
 		if(supplierList!=null&&!supplierList.isEmpty())

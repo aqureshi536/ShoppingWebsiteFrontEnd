@@ -1,6 +1,7 @@
 package com.ahmad.admin.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.config.FileUtil;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.dao.ProductDAO;
 import com.ahmad.dao.SupplierDAO;
@@ -50,6 +52,9 @@ public class ProductController {
 	
 	@Autowired
 	HttpSession httpSession;
+	
+	
+	private String path =  "E:\\ShoppingCart\\products\\";
 
 	@RequestMapping("/productDetail/{productId}")
 	public ModelAndView productDetail(@PathVariable String productId, Model model,
@@ -223,7 +228,17 @@ public class ProductController {
 		productDAO.saveOrUpdate(product);
 
 		MultipartFile productImage = product.getImageUrl();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+	if(!Files.exists(Paths.get(path))){
+		try{
+		Files.createDirectories(Paths.get(path));
+		}
+		catch(IOException io){
+			io.printStackTrace();
+		}
+	}
+		FileUtil.upload(path, productImage, product.getProductId()+".png");
+		
+		/*String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\"))) {
@@ -238,7 +253,7 @@ public class ProductController {
 				e.printStackTrace();
 				throw new RuntimeException("Product Image Saving Failed", e);
 			}
-		}
+		}*/
 
 		// get the list of products
 		List<Product> productList = productDAO.listProduct();
@@ -365,7 +380,17 @@ public class ProductController {
 		// Actual update Starts here
 
 		MultipartFile productImage = product.getImageUrl();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		if(!Files.exists(Paths.get(path))){
+			try{
+			Files.createDirectories(Paths.get(path));
+			}
+			catch(IOException io){
+				io.printStackTrace();
+			}
+		}
+			FileUtil.upload(path, productImage, product.getProductId()+".png");
+			
+		/*String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String productName = product.getProductName();
 		mv.addObject("productNameToUpdate", productName);
 
@@ -382,7 +407,7 @@ public class ProductController {
 			} catch (Exception e) {
 				throw new RuntimeException("Product image updating failed", e);
 			}
-		}
+		}*/
 		// Call a method at last
 		product = changeProductStock(product);
 		productDAO.saveOrUpdate(product);
@@ -429,16 +454,16 @@ public class ProductController {
 
 		product = productDAO.get(productId);
 		mv.addObject("product", product);
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		/*String rootDirectory = request.getSession().getServletContext().getRealPath("/");*/
 
-		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"));
-		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"))) {
+		
+		if (Files.exists(Paths.get(path + productId + ".png"))) {
 			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\product\\"))) {
+				if (!Files.exists(Paths.get(path))) {
 
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\product\\"));
+					Files.createDirectories(Paths.get(path));
 				}
-				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\product\\" + productId + ".png"));
+				Files.delete(Paths.get(path + productId + ".png"));
 
 			} catch (Exception e) {
 				e.printStackTrace();

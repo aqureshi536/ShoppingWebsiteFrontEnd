@@ -1,6 +1,7 @@
 package com.ahmad.admin.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ahmad.config.FileUtil;
 import com.ahmad.dao.CategoryDAO;
 import com.ahmad.model.Category;
 import com.ahmad.viewmodel.CategoryModel;
@@ -36,7 +38,7 @@ public class CategoryController {
 	HttpSession httpSession;
 	// Methods to add Category goer here
 	// activates when admin licked Category on sideBar
-
+private String path=   "E:\\ShoppingCart\\categories\\";
 	@RequestMapping("/admin/viewCategory")
 	public ModelAndView adminViewCategory(Model model) {
 		ModelAndView mv = new ModelAndView("index");
@@ -89,7 +91,17 @@ public class CategoryController {
 			return mv;
 		}
 		MultipartFile categoryImage = category.getCategoryImage();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		if(!Files.exists(Paths.get(path))){
+			try{
+			Files.createDirectories(Paths.get(path));
+			}
+			catch(IOException io){
+				io.printStackTrace();
+			}
+		}
+			FileUtil.upload(path, categoryImage, category.getCategoryId()+".png");
+			
+		/*String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (categoryImage != null && !categoryImage.isEmpty()) {
 			try {
 				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
@@ -102,7 +114,7 @@ public class CategoryController {
 				e.printStackTrace();
 				throw new RuntimeException("Category Image Saving Failed", e);
 			}
-		}
+		}*/
 		categoryDAO.saveOrUpdate(category);
 
 		CategoryModel categoryModel = null;
@@ -151,15 +163,15 @@ public class CategoryController {
 		mv.addObject("categoryNameDeleted", categoryName);
 		mv.addObject("deletedCategoryMessage", "true");
 
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		
 
-		System.out.println(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"));
-		if (Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"))) {
+		
+		if (Files.exists(Paths.get(path + categoryId + ".png"))) {
 			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\category\\"));
+				if (!Files.exists(Paths.get(path))) {
+					Files.createDirectories(Paths.get(path));
 				}
-				Files.delete(Paths.get(rootDirectory + "\\resources\\images\\category\\" + categoryId + ".png"));
+				Files.delete(Paths.get(path + categoryId + ".png"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("File unable to delete", e);
@@ -218,22 +230,15 @@ public class CategoryController {
 
 		MultipartFile categoryImage = category.getCategoryImage();
 
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-
-		if (categoryImage != null && !categoryImage.isEmpty()) {
-			try {
-				if (!Files.exists(Paths.get(rootDirectory + "\\resources\\images\\category\\"))) {
-					Files.createDirectories(Paths.get(rootDirectory + "\\resources\\images\\category\\"));
-				}
-				categoryImage.transferTo(new File(
-						Paths.get(rootDirectory + "\\resources\\images\\category\\" + category.getCategoryId() + ".png")
-								.toString()));
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Category Image updating failed", e);
+		if(!Files.exists(Paths.get(path))){
+			try{
+			Files.createDirectories(Paths.get(path));
 			}
-
+			catch(IOException io){
+				io.printStackTrace();
+			}
 		}
+			FileUtil.upload(path, categoryImage, category.getCategoryId()+".png");
 
 		// Gets the name before and after updating the product
 
