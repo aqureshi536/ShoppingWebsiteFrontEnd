@@ -35,7 +35,7 @@
 5. After running server please run following query in h2 console to access admin account with username 'admin' and password 'admin'.
  ```sh
  insert into users (username,password,enabled,customerId) values
- ('admin',admin,true,'admin001');
+ ('admin','admin',true,'admin001');
   ``` 
   ```sh
  insert into user_authorities (username,authority) values ('admin','ROLE_ADMIN');
