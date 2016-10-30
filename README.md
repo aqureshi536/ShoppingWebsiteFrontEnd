@@ -7,7 +7,7 @@
  
  Customer -They will be able to browse all the products, perform cart operations ( add a product, remove or update their product quantity ) and buy as well.
  
- ### Prerequisites
+### Prerequisites
  - JDK 1.8
  - Web Server supporting Servlets
 - Apache Maven
