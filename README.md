@@ -29,6 +29,8 @@
 
 3. Run all the create table queries present in databaseQueries.sql file in backend
 <https://github.com/aqureshi536/ShoppingWebsiteBackEnd/blob/master/databaseQueries.sql>
+
+
 4.Add the project to server and run the server.
 5. After running server please run following query in h2 console to access admin account with username 'admin' and password 'admin'.
  ```sh
